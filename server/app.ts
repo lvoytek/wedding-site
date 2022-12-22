@@ -1,5 +1,9 @@
-import express from "express";
-import bodyParser from "body-parser";
+import * as express from "express";
+import {Request, Response} from "express";
+import * as path from 'path';
+import * as bodyParser from "body-parser";
+
+const clientDir = path.join(__dirname, '../public');
 
 class App
 {
@@ -15,7 +19,12 @@ class App
 		this.app = express();
 		this.config();
 
-    // Add routing
+    // Add API routing
+    this.app.get('/api/:name', async (req: Request, res: Response) => {
+        const name = req.params["name"];
+        const greeting = { greeting: `Hello, ${ name }` };
+        res.send(greeting);
+    });
 
 		this.finalRoute();
 	}
@@ -26,10 +35,10 @@ class App
 	private config(): void
 	{
 		this.app.use(express.json());
-		this.app.use(express.static("static"));
+    this.app.use(express.static(clientDir));
 
 		// This allows AJAX requests to be made to the server from other applications like JCT Word
-		this.app.use((req, res, next) =>
+		this.app.use((req: Request, res: Response, next) =>
 		{
 			res.setHeader('Access-Control-Allow-Origin', '*');
 			res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');

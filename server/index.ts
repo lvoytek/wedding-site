@@ -5,7 +5,7 @@ import app from "./app";
 dotenv.config();
 
 // set server's port number and initialize express
-const PORT: number = parseInt(process.env.PORT as string, 10) || 3000;
+const PORT: number = parseInt(process.env["PORT"] as string, 10) || 3000;
 
 app.listen(PORT, () =>
 {
