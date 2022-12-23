@@ -30,6 +30,7 @@
               "client/src/assets"
             ],
             "styles": [
+              "client/src/wedding-theme.scss",
               "client/src/styles.sass"
             ],
             "scripts": []
