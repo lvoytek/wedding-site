@@ -4,12 +4,16 @@
   "description": "Our wedding website",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
+    "pm2": "pm2",
+    "start-client": "ng serve",
+    "start-server": "node ./dist/api/index.js",
+    "prod": "pm2 start ./dist/api/index.js --name wedding-site",
+    "stop-prod": "pm2 stop wedding-site",
+    "build": "tsc -p ./server/tsconfig.api.json && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "clean": "rm -rf ./dist/api && rm -rf ./dist/public/",
-    "dev": "tsc -p ./server/tsconfig.api.json && concurrently -k \"cd ./dist/api && nodemon -r ./index.js --watch\" \"ng build --watch\""
+    "dev": "tsc -p ./server/tsconfig.api.json && concurrently -k \"nodemon -r ./dist/api/index.js --watch\" \"ng build --watch\""
   },
   "repository": {
     "type": "git",
@@ -49,6 +53,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "nodemon": "^2.0.20",
+    "pm2": "^5.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
