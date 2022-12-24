@@ -9,7 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "clean": "rm -rf ./dist/api && rm -rf ./dist/public/",
-    "dev": "tsc -p ./server/tsconfig.api.json && concurrently -k \"cd ./dist/api && nodemon -r ./index.js --watch\" \"ng build --watch\""
+    "dev": "tsc -p ./server/tsconfig.api.json && concurrently -k \"nodemon -r ./dist/api/index.js --watch\" \"ng build --watch\""
   },
   "repository": {
     "type": "git",
