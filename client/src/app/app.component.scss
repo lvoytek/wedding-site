@@ -1,0 +1,15 @@
+@use '../styles.scss' as *;
+
+.nav-items {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    color: rgba($ll-black, 0.75);
+}
+
+.page-buttons * {
+    font-size: large;
+    font-weight: bold;
+}
