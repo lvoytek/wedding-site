@@ -7,7 +7,7 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "sass"
+          "style": "scss"
         }
       },
       "root": "client",
@@ -24,14 +24,14 @@
               "zone.js"
             ],
             "tsConfig": "client/tsconfig.app.json",
-            "inlineStyleLanguage": "sass",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "client/src/favicon.ico",
               "client/src/assets"
             ],
             "styles": [
               "client/src/wedding-theme.scss",
-              "client/src/styles.sass"
+              "client/src/styles.scss"
             ],
             "scripts": []
           },
@@ -88,13 +88,13 @@
               "zone.js/testing"
             ],
             "tsConfig": "client/tsconfig.spec.json",
-            "inlineStyleLanguage": "sass",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "client/src/favicon.ico",
               "client/src/assets"
             ],
             "styles": [
-              "client/src/styles.sass"
+              "client/src/styles.scss"
             ],
             "scripts": []
           }
