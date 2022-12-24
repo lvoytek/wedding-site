@@ -1,2 +1,15 @@
+<mat-toolbar color="primary">
+    <div class="nav-items">
+        <button mat-icon-button [routerLink]="''" aria-label="Home">
+            <mat-icon>home</mat-icon>
+        </button>
+        <div class="page-buttons">
+            <button mat-button [routerLink]="'/rsvp'">RSVP</button>
+            <button mat-button [routerLink]="'/info'">Info</button> 
+        </div>
+    </div>
+    
+</mat-toolbar>
+
 <router-outlet></router-outlet>
 
