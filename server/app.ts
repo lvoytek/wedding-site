@@ -1,5 +1,5 @@
 import * as express from "express";
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import * as path from 'path';
 import * as bodyParser from "body-parser";
 
@@ -58,14 +58,23 @@ class App
   }
 
   /**
-	 * If no other routes work then the route ends up here resulting in 404
+	 * If no other routes work then the route ends up here resulting in error
 	 */
 	private finalRoute(): void
 	{
-		this.app.use((req, res, next) =>
-		{
-			// Render 404 page
-		});
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      const err = new Error('Not Found');
+      next(err);
+    });
+
+    // Show error to user without stacktrace
+    this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+      res.status(err.status || 500);
+      res.json({
+        error: {},
+        message: err.message,
+      });
+    });
 	}
 }
 
