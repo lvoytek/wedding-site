@@ -26,6 +26,10 @@ class App
         res.send(greeting);
     });
 
+    // Route non-api requests to angular
+    this.app.use('*', express.static(path.join(clientDir, 'index.html')));
+
+    // Finish with server error if no route found
 		this.finalRoute();
 	}
 
@@ -34,10 +38,7 @@ class App
 	 */
 	private config(): void
 	{
-		this.app.use(express.json());
-    this.app.use(express.static(clientDir));
-
-		// This allows AJAX requests to be made to the server from other applications like JCT Word
+		// This allows AJAX requests to be made to the server from other applications
 		this.app.use((req: Request, res: Response, next) =>
 		{
 			res.setHeader('Access-Control-Allow-Origin', '*');
@@ -51,6 +52,9 @@ class App
     // Use body parser to obtain JSON information from incoming request bodies
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({ extended: false }));
+
+    // Static routes go to angular
+    this.app.use(express.static(clientDir));
   }
 
   /**
