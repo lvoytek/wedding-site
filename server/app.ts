@@ -1,5 +1,5 @@
 import * as express from "express";
-import {Request, Response} from "express";
+import {Request, Response, NextFunction} from "express";
 import * as path from 'path';
 import * as bodyParser from "body-parser";
 
@@ -26,6 +26,10 @@ class App
         res.send(greeting);
     });
 
+    // Route non-api requests to angular
+    this.app.use('*', express.static(path.join(clientDir, 'index.html')));
+
+    // Finish with server error if no route found
 		this.finalRoute();
 	}
 
@@ -34,10 +38,7 @@ class App
 	 */
 	private config(): void
 	{
-		this.app.use(express.json());
-    this.app.use(express.static(clientDir));
-
-		// This allows AJAX requests to be made to the server from other applications like JCT Word
+		// This allows AJAX requests to be made to the server from other applications
 		this.app.use((req: Request, res: Response, next) =>
 		{
 			res.setHeader('Access-Control-Allow-Origin', '*');
@@ -51,17 +52,29 @@ class App
     // Use body parser to obtain JSON information from incoming request bodies
 		this.app.use(bodyParser.json());
 		this.app.use(bodyParser.urlencoded({ extended: false }));
+
+    // Static routes go to angular
+    this.app.use(express.static(clientDir));
   }
 
   /**
-	 * If no other routes work then the route ends up here resulting in 404
+	 * If no other routes work then the route ends up here resulting in error
 	 */
 	private finalRoute(): void
 	{
-		this.app.use((req, res, next) =>
-		{
-			// Render 404 page
-		});
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
+      const err = new Error('Not Found');
+      next(err);
+    });
+
+    // Show error to user without stacktrace
+    this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+      res.status(err.status || 500);
+      res.json({
+        error: {},
+        message: err.message,
+      });
+    });
 	}
 }
 
