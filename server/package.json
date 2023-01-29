@@ -1,10 +1,7 @@
 {
-  "name": "server",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "name": "wedding-site-server",
+  "version": "1.0.0",
+  "description": "Our wedding website backend",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -19,6 +16,28 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lvoytek/wedding-site.git"
+  },
+  "author": {
+    "name": "Lena Voytek",
+    "email": "lena@voytek.dev",
+    "url": "https://voytek.dev"
+  },
+  "contributors": [
+    {
+      "name": "Lucas Boje",
+      "email": "lucasaboje@gmail.com"
+    }
+  ],
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/lvoytek/wedding-site/issues",
+    "email": "lucasaboje@gmail.com"
+  },
+  "homepage": "https://github.com/lvoytek/wedding-site#readme",
+  "private": true,
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
