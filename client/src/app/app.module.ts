@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
 import { RsvpComponent } from './rsvp/rsvp.component';
 import { InfoComponent } from './info/info.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { InfoComponent } from './info/info.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+	FormsModule,
     MaterialModule
   ],
   providers: [],
