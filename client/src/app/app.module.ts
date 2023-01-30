@@ -8,15 +8,19 @@ import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
 import { RsvpComponent } from './rsvp/rsvp.component';
 import { InfoComponent } from './info/info.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RsvpService } from './services/rsvp.service';
+import { ApiService } from './services/api.service';
+import { RsvpFormComponent } from './forms/rsvp/rsvp.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     RsvpComponent,
-    InfoComponent
+    InfoComponent,
+	RsvpFormComponent
   ],
   imports: [
     BrowserModule,
@@ -24,9 +28,13 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     BrowserAnimationsModule,
 	FormsModule,
+	ReactiveFormsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [
+	RsvpService,
+	ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
