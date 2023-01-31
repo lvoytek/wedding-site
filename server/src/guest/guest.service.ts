@@ -33,14 +33,30 @@ export class GuestService {
 		return await this.guestRepository.find();
 	}
 
+	/**
+	 * Get the primary data of a guest based on the given uuid
+	 * @param uuid A uuid belonging to an existing user
+	 * @returns The primary data of that user
+	 */
 	async getPrimaryData(uuid: string): Promise<primaryData> {
 		return await this.guestRepository.findOneBy({ uuid });
 	}
 
+	/**
+	 * Update information about a guest
+	 * @param guest The new guest information with the same uuid
+	 * @returns The result of the data update.
+	 */
 	async update(guest: guestData): Promise<UpdateResult> {
+		// TODO: update data of other non-primary fields too if needed
 		return await this.guestRepository.update(guest.uuid, guest);
 	}
 
+	/**
+	 * Remove a guest
+	 * @param uuid The uuid of the guest to remove
+	 * @returns The result of the data removal
+	 */
 	async delete(uuid: string): Promise<DeleteResult> {
 		return await this.guestRepository.delete({ uuid });
 	}
