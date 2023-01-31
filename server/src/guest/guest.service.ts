@@ -25,6 +25,13 @@ export class GuestService {
 		return await this.guestRepository.save(guest);
 	}
 
+	/**
+	 * Get the primary data of every guest
+	 */
+	async getAllPrimaryData(): Promise<primaryData[]> {
+		return await this.guestRepository.find();
+	}
+
 	async getPrimaryData(uuid: string): Promise<primaryData> {
 		return await this.guestRepository.findOneBy({ uuid });
 	}

@@ -11,6 +11,11 @@ export class GuestController {
 		return this.guestService.create(guest);
 	}
 
+	@Get('all')
+	async readAll(): Promise<primaryData[]> {
+		return this.guestService.getAllPrimaryData();
+	}
+
 	@Get(':uuid')
 	async read(@Param('uuid') uuid: string): Promise<primaryData> {
 		return this.guestService.getPrimaryData(uuid);
