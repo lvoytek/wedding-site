@@ -1,4 +1,11 @@
+.rsvp-container {
+	min-height: 100%;
+  	display: flex;
+  	flex-direction: column;
+}
+
 .rsvp-form {
+	flex: 1;
 	padding: 2rem;
 }
 
@@ -13,7 +20,9 @@ mat-form-field {
 
 
 .submit-container {
-	padding: 2vh 10vw;
+	position: absolute;
+	bottom: 2vh;
+	left: 10vw;
     display: flex;
     height: 5rem;
     width: 80vw;
