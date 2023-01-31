@@ -6,9 +6,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Guest } from './entities/guest.entity';
+import { Guest } from '@entities/guest.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
+import { GuestService } from './guest/guest.service';
 
 @Module({
 	imports: [
@@ -30,6 +31,6 @@ import { RsvpController } from './rsvp/rsvp.controller';
 		TypeOrmModule.forFeature([Guest])
 	],
 	controllers: [AppController, RsvpController],
-	providers: [AppService],
+	providers: [AppService, GuestService],
 })
 export class AppModule {}

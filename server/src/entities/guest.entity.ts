@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryColumn } from 'typeorm';
 @Entity()
 export class Guest {
 	@PrimaryColumn()
-	uuid: number;
+	uuid: string;
 
 	@Column()
 	firstName: string;
