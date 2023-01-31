@@ -39,6 +39,6 @@ type assignmentData = {
 /**
  * Information about a user
  */
-type personData = rsvpData & assignmentData;
+type guestData = rsvpData & assignmentData;
 
-export {primaryData, contactData, rsvpData, assignmentData, personData};
+export {primaryData, contactData, rsvpData, assignmentData, guestData};
