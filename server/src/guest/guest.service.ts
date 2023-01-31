@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import * as crypto from "crypto";
+
 import { Guest } from '@entities/guest.entity';
 
 import { guestData, primaryData } from '@libs/person';
