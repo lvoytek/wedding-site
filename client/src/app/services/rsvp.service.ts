@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { rsvpData } from '@libs/person';
+import { RecursivePartial } from '@libs/utils';
+import { ApiService } from './api.service';
 
 @Injectable()
-export class RSVPService {
-  constructor(private http: HttpClient) {}
+export class RsvpService {
+  constructor(private api: ApiService) {}
 
+  sendRSVP(data: RecursivePartial<rsvpData>) {
+	return this.api.post(`rsvp`, data);
+  }
 }
