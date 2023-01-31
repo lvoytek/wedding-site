@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Guest } from './entities/guest.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
 
@@ -26,6 +27,7 @@ import { RsvpController } from './rsvp/rsvp.controller';
 			}),
 			inject: [ConfigService],
 		}),
+		TypeOrmModule.forFeature([Guest])
 	],
 	controllers: [AppController, RsvpController],
 	providers: [AppService],
