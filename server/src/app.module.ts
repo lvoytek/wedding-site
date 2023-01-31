@@ -29,7 +29,7 @@ import { GuestController } from './guest/guest.controller';
 			}),
 			inject: [ConfigService],
 		}),
-		TypeOrmModule.forFeature([Guest])
+		TypeOrmModule.forFeature([Guest]),
 	],
 	controllers: [AppController, RsvpController, GuestController],
 	providers: [AppService, GuestService],

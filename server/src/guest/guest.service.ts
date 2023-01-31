@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import * as crypto from "crypto";
+import * as crypto from 'crypto';
 
 import { Guest } from '@entities/guest.entity';
 
@@ -21,8 +21,7 @@ export class GuestService {
 	 * @returns The newly created Guest object on success
 	 */
 	async create(guest: primaryData): Promise<primaryData> {
-		if(!guest.uuid)
-			guest.uuid = crypto.randomUUID();
+		if (!guest.uuid) guest.uuid = crypto.randomUUID();
 
 		return await this.guestRepository.save(guest);
 	}
