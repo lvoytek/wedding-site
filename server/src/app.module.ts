@@ -10,6 +10,7 @@ import { Guest } from '@entities/guest.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
 import { GuestService } from './guest/guest.service';
+import { GuestController } from './guest/guest.controller';
 
 @Module({
 	imports: [
@@ -30,7 +31,7 @@ import { GuestService } from './guest/guest.service';
 		}),
 		TypeOrmModule.forFeature([Guest])
 	],
-	controllers: [AppController, RsvpController],
+	controllers: [AppController, RsvpController, GuestController],
 	providers: [AppService, GuestService],
 })
 export class AppModule {}
