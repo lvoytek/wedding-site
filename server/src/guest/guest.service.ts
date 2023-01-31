@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { Guest } from '@entities/guest.entity';
 
-import { guestData } from '@libs/person';
+import { guestData, primaryData } from '@libs/person';
 
 @Injectable()
 export class GuestService {
@@ -18,14 +18,14 @@ export class GuestService {
 	 * @param guest Guest data containing at least a first and last name
 	 * @returns The newly created Guest object on success
 	 */
-	async create(guest: guestData): Promise<Guest> {
+	async create(guest: primaryData): Promise<primaryData> {
 		if(!guest.uuid)
 			guest.uuid = crypto.randomUUID();
 
 		return await this.guestRepository.save(guest);
 	}
 
-	async get(uuid: string): Promise<Guest> {
+	async getPrimaryData(uuid: string): Promise<primaryData> {
 		return await this.guestRepository.findOneBy({ uuid });
 	}
 
