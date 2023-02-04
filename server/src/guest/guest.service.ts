@@ -43,6 +43,27 @@ export class GuestService {
 	}
 
 	/**
+	 * Get the primary data and associate arrays of a guest based on the given uuid
+	 * @param uuid A uuid belonging to an existing user
+	 * @returns The primary data and associate arrays of that user
+	 */
+	async getGuest(uuid: string): Promise<Guest> {
+		return await this.guestRepository.findOneBy({ uuid });
+	}
+
+	/**
+	 * Get a guest's primary data based on their uuid. If no
+	 * uuid exists create a new guest based on other info provided.
+	 * @param guest The guest's primary data
+	 * @returns The existing or newly created guest's primary data
+	 */
+	async getOrCreate(guest: primaryData): Promise<primaryData> {
+		return guest.uuid
+			? await this.getPrimaryData(guest.uuid)
+			: await this.create(guest);
+	}
+
+	/**
 	 * Update information about a guest
 	 * @param guest The new guest information with the same uuid
 	 * @returns The result of the data update.

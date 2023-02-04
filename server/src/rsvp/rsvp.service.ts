@@ -4,10 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { GuestService } from 'src/guest/guest.service';
 import { ContactService } from 'src/contact/contact.service';
+import { AssociateService } from 'src/associate/associate.service';
 import { Guest } from '@entities/guest.entity';
 import { RSVP } from '@entities/rsvp.entity';
 
-import { contactData, rsvpData } from '@libs/person';
+import { contactData, primaryData, rsvpData } from '@libs/person';
 
 @Injectable()
 export class RsvpService {
@@ -16,6 +17,7 @@ export class RsvpService {
 		private rsvpRepository: Repository<RSVP>,
 		private guestService: GuestService,
 		private contactService: ContactService,
+		private associateService: AssociateService,
 	) {}
 
 	/**
@@ -28,9 +30,7 @@ export class RsvpService {
 	 * @returns The Guest and their RSVP information
 	 */
 	async create(rsvp: rsvpData): Promise<rsvpData> {
-		const guest: Guest = rsvp.uuid
-			? await this.guestService.getPrimaryData(rsvp.uuid)
-			: await this.guestService.create(rsvp);
+		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
 
 		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
@@ -38,12 +38,31 @@ export class RsvpService {
 		});
 
 		const contactOut: contactData = await this.contactService.create(
-			rsvp.uuid,
+			guest,
 			rsvp,
 		);
 
-		// TODO: Add associations
+		if (rsvp.associates) {
+			for (const associateInfo of rsvp.associates) {
+				const associate: primaryData =
+					await this.guestService.getOrCreate(associateInfo);
+				await this.associateService.create(guest, associate);
+			}
 
-		return { ...guest, ...rsvpOut, ...contactOut };
+			return {
+				...guest,
+				...rsvpOut,
+				...contactOut,
+				associates: await this.associateService.getAllAssociates(
+					rsvp.uuid,
+				),
+			};
+		}
+
+		return {
+			...guest,
+			...rsvpOut,
+			...contactOut,
+		};
 	}
 }

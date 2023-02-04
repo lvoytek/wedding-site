@@ -17,6 +17,7 @@ import { GuestService } from './guest/guest.service';
 import { GuestController } from './guest/guest.controller';
 import { RsvpService } from './rsvp/rsvp.service';
 import { ContactService } from './contact/contact.service';
+import { AssociateService } from './associate/associate.service';
 
 @Module({
 	imports: [
@@ -44,6 +45,6 @@ import { ContactService } from './contact/contact.service';
 		]),
 	],
 	controllers: [AppController, RsvpController, GuestController],
-	providers: [AppService, GuestService, RsvpService, ContactService],
+	providers: [AppService, GuestService, RsvpService, ContactService, AssociateService],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Guest } from './guest.entity';
 
 @Entity()
@@ -6,11 +6,9 @@ export class Associate {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@OneToOne(() => Guest)
-	@JoinColumn()
-	guestOne: Guest;
+	@ManyToOne(() => Guest, (guest) => guest.secondaryAssociates)
+	primary: Guest;
 
-	@OneToOne(() => Guest)
-	@JoinColumn()
-	guestTwo: Guest;
+	@ManyToOne(() => Guest, (guest) => guest.primaryAssociates)
+	secondary: Guest;
 }
