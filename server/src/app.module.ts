@@ -7,10 +7,16 @@ import config from './config';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Guest } from '@entities/guest.entity';
+import { RSVP } from '@entities/rsvp.entity';
+import { Contact } from '@entities/contact.entity';
+import { Assignment } from '@entities/assignment.entity';
+import { PlusOne } from '@entities/plusone.entity';
+import { Associate } from '@entities/associate';
 
 import { RsvpController } from './rsvp/rsvp.controller';
 import { GuestService } from './guest/guest.service';
 import { GuestController } from './guest/guest.controller';
+import { RsvpService } from './rsvp/rsvp.service';
 
 @Module({
 	imports: [
@@ -29,9 +35,16 @@ import { GuestController } from './guest/guest.controller';
 			}),
 			inject: [ConfigService],
 		}),
-		TypeOrmModule.forFeature([Guest]),
+		TypeOrmModule.forFeature([
+			Guest,
+			RSVP,
+			Contact,
+			Assignment,
+			PlusOne,
+			Associate,
+		]),
 	],
 	controllers: [AppController, RsvpController, GuestController],
-	providers: [AppService, GuestService],
+	providers: [AppService, GuestService, RsvpService],
 })
 export class AppModule {}
