@@ -17,12 +17,28 @@ export class ContactService {
 	) {}
 
 	/**
+	 * Add contact information for a guest.
+	 * @param guest The guest to add contact information to
+	 * @param contact Relevant guest contact information
+	 * @returns The Guest and their RSVP information
+	 */
+	async create(guest: Guest, contact: contactData): Promise<contactData> {
+		return await this.contactRepository.save({
+			...contact,
+			...guest,
+		});
+	}
+
+	/**
 	 * Add contact information for a guest using their uuid to identify them.
 	 * @param uuid The uuid of the guest to add contact information to
 	 * @param contact Relevant guest contact information
 	 * @returns The Guest and their RSVP information
 	 */
-	async create(uuid: string, contact: contactData): Promise<contactData> {
+	async createWithUUID(
+		uuid: string,
+		contact: contactData,
+	): Promise<contactData> {
 		const guest: Guest = await this.guestService.getPrimaryData(uuid);
 		return await this.contactRepository.save({
 			...contact,
