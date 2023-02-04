@@ -22,7 +22,6 @@ type rsvpData = primaryData &
 	contactData & {
 		isGoing: boolean;
 		diet: string;
-		plusOne?: primaryData;
 		associates?: Array<primaryData>;
 	};
 
