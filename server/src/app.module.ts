@@ -11,12 +11,13 @@ import { RSVP } from '@entities/rsvp.entity';
 import { Contact } from '@entities/contact.entity';
 import { Assignment } from '@entities/assignment.entity';
 import { PlusOne } from '@entities/plusone.entity';
-import { Associate } from '@entities/associate';
+import { Associate } from '@entities/associate.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
 import { GuestService } from './guest/guest.service';
 import { GuestController } from './guest/guest.controller';
 import { RsvpService } from './rsvp/rsvp.service';
+import { ContactService } from './contact/contact.service';
 
 @Module({
 	imports: [
@@ -45,6 +46,6 @@ import { RsvpService } from './rsvp/rsvp.service';
 		]),
 	],
 	controllers: [AppController, RsvpController, GuestController],
-	providers: [AppService, GuestService, RsvpService],
+	providers: [AppService, GuestService, RsvpService, ContactService],
 })
 export class AppModule {}

@@ -15,10 +15,10 @@ export class Contact {
 	@Column()
 	email: string;
 
-	@Column()
+	@Column({ nullable: true })
 	googleAuthId: string;
 
 	@OneToOne(() => Guest)
-    @JoinColumn()
-    guest: Guest
+	@JoinColumn()
+	guest: Guest;
 }

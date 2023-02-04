@@ -3,10 +3,11 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { GuestService } from 'src/guest/guest.service';
+import { ContactService } from 'src/contact/contact.service';
 import { Guest } from '@entities/guest.entity';
 import { RSVP } from '@entities/rsvp.entity';
 
-import { rsvpData } from '@libs/person';
+import { contactData, rsvpData } from '@libs/person';
 
 @Injectable()
 export class RsvpService {
@@ -14,6 +15,7 @@ export class RsvpService {
 		@InjectRepository(RSVP)
 		private rsvpRepository: Repository<RSVP>,
 		private guestService: GuestService,
+		private contactService: ContactService,
 	) {}
 
 	/**
@@ -30,15 +32,18 @@ export class RsvpService {
 			? await this.guestService.getPrimaryData(rsvp.uuid)
 			: await this.guestService.create(rsvp);
 
-		const rsvpOut: RSVP = await this.rsvpRepository.save({
+		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
 			...guest,
 		});
 
-		// TODO: Add contact data
+		const contactOut: contactData = await this.contactService.create(
+			rsvp.uuid,
+			rsvp,
+		);
 
 		// TODO: Add associations
 
-		return { ...guest, ...rsvpOut, email: '', googleAuthId: '' };
+		return { ...guest, ...rsvpOut, ...contactOut };
 	}
 }

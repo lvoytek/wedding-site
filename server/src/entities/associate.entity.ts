@@ -1,9 +1,4 @@
-import {
-	Entity,
-	PrimaryGeneratedColumn,
-	OneToOne,
-	JoinColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Guest } from './guest.entity';
 
 @Entity()
@@ -12,10 +7,10 @@ export class Associate {
 	id: number;
 
 	@OneToOne(() => Guest)
-    @JoinColumn()
-    guestOne: Guest
+	@JoinColumn()
+	guestOne: Guest;
 
 	@OneToOne(() => Guest)
-    @JoinColumn()
-    guestTwo: Guest
+	@JoinColumn()
+	guestTwo: Guest;
 }

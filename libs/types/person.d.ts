@@ -12,7 +12,7 @@ type primaryData = {
  */
 type contactData = {
 	email: string,
-	googleAuthId: string
+	googleAuthId?: string
 };
 
 /**
