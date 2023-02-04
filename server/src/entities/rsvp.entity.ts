@@ -19,6 +19,6 @@ export class RSVP {
 	diet: string;
 
 	@OneToOne(() => Guest)
-    @JoinColumn()
-    guest: Guest
+	@JoinColumn()
+	guest: Guest;
 }

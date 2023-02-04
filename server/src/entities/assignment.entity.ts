@@ -31,6 +31,6 @@ export class Assignment {
 	pokemon: string;
 
 	@OneToOne(() => Guest)
-    @JoinColumn()
-    guest: Guest
+	@JoinColumn()
+	guest: Guest;
 }
