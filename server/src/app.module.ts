@@ -10,7 +10,6 @@ import { Guest } from '@entities/guest.entity';
 import { RSVP } from '@entities/rsvp.entity';
 import { Contact } from '@entities/contact.entity';
 import { Assignment } from '@entities/assignment.entity';
-import { PlusOne } from '@entities/plusone.entity';
 import { Associate } from '@entities/associate.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
@@ -41,7 +40,6 @@ import { ContactService } from './contact/contact.service';
 			RSVP,
 			Contact,
 			Assignment,
-			PlusOne,
 			Associate,
 		]),
 	],

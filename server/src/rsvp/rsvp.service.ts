@@ -22,8 +22,8 @@ export class RsvpService {
 	 * Add RSVP information for a guest using their uuid to identify them.
 	 * If no uuid is provided then create a new guest with the given name info
 	 * and associate the RSVP with them. If contact information is provided,
-	 * add an entry for it associated with the guest. Also add plus one and
-	 * associate relationships if provided.
+	 * add an entry for it associated with the guest. Also add associate
+	 * relationships if provided.
 	 * @param rsvp Relevant guest data and RSVP information.
 	 * @returns The Guest and their RSVP information
 	 */
