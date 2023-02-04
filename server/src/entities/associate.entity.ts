@@ -8,9 +8,9 @@ export class Associate {
 
 	@OneToOne(() => Guest)
 	@JoinColumn()
-	guestOne: Guest;
+	primary: Guest;
 
 	@OneToOne(() => Guest)
 	@JoinColumn()
-	guestTwo: Guest;
+	secondary: Guest;
 }
