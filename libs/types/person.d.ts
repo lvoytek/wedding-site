@@ -27,7 +27,7 @@ type rsvpData = primaryData &
 	};
 
 /**
- * Information provided by us to define guest assignments during the wedding.
+ * Information provided by us to define guest assignments
  */
 type assignmentData = {
 	table: number;
