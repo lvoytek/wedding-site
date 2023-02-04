@@ -6,7 +6,7 @@ import { GuestService } from 'src/guest/guest.service';
 import { Guest } from '@entities/guest.entity';
 import { Contact } from '@entities/contact.entity';
 
-import { contactData } from '@libs/person';
+import { contactData, primaryData } from '@libs/person';
 
 @Injectable()
 export class ContactService {
@@ -22,7 +22,7 @@ export class ContactService {
 	 * @param contact Relevant guest contact information
 	 * @returns The Guest and their RSVP information
 	 */
-	async create(guest: Guest, contact: contactData): Promise<contactData> {
+	async create(guest: primaryData, contact: contactData): Promise<contactData> {
 		return await this.contactRepository.save({
 			...contact,
 			...guest,
@@ -39,7 +39,7 @@ export class ContactService {
 		uuid: string,
 		contact: contactData,
 	): Promise<contactData> {
-		const guest: Guest = await this.guestService.getPrimaryData(uuid);
+		const guest: Guest = await this.guestService.getGuest(uuid);
 		return await this.contactRepository.save({
 			...contact,
 			...guest,
