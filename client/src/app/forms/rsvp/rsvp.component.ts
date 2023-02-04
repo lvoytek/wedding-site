@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NonNullableFormBuilder, FormArray, Validators, FormGroup} from '@angular/forms';
-import { personData, rsvpData } from '@libs/person';
+import { guestData, rsvpData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 
@@ -56,10 +56,10 @@ export class RsvpFormComponent {
 			}
 
 			//We need to parse our guests array into the correct format
-			const associates: Partial<personData>[] = [];
+			const associates: Partial<guestData>[] = [];
 
 			for(const guest of this.guests.values()){
-				const associate: Partial<personData> = {
+				const associate: Partial<guestData> = {
 					firstName: guest.value.firstName,
 					lastName: guest.value.lastName,
 					diet: guest.value.dietaryRestrictions
