@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { GuestService } from 'src/guest/guest.service';
 import { Guest } from '@entities/guest.entity';
 import { Contact } from '@entities/contact.entity';
 
@@ -13,7 +12,6 @@ export class ContactService {
 	constructor(
 		@InjectRepository(Contact)
 		private contactRepository: Repository<Contact>,
-		private guestService: GuestService,
 	) {}
 
 	/**
@@ -30,19 +28,11 @@ export class ContactService {
 	}
 
 	/**
-	 * Add contact information for a guest using their uuid to identify them.
-	 * @param uuid The uuid of the guest to add contact information to
-	 * @param contact Relevant guest contact information
-	 * @returns The Guest and their RSVP information
+	 * Get the contact info of a guest
+	 * @param guest The guest to find contact info for
+	 * @returns contactData with the information for the guest
 	 */
-	async createWithUUID(
-		uuid: string,
-		contact: contactData,
-	): Promise<contactData> {
-		const guest: Guest = await this.guestService.getGuest(uuid);
-		return await this.contactRepository.save({
-			...contact,
-			...guest,
-		});
+	async get(guest: Guest): Promise<contactData> {
+		return await this.contactRepository.findOneBy({ guest });
 	}
 }

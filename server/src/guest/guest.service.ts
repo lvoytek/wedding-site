@@ -5,6 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 
 import { Guest } from '@entities/guest.entity';
+import { RsvpService } from 'src/rsvp/rsvp.service';
+import { AssociateService } from 'src/associate/associate.service';
 
 import { guestData, primaryData } from '@libs/person';
 

@@ -31,7 +31,6 @@ export class RsvpService {
 	 */
 	async create(rsvp: rsvpData): Promise<rsvpData> {
 		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
-
 		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
 			...guest,
@@ -64,5 +63,15 @@ export class RsvpService {
 			...rsvpOut,
 			...contactOut,
 		};
+	}
+
+	async get(guest: Guest): Promise<rsvpData> {
+		const contactInfo: contactData = await this.contactService.get(guest);
+		const rsvpInfo: RSVP = await this.rsvpRepository.findOneBy({ guest });
+
+		if (rsvpInfo || contactInfo)
+			return { ...guest, ...rsvpInfo, ...contactInfo };
+
+		return null;
 	}
 }
