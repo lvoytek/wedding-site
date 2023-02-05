@@ -1,10 +1,18 @@
 import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+
 import { GuestService } from './guest.service';
-import { primaryData } from '@libs/person';
+import { AssociateService } from 'src/associate/associate.service';
+import { RsvpService } from 'src/rsvp/rsvp.service';
+
+import { primaryData, guestData, rsvpData } from '@libs/person';
 
 @Controller('guest')
 export class GuestController {
-	constructor(private guestService: GuestService) {}
+	constructor(
+		private guestService: GuestService,
+		private associateService: AssociateService,
+		private rsvpService: RsvpService,
+	) {}
 
 	@Post('create')
 	async create(@Body() guest: primaryData): Promise<any> {
@@ -16,8 +24,33 @@ export class GuestController {
 		return this.guestService.getAllPrimaryData();
 	}
 
+	/**
+	 * Send back as much data as is available about a guest
+	 * @param uuid The uuid of the guest to get data for
+	 * @returns The data for a guest through the return body
+	 */
 	@Get(':uuid')
-	async read(@Param('uuid') uuid: string): Promise<primaryData> {
+	async read(
+		@Param('uuid') uuid: string,
+	): Promise<guestData | rsvpData | primaryData> {
+		const guest = await this.guestService.getGuest(uuid);
+		if (!guest) return null;
+
+		const rsvp: rsvpData = await this.rsvpService.get(guest);
+		// TODO: Get assignment data
+		const associates: primaryData[] =
+			await this.associateService.getAllAssociates(uuid);
+
+		return {...guest, ...rsvp, associates };
+	}
+
+	/**
+	 * Send back only the primary data of a guest
+	 * @param uuid the guest's uuid
+	 * @returns The primary data through the return body
+	 */
+	@Get(':uuid/primary')
+	async readPrimary(@Param('uuid') uuid: string): Promise<primaryData> {
 		return this.guestService.getPrimaryData(uuid);
 	}
 }
