@@ -18,12 +18,11 @@ type contactData = {
 /**
  * Information given by user when they RSVP
  */
-type rsvpData = primaryData &
-	contactData & {
-		isGoing: boolean;
-		diet: string;
-		associates?: Array<primaryData>;
-	};
+type rsvpData = {
+	isGoing: boolean;
+	diet?: string;
+	associates?: Array<primaryData>;
+};
 
 /**
  * Information provided by us to define guest assignments
@@ -39,6 +38,6 @@ type assignmentData = {
 /**
  * Information about a user
  */
-type guestData = rsvpData & assignmentData;
+type guestData = primaryData & contactData & rsvpData & assignmentData;
 
 export { primaryData, contactData, rsvpData, assignmentData, guestData };
