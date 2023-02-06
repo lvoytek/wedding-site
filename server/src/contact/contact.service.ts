@@ -20,11 +20,16 @@ export class ContactService {
 	 * @param contact Relevant guest contact information
 	 * @returns The Guest and their RSVP information
 	 */
-	async create(guest: primaryData, contact: contactData): Promise<contactData> {
-		return await this.contactRepository.save({
-			...contact,
-			...guest,
-		});
+	async create(
+		guest: primaryData,
+		contact: contactData,
+	): Promise<contactData> {
+		return !contact
+			? null
+			: await this.contactRepository.save({
+					...contact,
+					...guest,
+			  });
 	}
 
 	/**
