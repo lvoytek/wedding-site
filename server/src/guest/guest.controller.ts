@@ -13,7 +13,7 @@ export class GuestController {
 		private guestService: GuestService,
 		private associateService: AssociateService,
 		private rsvpService: RsvpService,
-		private contactService: ContactService
+		private contactService: ContactService,
 	) {}
 
 	@Post('create')

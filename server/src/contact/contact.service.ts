@@ -38,7 +38,9 @@ export class ContactService {
 	 * @returns contactData with the information for the guest
 	 */
 	async get(guest: Guest): Promise<contactData> {
-		let contact: Contact = await this.contactRepository.findOneBy({ guest });
+		let contact: Contact = await this.contactRepository.findOneBy({
+			guest,
+		});
 		delete contact.id;
 		delete contact.guest;
 		return contact;
