@@ -30,10 +30,11 @@ export class RsvpService {
 	async create(guest: primaryData, rsvp: rsvpData): Promise<rsvpData> {
 		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
-			...guest,
+			guest,
 		});
 
 		if (rsvp.associates) {
+			// TODO: Associate associates with each other too
 			for (const associateInfo of rsvp.associates) {
 				const associate: primaryData =
 					await this.guestService.getOrCreate(associateInfo);

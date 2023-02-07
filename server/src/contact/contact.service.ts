@@ -28,7 +28,7 @@ export class ContactService {
 			? null
 			: await this.contactRepository.save({
 					...contact,
-					...guest,
+					guest,
 			  });
 	}
 
