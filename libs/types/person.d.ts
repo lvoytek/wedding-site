@@ -25,6 +25,11 @@ type rsvpData = {
 };
 
 /**
+ * Combination of information provided during an RSVP submission
+ */
+type rsvpSubmissionData = primaryData & contactData & rsvpData;
+
+/**
  * Information provided by us to define guest assignments
  */
 type assignmentData = {
@@ -40,4 +45,4 @@ type assignmentData = {
  */
 type guestData = primaryData & contactData & rsvpData & assignmentData;
 
-export { primaryData, contactData, rsvpData, assignmentData, guestData };
+export { primaryData, contactData, rsvpData, rsvpSubmissionData, assignmentData, guestData };

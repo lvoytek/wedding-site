@@ -4,7 +4,7 @@ import { RsvpService } from './rsvp.service';
 import { GuestService } from 'src/guest/guest.service';
 import { ContactService } from 'src/contact/contact.service';
 
-import { contactData, primaryData, rsvpData } from '@libs/person';
+import { contactData, primaryData, rsvpData, rsvpSubmissionData } from '@libs/person';
 
 @Controller('rsvp')
 export class RsvpController {
@@ -16,7 +16,7 @@ export class RsvpController {
 
 	@Post()
 	async create(
-		@Body() rsvp: primaryData & contactData & rsvpData,
+		@Body() rsvp: rsvpSubmissionData,
 	): Promise<any> {
 		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
 		if (!guest) return null;
