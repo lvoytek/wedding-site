@@ -15,7 +15,7 @@ import { GuestService } from './services/guest.service';
 import { ApiService } from './services/api.service';
 import { RsvpFormComponent } from './components/forms/rsvp/rsvp.component';
 import { AdminComponent } from './components/admin/admin.component';
-import { AddUserComponent } from './components/forms/add-user/add-user.component';
+import { AddGuestComponent } from './components/forms/add-guest/add-guest.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { AddUserComponent } from './components/forms/add-user/add-user.component
     InfoComponent,
 	RsvpFormComponent,
 	AdminComponent,
-	AddUserComponent
+	AddGuestComponent
   ],
   imports: [
     BrowserModule,

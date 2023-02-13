@@ -7,7 +7,7 @@ import { RecursivePartial } from '@libs/utils';
 @Component({
   selector: 'app-rsvp-form',
   templateUrl: './rsvp.component.html',
-  styleUrls: ['./rsvp.component.scss']
+  styleUrls:  ['../form.component.scss']
 })
 export class RsvpFormComponent {
 	@Output() submit = new EventEmitter<RecursivePartial<submissionData>>()
@@ -89,5 +89,4 @@ export class RsvpFormComponent {
 
 		this.submit.emit(rsvpData);
 	}
-
 }

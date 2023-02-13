@@ -51,5 +51,4 @@ type submissionData = guestIdentity & rsvpData;
  */
 type guestData = submissionData & assignmentData;
 
-
 export { primaryData, contactData, assignmentData, rsvpData, guestIdentity, submissionData, guestData };
