@@ -52,4 +52,4 @@ type submissionData = guestIdentity & rsvpData;
 type guestData = submissionData & assignmentData;
 
 
-export { primaryData, contactData, rsvpData, submissionData, assignmentData, guestData };
+export { primaryData, contactData, assignmentData, rsvpData, guestIdentity, submissionData, guestData };

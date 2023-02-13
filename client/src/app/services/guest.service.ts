@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { guestData } from '@libs/person';
+import { guestIdentity, guestData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 import { ApiService } from './api.service';
 
@@ -7,12 +7,12 @@ import { ApiService } from './api.service';
 export class GuestService {
   constructor(private api: ApiService) {}
 
-  createGuest(guest: RecursivePartial<guestData>) {
-	return this.api.post(`admin/user`, guest);
+  createGuest(guest: RecursivePartial<guestIdentity>) {
+	return this.api.post(`guest`, guest);
   }
 
   editGuest(guest: RecursivePartial<guestData>) {
-	return this.api.put(`admin/user/${guest.uuid}`, guest);
+	return this.api.put(`guest/${guest.uuid}`, guest);
   }
 
 
