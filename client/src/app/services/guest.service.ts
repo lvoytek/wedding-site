@@ -4,7 +4,7 @@ import { RecursivePartial } from '@libs/utils';
 import { ApiService } from './api.service';
 
 @Injectable()
-export class AdminService {
+export class GuestService {
   constructor(private api: ApiService) {}
 
   createGuest(guest: RecursivePartial<guestData>) {
@@ -14,4 +14,6 @@ export class AdminService {
   editGuest(guest: RecursivePartial<guestData>) {
 	return this.api.put(`admin/user/${guest.uuid}`, guest);
   }
+
+
 }

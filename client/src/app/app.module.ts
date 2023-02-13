@@ -11,7 +11,7 @@ import { InfoComponent } from './components/info/info.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RsvpService } from './services/rsvp.service';
-import { AdminService } from './services/admin.service';
+import { GuestService } from './services/guest.service';
 import { ApiService } from './services/api.service';
 import { RsvpFormComponent } from './components/forms/rsvp/rsvp.component';
 import { AdminComponent } from './components/admin/admin.component';
@@ -38,7 +38,7 @@ import { AddUserComponent } from './components/forms/add-user/add-user.component
   ],
   providers: [
 	RsvpService,
-	AdminService,
+	GuestService,
 	ApiService
   ],
   bootstrap: [AppComponent]
