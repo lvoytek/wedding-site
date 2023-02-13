@@ -16,9 +16,6 @@ export class Assignment {
 	table: number;
 
 	@Column()
-	googleAuthId: string;
-
-	@Column()
 	isInGroomishParty: boolean;
 
 	@Column()
