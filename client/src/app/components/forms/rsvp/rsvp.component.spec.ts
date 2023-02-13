@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RsvpComponent } from './rsvp.component';
+import { RsvpFormComponent } from './rsvp.component';
 
 describe('RsvpComponent', () => {
-  let component: RsvpComponent;
-  let fixture: ComponentFixture<RsvpComponent>;
+  let component: RsvpFormComponent;
+  let fixture: ComponentFixture<RsvpFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RsvpComponent ]
+      declarations: [ RsvpFormComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RsvpComponent);
+    fixture = TestBed.createComponent(RsvpFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

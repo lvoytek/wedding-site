@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { NonNullableFormBuilder, FormArray, Validators, FormGroup} from '@angular/forms';
-import { guestData, rsvpSubmissionData } from '@libs/person';
+import { guestData, submissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 
 @Component({
   selector: 'app-rsvp-form',
   templateUrl: './rsvp.component.html',
-  styleUrls: ['./rsvp.component.scss']
+  styleUrls:  ['../form.component.scss']
 })
 export class RsvpFormComponent {
-	@Output() submit = new EventEmitter<RecursivePartial<rsvpSubmissionData>>()
+	@Output() submit = new EventEmitter<RecursivePartial<submissionData>>()
 
 	rsvpForm = this.fb.group({
 		firstName: ['', Validators.required],
@@ -40,7 +40,7 @@ export class RsvpFormComponent {
 
 	onSubmit() {
 		const formData = this.rsvpForm.value;
-		let rsvpData: RecursivePartial<rsvpSubmissionData>;
+		let rsvpData: RecursivePartial<submissionData>;
 
 		//Yay!
 		if(formData.attending){
@@ -89,5 +89,4 @@ export class RsvpFormComponent {
 
 		this.submit.emit(rsvpData);
 	}
-
 }
