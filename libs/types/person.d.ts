@@ -43,6 +43,6 @@ type assignmentData = {
 /**
  * Information about a user
  */
-type guestData = primaryData & contactData & rsvpData & assignmentData;
+type guestData = rsvpSubmissionData & assignmentData;
 
 export { primaryData, contactData, rsvpData, rsvpSubmissionData, assignmentData, guestData };
