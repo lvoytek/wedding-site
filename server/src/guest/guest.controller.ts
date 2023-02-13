@@ -4,9 +4,16 @@ import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
+import { AssignmentService } from 'src/assignment/assignment.service';
 
 import { RecursivePartial } from '@libs/utils';
-import { primaryData, guestData, rsvpData, contactData } from '@libs/person';
+import {
+	primaryData,
+	guestData,
+	rsvpData,
+	contactData,
+	assignmentData,
+} from '@libs/person';
 
 @Controller('guest')
 export class GuestController {
@@ -15,9 +22,10 @@ export class GuestController {
 		private associateService: AssociateService,
 		private rsvpService: RsvpService,
 		private contactService: ContactService,
+		private assignmentService: AssignmentService,
 	) {}
 
-	@Post('create')
+	@Post('')
 	async create(@Body() guest: primaryData): Promise<any> {
 		return this.guestService.create(guest);
 	}
@@ -41,11 +49,12 @@ export class GuestController {
 
 		const rsvp: rsvpData = await this.rsvpService.get(guest);
 		const contact: contactData = await this.contactService.get(guest);
-		// TODO: Get assignment data
+		const assign: assignmentData = await this.assignmentService.get(guest);
+
 		const associates: primaryData[] =
 			await this.associateService.getAllAssociates(uuid);
 
-		return { ...guest, ...contact, ...rsvp, associates };
+		return { ...guest, ...contact, ...rsvp, ...assign, associates };
 	}
 
 	/**
