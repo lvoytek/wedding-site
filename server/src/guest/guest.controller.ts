@@ -3,8 +3,10 @@ import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { RsvpService } from 'src/rsvp/rsvp.service';
+import { ContactService } from 'src/contact/contact.service';
 
-import { primaryData, guestData, rsvpData } from '@libs/person';
+import { RecursivePartial } from '@libs/utils';
+import { primaryData, guestData, rsvpData, contactData } from '@libs/person';
 
 @Controller('guest')
 export class GuestController {
@@ -12,6 +14,7 @@ export class GuestController {
 		private guestService: GuestService,
 		private associateService: AssociateService,
 		private rsvpService: RsvpService,
+		private contactService: ContactService,
 	) {}
 
 	@Post('create')
@@ -32,16 +35,17 @@ export class GuestController {
 	@Get(':uuid')
 	async read(
 		@Param('uuid') uuid: string,
-	): Promise<guestData | rsvpData | primaryData> {
+	): Promise<RecursivePartial<guestData>> {
 		const guest = await this.guestService.getGuest(uuid);
 		if (!guest) return null;
 
 		const rsvp: rsvpData = await this.rsvpService.get(guest);
+		const contact: contactData = await this.contactService.get(guest);
 		// TODO: Get assignment data
 		const associates: primaryData[] =
 			await this.associateService.getAllAssociates(uuid);
 
-		return {...guest, ...rsvp, associates };
+		return { ...guest, ...contact, ...rsvp, associates };
 	}
 
 	/**

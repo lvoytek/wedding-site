@@ -20,11 +20,16 @@ export class ContactService {
 	 * @param contact Relevant guest contact information
 	 * @returns The Guest and their RSVP information
 	 */
-	async create(guest: primaryData, contact: contactData): Promise<contactData> {
-		return await this.contactRepository.save({
-			...contact,
-			...guest,
-		});
+	async create(
+		guest: primaryData,
+		contact: contactData,
+	): Promise<contactData> {
+		return !contact
+			? null
+			: await this.contactRepository.save({
+					...contact,
+					guest,
+			  });
 	}
 
 	/**
@@ -33,6 +38,11 @@ export class ContactService {
 	 * @returns contactData with the information for the guest
 	 */
 	async get(guest: Guest): Promise<contactData> {
-		return await this.contactRepository.findOneBy({ guest });
+		let contact: Contact = await this.contactRepository.findOneBy({
+			guest,
+		});
+		delete contact.id;
+		delete contact.guest;
+		return contact;
 	}
 }

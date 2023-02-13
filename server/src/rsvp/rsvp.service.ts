@@ -23,25 +23,18 @@ export class RsvpService {
 	/**
 	 * Add RSVP information for a guest using their uuid to identify them.
 	 * If no uuid is provided then create a new guest with the given name info
-	 * and associate the RSVP with them. If contact information is provided,
-	 * add an entry for it associated with the guest. Also add associate
-	 * relationships if provided.
+	 * and associate the RSVP with them. Also add associate relationships if provided.
 	 * @param rsvp Relevant guest data and RSVP information.
 	 * @returns The Guest and their RSVP information
 	 */
-	async create(rsvp: rsvpData): Promise<rsvpData> {
-		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
+	async create(guest: primaryData, rsvp: rsvpData): Promise<rsvpData> {
 		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
-			...guest,
+			guest,
 		});
 
-		const contactOut: contactData = await this.contactService.create(
-			guest,
-			rsvp,
-		);
-
 		if (rsvp.associates) {
+			// TODO: Associate associates with each other too
 			for (const associateInfo of rsvp.associates) {
 				const associate: primaryData =
 					await this.guestService.getOrCreate(associateInfo);
@@ -49,29 +42,20 @@ export class RsvpService {
 			}
 
 			return {
-				...guest,
 				...rsvpOut,
-				...contactOut,
 				associates: await this.associateService.getAllAssociates(
-					rsvp.uuid,
+					guest.uuid,
 				),
 			};
 		}
 
-		return {
-			...guest,
-			...rsvpOut,
-			...contactOut,
-		};
+		return rsvpOut;
 	}
 
 	async get(guest: Guest): Promise<rsvpData> {
-		const contactInfo: contactData = await this.contactService.get(guest);
-		const rsvpInfo: RSVP = await this.rsvpRepository.findOneBy({ guest });
-
-		if (rsvpInfo || contactInfo)
-			return { ...guest, ...rsvpInfo, ...contactInfo };
-
-		return null;
+		let rsvp: RSVP = await this.rsvpRepository.findOneBy({ guest });
+		delete rsvp.id;
+		delete rsvp.guest;
+		return rsvp;
 	}
 }

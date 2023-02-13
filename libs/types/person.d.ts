@@ -18,12 +18,16 @@ type contactData = {
 /**
  * Information given by user when they RSVP
  */
-type rsvpData = primaryData &
-	contactData & {
-		isGoing: boolean;
-		diet: string;
-		associates?: Array<primaryData>;
-	};
+type rsvpData = {
+	isGoing: boolean;
+	diet?: string;
+	associates?: Array<primaryData>;
+};
+
+/**
+ * Combination of information provided during an RSVP submission
+ */
+type rsvpSubmissionData = primaryData & contactData & rsvpData;
 
 /**
  * Information provided by us to define guest assignments
@@ -39,6 +43,6 @@ type assignmentData = {
 /**
  * Information about a user
  */
-type guestData = rsvpData & assignmentData;
+type guestData = rsvpSubmissionData & assignmentData;
 
-export { primaryData, contactData, rsvpData, assignmentData, guestData };
+export { primaryData, contactData, rsvpData, rsvpSubmissionData, assignmentData, guestData };

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { rsvpData } from '@libs/person';
+import { rsvpSubmissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 import { ApiService } from './api.service';
 
@@ -7,7 +7,7 @@ import { ApiService } from './api.service';
 export class RsvpService {
   constructor(private api: ApiService) {}
 
-  sendRSVP(data: RecursivePartial<rsvpData>) {
+  sendRSVP(data: RecursivePartial<rsvpSubmissionData>) {
 	return this.api.post(`rsvp`, data);
   }
 }
