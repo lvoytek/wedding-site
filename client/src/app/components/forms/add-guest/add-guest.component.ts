@@ -25,6 +25,7 @@ export class AddGuestComponent {
 		}
 
 		this.submit.emit(guestData);
+		this.guestForm.reset();
 	}
 
 }
