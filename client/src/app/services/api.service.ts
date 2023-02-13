@@ -13,4 +13,9 @@ export class ApiService {
   post(url: string, data: any, options?: any) {
 	return this.http.post(`${environment.SERVER_URL}/${url}`, data, options);
   }
+
+  put(url: string, data: any, options?: any) {
+	return this.http.put(`${environment.SERVER_URL}/${url}`, data, options);
+  }
+
 }
