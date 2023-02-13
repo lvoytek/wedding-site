@@ -5,6 +5,7 @@ import { AssociateService } from 'src/associate/associate.service';
 import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
 
+import { RecursivePartial } from '@libs/utils';
 import { primaryData, guestData, rsvpData, contactData } from '@libs/person';
 
 @Controller('guest')
@@ -34,11 +35,7 @@ export class GuestController {
 	@Get(':uuid')
 	async read(
 		@Param('uuid') uuid: string,
-	): Promise<
-		| guestData
-		| (rsvpData & contactData & primaryData)
-		| (rsvpData & primaryData)
-	> {
+	): Promise<RecursivePartial<guestData>> {
 		const guest = await this.guestService.getGuest(uuid);
 		if (!guest) return null;
 
