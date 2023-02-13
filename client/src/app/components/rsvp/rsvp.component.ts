@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { rsvpSubmissionData } from "@libs/person";
 import { RecursivePartial } from "@libs/utils";
-import { RsvpService } from "../services/rsvp.service";
+import { RsvpService } from "../../services/rsvp.service";
 
 @Component({
   selector: 'app-rsvp',
