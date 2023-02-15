@@ -18,7 +18,7 @@ export class ContactService {
 	 * Add contact information for a guest.
 	 * @param guest The guest to add contact information to
 	 * @param contact Relevant guest contact information
-	 * @returns The Guest and their RSVP information
+	 * @returns The guest's contact information
 	 */
 	async create(
 		guest: primaryData,
@@ -41,8 +41,13 @@ export class ContactService {
 		let contact: Contact = await this.contactRepository.findOneBy({
 			guest,
 		});
-		delete contact.id;
-		delete contact.guest;
-		return contact;
+
+		if (contact) {
+			delete contact.id;
+			delete contact.guest;
+			return contact;
+		}
+
+		return null;
 	}
 }

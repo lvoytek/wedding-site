@@ -41,8 +41,13 @@ export class AssignmentService {
 		let assignment: Assignment = await this.assignmentRepository.findOneBy({
 			guest,
 		});
-		delete assignment.id;
-		delete assignment.guest;
-		return assignment;
+
+		if (assignment) {
+			delete assignment.id;
+			delete assignment.guest;
+			return assignment;
+		}
+
+		return null;
 	}
 }

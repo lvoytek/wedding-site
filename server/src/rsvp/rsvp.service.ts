@@ -54,8 +54,13 @@ export class RsvpService {
 
 	async get(guest: Guest): Promise<rsvpData> {
 		let rsvp: RSVP = await this.rsvpRepository.findOneBy({ guest });
-		delete rsvp.id;
-		delete rsvp.guest;
-		return rsvp;
+
+		if (rsvp) {
+			delete rsvp.id;
+			delete rsvp.guest;
+			return rsvp;
+		}
+
+		return null;
 	}
 }
