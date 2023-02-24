@@ -1,4 +1,5 @@
-import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { Controller, Post, Put, Get, Body, Param } from '@nestjs/common';
+import { UpdateResult } from 'typeorm';
 
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
@@ -30,6 +31,18 @@ export class GuestController {
 		return this.guestService.create(guest);
 	}
 
+	@Put(':uuid')
+	async update(
+		@Param('uuid') uuid: string,
+		@Body() guest: guestData,
+	): Promise<UpdateResult> {
+		return this.guestService.update(uuid, guest);
+	}
+
+	/**
+	 * Get the primary data for all guests
+	 * @returns The guests as an array of primaryData
+	 */
 	@Get('all')
 	async readAll(): Promise<primaryData[]> {
 		return this.guestService.getAllPrimaryData();

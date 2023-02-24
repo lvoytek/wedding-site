@@ -64,12 +64,12 @@ export class GuestService {
 
 	/**
 	 * Update information about a guest
-	 * @param guest The new guest information with the same uuid
+	 * @param uuid The original uuid of the guest to update
+	 * @param guest The new guest information
 	 * @returns The result of the data update.
 	 */
-	async update(guest: guestData): Promise<UpdateResult> {
-		// TODO: update data of other non-primary fields too if needed
-		return await this.guestRepository.update(guest.uuid, guest);
+	async update(uuid: string, guest: guestData): Promise<UpdateResult> {
+		return await this.guestRepository.update(uuid, guest);
 	}
 
 	/**
