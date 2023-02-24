@@ -3,12 +3,11 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { GuestService } from 'src/guest/guest.service';
-import { ContactService } from 'src/contact/contact.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { Guest } from '@entities/guest.entity';
 import { RSVP } from '@entities/rsvp.entity';
 
-import { contactData, primaryData, rsvpData } from '@libs/person';
+import { primaryData, rsvpData } from '@libs/person';
 
 @Injectable()
 export class RsvpService {
@@ -16,7 +15,6 @@ export class RsvpService {
 		@InjectRepository(RSVP)
 		private rsvpRepository: Repository<RSVP>,
 		private guestService: GuestService,
-		private contactService: ContactService,
 		private associateService: AssociateService,
 	) {}
 
@@ -52,6 +50,11 @@ export class RsvpService {
 		return rsvpOut;
 	}
 
+	/**
+	 * Get the RSVP data associated with a guest
+	 * @param guest the guest associated with the RSVP
+	 * @returns the guest's RSVP data
+	 */
 	async get(guest: Guest): Promise<rsvpData> {
 		let rsvp: RSVP = await this.rsvpRepository.findOneBy({ guest });
 
