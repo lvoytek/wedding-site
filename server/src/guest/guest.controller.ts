@@ -32,11 +32,11 @@ export class GuestController {
 	}
 
 	@Put(':uuid')
-	async update(
-		@Param('uuid') uuid: string,
-		@Body() guest: guestData,
-	): Promise<UpdateResult> {
-		return this.guestService.update(uuid, guest);
+	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
+		this.guestService.update(uuid, guest);
+		this.rsvpService.update(uuid, guest);
+		this.contactService.update(uuid, guest);
+		this.assignmentService.update(uuid, guest);
 	}
 
 	/**

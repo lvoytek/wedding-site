@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { GuestService } from 'src/guest/guest.service';
@@ -48,6 +48,21 @@ export class RsvpService {
 		}
 
 		return rsvpOut;
+	}
+
+	/**
+	 * Update a guest's RSVP information and add new associates if uuids are provided
+	 * @param uuid The uuid of the guest to update
+	 * @param rsvpUpdate The new RSVP information for the guest, along with new associates
+	 * @returns The result of the update
+	 */
+	async update(uuid: string, rsvpUpdate: rsvpData): Promise<UpdateResult> {
+		// TODO: update associates if included
+		// TODO: check if guest contains rsvp stuff in a more dynamic way
+		return await this.rsvpRepository.update(
+			{ guest: { uuid } },
+			{ isGoing: rsvpUpdate.isGoing, diet: rsvpUpdate.diet },
+		);
 	}
 
 	/**

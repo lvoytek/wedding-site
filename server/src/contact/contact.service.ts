@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Guest } from '@entities/guest.entity';
@@ -30,6 +30,25 @@ export class ContactService {
 					...contact,
 					guest,
 			  });
+	}
+
+	/**
+	 * Update a guest's contact information
+	 * @param uuid The uuid of the guest to update
+	 * @param contactUpdate The new contact information for the guest
+	 * @returns The result of the update
+	 */
+	async update(
+		uuid: string,
+		contactUpdate: contactData,
+	): Promise<UpdateResult> {
+		return await this.contactRepository.update(
+			{ guest: { uuid } },
+			{
+				email: contactUpdate.email,
+				googleAuthId: contactUpdate.googleAuthId,
+			},
+		);
 	}
 
 	/**
