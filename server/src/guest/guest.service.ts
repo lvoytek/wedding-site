@@ -72,10 +72,14 @@ export class GuestService {
 		uuid: string,
 		guestUpdate: primaryData,
 	): Promise<UpdateResult> {
-		return await this.guestRepository.update(uuid, {
+		const guestUpdateData = {
 			firstName: guestUpdate.firstName,
 			lastName: guestUpdate.lastName,
-		});
+		};
+
+		if (!Object.values(guestUpdateData).every((el) => el == null))
+			return await this.guestRepository.update(uuid, guestUpdateData);
+		return null;
 	}
 
 	/**

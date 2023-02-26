@@ -59,10 +59,17 @@ export class RsvpService {
 	async update(uuid: string, rsvpUpdate: rsvpData): Promise<UpdateResult> {
 		// TODO: update associates if included
 		// TODO: check if guest contains rsvp stuff in a more dynamic way
-		return await this.rsvpRepository.update(
-			{ guest: { uuid } },
-			{ isGoing: rsvpUpdate.isGoing, diet: rsvpUpdate.diet },
-		);
+		const rsvpUpdateData = {
+			isGoing: rsvpUpdate.isGoing,
+			diet: rsvpUpdate.diet,
+		};
+
+		if (!Object.values(rsvpUpdateData).every((el) => el == null))
+			return await this.rsvpRepository.update(
+				{ guest: { uuid } },
+				rsvpUpdateData,
+			);
+		return null;
 	}
 
 	/**

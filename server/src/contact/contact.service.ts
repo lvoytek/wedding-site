@@ -42,13 +42,17 @@ export class ContactService {
 		uuid: string,
 		contactUpdate: contactData,
 	): Promise<UpdateResult> {
-		return await this.contactRepository.update(
-			{ guest: { uuid } },
-			{
-				email: contactUpdate.email,
-				googleAuthId: contactUpdate.googleAuthId,
-			},
-		);
+		const contactUpdateData = {
+			email: contactUpdate.email,
+			googleAuthId: contactUpdate.googleAuthId,
+		};
+
+		if (!Object.values(contactUpdateData).every((el) => el == null))
+			return await this.contactRepository.update(
+				{ guest: { uuid } },
+				contactUpdateData,
+			);
+		return null;
 	}
 
 	/**

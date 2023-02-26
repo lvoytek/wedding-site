@@ -42,16 +42,20 @@ export class AssignmentService {
 		uuid: string,
 		assignmentUpdate: assignmentData,
 	): Promise<UpdateResult> {
-		return await this.assignmentRepository.update(
-			{ guest: { uuid } },
-			{
-				table: assignmentUpdate.table,
-				isInGroomishParty: assignmentUpdate.isInGroomishParty,
-				isInBridalParty: assignmentUpdate.isInBridalParty,
-				isFamily: assignmentUpdate.isFamily,
-				pokemon: assignmentUpdate.pokemon,
-			},
-		);
+		const assignmentUpdateData = {
+			table: assignmentUpdate.table,
+			isInGroomishParty: assignmentUpdate.isInGroomishParty,
+			isInBridalParty: assignmentUpdate.isInBridalParty,
+			isFamily: assignmentUpdate.isFamily,
+			pokemon: assignmentUpdate.pokemon,
+		};
+
+		if (!Object.values(assignmentUpdateData).every((el) => el == null))
+			return await this.assignmentRepository.update(
+				{ guest: { uuid } },
+				assignmentUpdateData,
+			);
+		return null;
 	}
 
 	/**
