@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Guest } from '@entities/guest.entity';
@@ -18,7 +18,7 @@ export class ContactService {
 	 * Add contact information for a guest.
 	 * @param guest The guest to add contact information to
 	 * @param contact Relevant guest contact information
-	 * @returns The Guest and their RSVP information
+	 * @returns The guest's contact information
 	 */
 	async create(
 		guest: primaryData,
@@ -33,6 +33,29 @@ export class ContactService {
 	}
 
 	/**
+	 * Update a guest's contact information
+	 * @param uuid The uuid of the guest to update
+	 * @param contactUpdate The new contact information for the guest
+	 * @returns The result of the update
+	 */
+	async update(
+		uuid: string,
+		contactUpdate: contactData,
+	): Promise<UpdateResult> {
+		const contactUpdateData = {
+			email: contactUpdate.email,
+			googleAuthId: contactUpdate.googleAuthId,
+		};
+
+		if (!Object.values(contactUpdateData).every((el) => el == null))
+			return await this.contactRepository.update(
+				{ guest: { uuid } },
+				contactUpdateData,
+			);
+		return null;
+	}
+
+	/**
 	 * Get the contact info of a guest
 	 * @param guest The guest to find contact info for
 	 * @returns contactData with the information for the guest
@@ -41,8 +64,13 @@ export class ContactService {
 		let contact: Contact = await this.contactRepository.findOneBy({
 			guest,
 		});
-		delete contact.id;
-		delete contact.guest;
-		return contact;
+
+		if (contact) {
+			delete contact.id;
+			delete contact.guest;
+			return contact;
+		}
+
+		return null;
 	}
 }

@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 
 import { Guest } from '@entities/guest.entity';
-import { guestData, primaryData } from '@libs/person';
+import { primaryData } from '@libs/person';
 
 @Injectable()
 export class GuestService {
@@ -64,12 +64,22 @@ export class GuestService {
 
 	/**
 	 * Update information about a guest
-	 * @param guest The new guest information with the same uuid
+	 * @param uuid The uuid of the guest to update
+	 * @param guestUpdate The new primary guest information
 	 * @returns The result of the data update.
 	 */
-	async update(guest: guestData): Promise<UpdateResult> {
-		// TODO: update data of other non-primary fields too if needed
-		return await this.guestRepository.update(guest.uuid, guest);
+	async update(
+		uuid: string,
+		guestUpdate: primaryData,
+	): Promise<UpdateResult> {
+		const guestUpdateData = {
+			firstName: guestUpdate.firstName,
+			lastName: guestUpdate.lastName,
+		};
+
+		if (!Object.values(guestUpdateData).every((el) => el == null))
+			return await this.guestRepository.update(uuid, guestUpdateData);
+		return null;
 	}
 
 	/**

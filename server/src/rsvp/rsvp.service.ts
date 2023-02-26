@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { GuestService } from 'src/guest/guest.service';
-import { ContactService } from 'src/contact/contact.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { Guest } from '@entities/guest.entity';
 import { RSVP } from '@entities/rsvp.entity';
 
-import { contactData, primaryData, rsvpData } from '@libs/person';
+import { primaryData, rsvpData } from '@libs/person';
 
 @Injectable()
 export class RsvpService {
@@ -16,7 +15,6 @@ export class RsvpService {
 		@InjectRepository(RSVP)
 		private rsvpRepository: Repository<RSVP>,
 		private guestService: GuestService,
-		private contactService: ContactService,
 		private associateService: AssociateService,
 	) {}
 
@@ -52,10 +50,42 @@ export class RsvpService {
 		return rsvpOut;
 	}
 
+	/**
+	 * Update a guest's RSVP information and add new associates if uuids are provided
+	 * @param uuid The uuid of the guest to update
+	 * @param rsvpUpdate The new RSVP information for the guest, along with new associates
+	 * @returns The result of the update
+	 */
+	async update(uuid: string, rsvpUpdate: rsvpData): Promise<UpdateResult> {
+		// TODO: update associates if included
+		// TODO: check if guest contains rsvp stuff in a more dynamic way
+		const rsvpUpdateData = {
+			isGoing: rsvpUpdate.isGoing,
+			diet: rsvpUpdate.diet,
+		};
+
+		if (!Object.values(rsvpUpdateData).every((el) => el == null))
+			return await this.rsvpRepository.update(
+				{ guest: { uuid } },
+				rsvpUpdateData,
+			);
+		return null;
+	}
+
+	/**
+	 * Get the RSVP data associated with a guest
+	 * @param guest the guest associated with the RSVP
+	 * @returns the guest's RSVP data
+	 */
 	async get(guest: Guest): Promise<rsvpData> {
 		let rsvp: RSVP = await this.rsvpRepository.findOneBy({ guest });
-		delete rsvp.id;
-		delete rsvp.guest;
-		return rsvp;
+
+		if (rsvp) {
+			delete rsvp.id;
+			delete rsvp.guest;
+			return rsvp;
+		}
+
+		return null;
 	}
 }

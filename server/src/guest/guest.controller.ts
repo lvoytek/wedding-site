@@ -1,12 +1,20 @@
-import { Controller, Post, Get, Body, Param } from '@nestjs/common';
+import { Controller, Post, Put, Get, Body, Param } from '@nestjs/common';
+import { UpdateResult } from 'typeorm';
 
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
+import { AssignmentService } from 'src/assignment/assignment.service';
 
 import { RecursivePartial } from '@libs/utils';
-import { primaryData, guestData, rsvpData, contactData } from '@libs/person';
+import {
+	primaryData,
+	guestData,
+	rsvpData,
+	contactData,
+	assignmentData,
+} from '@libs/person';
 
 @Controller('guest')
 export class GuestController {
@@ -15,13 +23,37 @@ export class GuestController {
 		private associateService: AssociateService,
 		private rsvpService: RsvpService,
 		private contactService: ContactService,
+		private assignmentService: AssignmentService,
 	) {}
 
-	@Post('create')
+	@Post('')
 	async create(@Body() guest: primaryData): Promise<any> {
 		return this.guestService.create(guest);
 	}
 
+	@Post(':uuid/assignment')
+	async addAssignments(
+		@Param('uuid') uuid: string,
+		@Body() assignments: assignmentData,
+	): Promise<any> {
+		const guest = await this.guestService.getGuest(uuid);
+		if (!guest) return null;
+
+		return this.assignmentService.create(guest, assignments);
+	}
+
+	@Put(':uuid')
+	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
+		this.guestService.update(uuid, guest);
+		this.rsvpService.update(uuid, guest);
+		this.contactService.update(uuid, guest);
+		this.assignmentService.update(uuid, guest);
+	}
+
+	/**
+	 * Get the primary data for all guests
+	 * @returns The guests as an array of primaryData
+	 */
 	@Get('all')
 	async readAll(): Promise<primaryData[]> {
 		return this.guestService.getAllPrimaryData();
@@ -41,11 +73,12 @@ export class GuestController {
 
 		const rsvp: rsvpData = await this.rsvpService.get(guest);
 		const contact: contactData = await this.contactService.get(guest);
-		// TODO: Get assignment data
+		const assign: assignmentData = await this.assignmentService.get(guest);
+
 		const associates: primaryData[] =
 			await this.associateService.getAllAssociates(uuid);
 
-		return { ...guest, ...contact, ...rsvp, associates };
+		return { ...guest, ...contact, ...rsvp, ...assign, associates };
 	}
 
 	/**
