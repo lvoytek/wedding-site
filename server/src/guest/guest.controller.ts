@@ -31,6 +31,17 @@ export class GuestController {
 		return this.guestService.create(guest);
 	}
 
+	@Post(':uuid/assignment')
+	async addAssignments(
+		@Param('uuid') uuid: string,
+		@Body() assignments: assignmentData,
+	): Promise<any> {
+		const guest = await this.guestService.getGuest(uuid);
+		if (!guest) return null;
+
+		return this.assignmentService.create(guest, assignments);
+	}
+
 	@Put(':uuid')
 	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
 		this.guestService.update(uuid, guest);
