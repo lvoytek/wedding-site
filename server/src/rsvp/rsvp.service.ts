@@ -33,6 +33,7 @@ export class RsvpService {
 
 		if (rsvp.associates) {
 			// TODO: Associate associates with each other too
+			// TODO: Also add RSVP data for each associate
 			for (const associateInfo of rsvp.associates) {
 				const associate: primaryData =
 					await this.guestService.getOrCreate(associateInfo);

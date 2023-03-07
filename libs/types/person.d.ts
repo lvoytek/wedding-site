@@ -1,3 +1,5 @@
+import { RecursivePartial } from "./utils";
+
 /**
  * Information needed to define a user
  */
@@ -32,7 +34,7 @@ type assignmentData = {
 type rsvpData = {
 	isGoing: boolean;
 	diet?: string;
-	associates?: Array<primaryData>;
+	associates?: Array<RecursivePartial<guestData>>;
 };
 
 
