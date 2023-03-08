@@ -50,7 +50,8 @@ export class RsvpController {
 	): Promise<RecursivePartial<guestData>> {
 		const guestToGet: primaryData =
 			await this.assignmentService.getGuestByPokemon(code);
-		console.log(guestToGet);
+
+		if (!guestToGet) return null;
 
 		const guestRSVP = await this.rsvpService.get(guestToGet);
 		const guestContact = await this.contactService.get(guestToGet);
