@@ -76,4 +76,22 @@ export class AssignmentService {
 
 		return null;
 	}
+
+	/**
+	 * Get primary data for guest assigned to a given pokemon name
+	 * @param pokemon The pokemon name
+	 * @returns guest primary data or null if pokemon is not used
+	 */
+	async getGuestByPokemon(pokemon: string): Promise<primaryData> {
+		const assignment: Assignment = await this.assignmentRepository.findOne({
+			where: {
+				pokemon,
+			},
+			relations: { guest: true },
+		});
+
+		if (!assignment) return null;
+
+		return assignment.guest;
+	}
 }
