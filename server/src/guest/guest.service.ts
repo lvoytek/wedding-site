@@ -46,7 +46,7 @@ export class GuestService {
 	 * @param uuid A uuid belonging to an existing user
 	 * @returns The primary data and associate arrays of that user
 	 */
-	async getGuest(uuid: string): Promise<Guest> {
+	async getGuest(uuid: string): Promise<primaryData> {
 		return await this.guestRepository.findOneBy({ uuid });
 	}
 

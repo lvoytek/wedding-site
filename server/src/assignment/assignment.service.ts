@@ -63,7 +63,7 @@ export class AssignmentService {
 	 * @param guest The guest to check
 	 * @returns assignmentData with relevant guest assignment info
 	 */
-	async get(guest: Guest): Promise<assignmentData> {
+	async get(guest: primaryData): Promise<assignmentData> {
 		let assignment: Assignment = await this.assignmentRepository.findOneBy({
 			guest,
 		});

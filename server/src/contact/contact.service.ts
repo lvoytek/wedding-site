@@ -60,7 +60,7 @@ export class ContactService {
 	 * @param guest The guest to find contact info for
 	 * @returns contactData with the information for the guest
 	 */
-	async get(guest: Guest): Promise<contactData> {
+	async get(guest: primaryData): Promise<contactData> {
 		let contact: Contact = await this.contactRepository.findOneBy({
 			guest,
 		});
