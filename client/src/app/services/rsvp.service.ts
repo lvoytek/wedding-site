@@ -10,4 +10,8 @@ export class RsvpService {
   sendRSVP(data: RecursivePartial<submissionData>) {
 	return this.api.post(`rsvp`, data);
   }
+
+  getRSVPFromCode(code: string) {
+	return this.api.get(`rsvp/${code}`);
+  }
 }

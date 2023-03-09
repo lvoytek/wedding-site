@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RsvpService } from 'src/app/services/rsvp.service';
 import { NonNullableFormBuilder, FormArray, Validators, FormGroup} from '@angular/forms';
 import { guestData, submissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
@@ -9,8 +11,11 @@ import { RecursivePartial } from '@libs/utils';
   templateUrl: './rsvp.component.html',
   styleUrls:  ['../form.component.scss']
 })
-export class RsvpFormComponent {
+export class RsvpFormComponent implements OnInit {
 	@Output() submit = new EventEmitter<RecursivePartial<submissionData>>()
+
+	code: string = "";
+	existingRsvpData: RecursivePartial<guestData> = {};
 
 	rsvpForm = this.fb.group({
 		firstName: ['', Validators.required],
@@ -21,7 +26,18 @@ export class RsvpFormComponent {
 		guests: this.fb.array([])
 	});
 
-	constructor(private fb: NonNullableFormBuilder){}
+	constructor(private fb: NonNullableFormBuilder, private route: ActivatedRoute, private api: RsvpService){}
+
+	ngOnInit() {
+		const codeInput = this.route.snapshot.queryParamMap.get('code');
+		if(codeInput) {
+			this.code = codeInput;
+			this.api.getRSVPFromCode(this.code).subscribe((data: any) => {
+				this.existingRsvpData = data;
+				if (this.existingRsvpData) this.populateForm();
+			  });
+		}
+	}
 
 	get guests() {
 		return (this.rsvpForm.get('guests') as FormArray).controls as FormGroup[];
@@ -88,5 +104,39 @@ export class RsvpFormComponent {
 		}
 
 		this.submit.emit(rsvpData);
+	}
+
+	populateForm() {
+		if (this.existingRsvpData) {
+			if (typeof this.existingRsvpData.firstName === 'string') {
+				this.rsvpForm.controls.firstName.setValue(this.existingRsvpData.firstName);
+			  } else {
+				this.rsvpForm.controls.firstName.setValue('');
+			  }
+
+			  if (typeof this.existingRsvpData.lastName === 'string') {
+				this.rsvpForm.controls.lastName.setValue(this.existingRsvpData.lastName);
+			  } else {
+				this.rsvpForm.controls.lastName.setValue('');
+			  }
+
+			  if (typeof this.existingRsvpData.isGoing === 'boolean') {
+				this.rsvpForm.controls.attending.setValue(this.existingRsvpData.isGoing);
+			  } else {
+				this.rsvpForm.controls.attending.setValue(false);
+			  }
+
+			  if (typeof this.existingRsvpData.email === 'string') {
+				this.rsvpForm.controls.email.setValue(this.existingRsvpData.email);
+			  } else {
+				this.rsvpForm.controls.email.setValue('');
+			  }
+
+			  if (typeof this.existingRsvpData.diet === 'string') {
+				this.rsvpForm.controls.dietaryRestrictions.setValue(this.existingRsvpData.diet);
+			  } else {
+				this.rsvpForm.controls.dietaryRestrictions.setValue('');
+			  }
+		}
 	}
 }
