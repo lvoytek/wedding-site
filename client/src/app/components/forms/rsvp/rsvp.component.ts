@@ -101,35 +101,17 @@ export class RsvpFormComponent implements OnChanges {
 
 	populateForm() {
 		if (this.existingRsvpData) {
-			if (typeof this.existingRsvpData.firstName === 'string') {
-				this.rsvpForm.controls.firstName.setValue(this.existingRsvpData.firstName);
-			  } else {
-				this.rsvpForm.controls.firstName.setValue('');
-			  }
+			const firstName = this.existingRsvpData.firstName ?? '';
+			const lastName = this.existingRsvpData.lastName ?? '';
+			const isGoing = this.existingRsvpData.isGoing ?? false;
+			const email = this.existingRsvpData.email ?? '';
+			const diet = this.existingRsvpData.diet ?? '';
 
-			  if (typeof this.existingRsvpData.lastName === 'string') {
-				this.rsvpForm.controls.lastName.setValue(this.existingRsvpData.lastName);
-			  } else {
-				this.rsvpForm.controls.lastName.setValue('');
-			  }
-
-			  if (typeof this.existingRsvpData.isGoing === 'boolean') {
-				this.rsvpForm.controls.attending.setValue(this.existingRsvpData.isGoing);
-			  } else {
-				this.rsvpForm.controls.attending.setValue(false);
-			  }
-
-			  if (typeof this.existingRsvpData.email === 'string') {
-				this.rsvpForm.controls.email.setValue(this.existingRsvpData.email);
-			  } else {
-				this.rsvpForm.controls.email.setValue('');
-			  }
-
-			  if (typeof this.existingRsvpData.diet === 'string') {
-				this.rsvpForm.controls.dietaryRestrictions.setValue(this.existingRsvpData.diet);
-			  } else {
-				this.rsvpForm.controls.dietaryRestrictions.setValue('');
-			  }
+			this.rsvpForm.controls.firstName.setValue(firstName);
+			this.rsvpForm.controls.lastName.setValue(lastName);
+			this.rsvpForm.controls.attending.setValue(isGoing);
+			this.rsvpForm.controls.email.setValue(email);
+			this.rsvpForm.controls.dietaryRestrictions.setValue(diet);
 		}
 	}
 }
