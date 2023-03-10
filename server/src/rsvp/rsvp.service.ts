@@ -33,11 +33,12 @@ export class RsvpService {
 
 		if (rsvp.associates) {
 			// TODO: Associate associates with each other too
-			for (const associateInfo of rsvp.associates) {
+			// TODO: Also add RSVP data for each associate
+			/*for (const associateInfo of rsvp.associates) {
 				const associate: primaryData =
 					await this.guestService.getOrCreate(associateInfo);
 				await this.associateService.create(guest, associate);
-			}
+			}*/
 
 			return {
 				...rsvpOut,
@@ -77,7 +78,7 @@ export class RsvpService {
 	 * @param guest the guest associated with the RSVP
 	 * @returns the guest's RSVP data
 	 */
-	async get(guest: Guest): Promise<rsvpData> {
+	async get(guest: primaryData): Promise<rsvpData> {
 		let rsvp: RSVP = await this.rsvpRepository.findOneBy({ guest });
 
 		if (rsvp) {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { NonNullableFormBuilder, FormArray, Validators, FormGroup} from '@angular/forms';
 import { guestData, submissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
@@ -9,8 +9,11 @@ import { RecursivePartial } from '@libs/utils';
   templateUrl: './rsvp.component.html',
   styleUrls:  ['../form.component.scss']
 })
-export class RsvpFormComponent {
+export class RsvpFormComponent implements OnChanges {
 	@Output() submit = new EventEmitter<RecursivePartial<submissionData>>()
+
+	@Input() existingRsvpData: RecursivePartial<guestData> = {};
+	@Input() pokemon: string = "";
 
 	rsvpForm = this.fb.group({
 		firstName: ['', Validators.required],
@@ -22,6 +25,12 @@ export class RsvpFormComponent {
 	});
 
 	constructor(private fb: NonNullableFormBuilder){}
+
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes['existingRsvpData']) {
+			this.populateForm();
+		}
+	}
 
 	get guests() {
 		return (this.rsvpForm.get('guests') as FormArray).controls as FormGroup[];
@@ -88,5 +97,21 @@ export class RsvpFormComponent {
 		}
 
 		this.submit.emit(rsvpData);
+	}
+
+	populateForm() {
+		if (this.existingRsvpData) {
+			const firstName = this.existingRsvpData.firstName ?? '';
+			const lastName = this.existingRsvpData.lastName ?? '';
+			const isGoing = this.existingRsvpData.isGoing ?? false;
+			const email = this.existingRsvpData.email ?? '';
+			const diet = this.existingRsvpData.diet ?? '';
+
+			this.rsvpForm.controls.firstName.setValue(firstName);
+			this.rsvpForm.controls.lastName.setValue(lastName);
+			this.rsvpForm.controls.attending.setValue(isGoing);
+			this.rsvpForm.controls.email.setValue(email);
+			this.rsvpForm.controls.dietaryRestrictions.setValue(diet);
+		}
 	}
 }

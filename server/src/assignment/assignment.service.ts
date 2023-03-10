@@ -63,7 +63,7 @@ export class AssignmentService {
 	 * @param guest The guest to check
 	 * @returns assignmentData with relevant guest assignment info
 	 */
-	async get(guest: Guest): Promise<assignmentData> {
+	async get(guest: primaryData): Promise<assignmentData> {
 		let assignment: Assignment = await this.assignmentRepository.findOneBy({
 			guest,
 		});
@@ -75,5 +75,23 @@ export class AssignmentService {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Get primary data for guest assigned to a given pokemon name
+	 * @param pokemon The pokemon name
+	 * @returns guest primary data or null if pokemon is not used
+	 */
+	async getGuestByPokemon(pokemon: string): Promise<primaryData> {
+		const assignment: Assignment = await this.assignmentRepository.findOne({
+			where: {
+				pokemon,
+			},
+			relations: { guest: true },
+		});
+
+		if (!assignment) return null;
+
+		return assignment.guest;
 	}
 }

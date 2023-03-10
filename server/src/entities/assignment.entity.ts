@@ -24,7 +24,7 @@ export class Assignment {
 	@Column()
 	isFamily: boolean;
 
-	@Column()
+	@Column({unique: true})
 	pokemon: string;
 
 	@OneToOne(() => Guest)

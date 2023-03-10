@@ -1,1 +1,5 @@
-<app-rsvp-form (submit)="sendForm($event)"></app-rsvp-form>
+<app-rsvp-form
+	[pokemon]="pokemon"
+	[existingRsvpData]="existingRsvpData"
+	(submit)="sendForm($event)"
+></app-rsvp-form>
