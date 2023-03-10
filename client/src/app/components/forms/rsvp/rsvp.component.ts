@@ -1,6 +1,4 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { RsvpService } from 'src/app/services/rsvp.service';
+import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { NonNullableFormBuilder, FormArray, Validators, FormGroup} from '@angular/forms';
 import { guestData, submissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
@@ -11,11 +9,11 @@ import { RecursivePartial } from '@libs/utils';
   templateUrl: './rsvp.component.html',
   styleUrls:  ['../form.component.scss']
 })
-export class RsvpFormComponent implements OnInit {
+export class RsvpFormComponent implements OnChanges {
 	@Output() submit = new EventEmitter<RecursivePartial<submissionData>>()
 
-	code: string = "";
-	existingRsvpData: RecursivePartial<guestData> = {};
+	@Input() existingRsvpData: RecursivePartial<guestData> = {};
+	@Input() pokemon: string = "";
 
 	rsvpForm = this.fb.group({
 		firstName: ['', Validators.required],
@@ -26,16 +24,11 @@ export class RsvpFormComponent implements OnInit {
 		guests: this.fb.array([])
 	});
 
-	constructor(private fb: NonNullableFormBuilder, private route: ActivatedRoute, private api: RsvpService){}
+	constructor(private fb: NonNullableFormBuilder){}
 
-	ngOnInit() {
-		const codeInput = this.route.snapshot.queryParamMap.get('code');
-		if(codeInput) {
-			this.code = codeInput;
-			this.api.getRSVPFromCode(this.code).subscribe((data: any) => {
-				this.existingRsvpData = data;
-				if (this.existingRsvpData) this.populateForm();
-			  });
+	ngOnChanges(changes: SimpleChanges) {
+		if (changes['existingRsvpData']) {
+			this.populateForm();
 		}
 	}
 
