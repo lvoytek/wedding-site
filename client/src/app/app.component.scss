@@ -8,10 +8,16 @@
     color: rgba($ll-black, 0.75);
 }
 
-.page-buttons * {
+.buttons {
+	display: inline-flex;
+	align-items: self-end;
+}
+
+.buttons * {
 	font-size: x-large;
 	font-weight: 900;
 }
+
 @media (min-width: 576px){
 	.page-buttons * {
 		font-size: large;
