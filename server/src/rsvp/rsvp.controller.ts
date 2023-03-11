@@ -42,22 +42,22 @@ export class RsvpController {
 		const associates: primaryData[] = [];
 		if (rsvp.associates) {
 			for (const associateInfo of rsvp.associates) {
-				let associate: primaryData | null = null;
+				let associate: primaryData = null;
 
 				// The associate already has a uuid, use the existing guest associated with it
 				if (
-					associateInfo?.uuid !== undefined &&
+					associateInfo.uuid !== undefined &&
 					typeof associateInfo.uuid === 'string'
 				) {
 					associate = await this.guestService.getPrimaryData(
 						associateInfo.uuid,
 					);
 				}
-				// The associate has a first + last name, look for an existing guest by name or add new
+				// The associate has a first + last name, look for an existing associated guest by name or add new
 				else if (
-					associateInfo?.firstName !== undefined &&
+					associateInfo.firstName !== undefined &&
 					typeof associateInfo.firstName === 'string' &&
-					associateInfo?.lastName !== undefined &&
+					associateInfo.lastName !== undefined &&
 					typeof associateInfo.lastName === 'string'
 				) {
 					// TODO: check if first name + last name user already exists as an associate with main user
@@ -66,13 +66,34 @@ export class RsvpController {
 					);
 				}
 
-				// TODO: Also add RSVP data for each associate
+				if (associate) {
+					// Match the primary guest's isGoing to associates too if not already stated
+					if (typeof associateInfo.isGoing === "undefined")
+						associateInfo.isGoing = rsvpInfo.isGoing;
 
-				// TODO: ignore if association already exists
-				// Associate the main guest with the associate
-				await this.associateService.create(guest, associate);
+					// Add RSVP data for associate if it exists, luckily only isGoing is required and that was just handled
+					this.rsvpService.create(
+						associate,
+						associateInfo as rsvpData,
+					);
 
-				associates.push(associate);
+					// Add contact data, only email is needed
+					if (
+						associateInfo.email !== undefined &&
+						typeof associateInfo.email === 'string'
+					) {
+						this.contactService.create(
+							associate,
+							associateInfo as contactData,
+						);
+					}
+
+					// TODO: ignore if association already exists
+					// Associate the main guest with the associate
+					await this.associateService.create(guest, associate);
+
+					associates.push(associate);
+				}
 			}
 
 			for (let i = 0; i < associates.length; i++) {
