@@ -38,8 +38,9 @@ export class RsvpController {
 
 		const rsvpInfo: rsvpData = await this.rsvpService.create(guest, rsvp);
 
+		// Add or update RSVP info for each associate provided
+		const associates: primaryData[] = [];
 		if (rsvp.associates) {
-			// Add or update RSVP info for each associate provided
 			for (const associateInfo of rsvp.associates) {
 				let associate: primaryData | null = null;
 
@@ -70,11 +71,21 @@ export class RsvpController {
 				// TODO: ignore if association already exists
 				// Associate the main guest with the associate
 				await this.associateService.create(guest, associate);
+
+				associates.push(associate);
 			}
 
-			// TODO: Associate associates with each other too
+			for (let i = 0; i < associates.length; i++) {
+				for (let j = i + 1; j < associates.length; j++) {
+					await this.associateService.create(
+						associates[i],
+						associates[j],
+					);
+				}
+			}
 		}
 
+		rsvpInfo.associates = associates;
 		return { ...guest, ...contactInfo, ...rsvpInfo };
 	}
 
