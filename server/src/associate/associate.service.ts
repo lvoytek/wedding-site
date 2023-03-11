@@ -23,10 +23,43 @@ export class AssociateService {
 		primary: primaryData,
 		secondary: primaryData,
 	): Promise<{ primary: primaryData; secondary: primaryData }> {
+		// Check if association already exists
+		if(this.check(primary, secondary)) {
+			return {primary, secondary};
+		}
+
+		// If no association exists, create one
 		return await this.associateRepository.save({
 			primary,
 			secondary,
 		});
+	}
+
+	/**
+	 * Check if two guests are already associated with each other bi-directionally
+	 * @param guestOne The first guest
+	 * @param guestTwo The second guest
+	 * @returns true if the association exists, false otherwise
+	 */
+	async check(
+		guestOne: primaryData,
+		guestTwo: primaryData,
+	): Promise<boolean> {
+		const check1 = await this.associateRepository.findOne({
+			where: {
+				primary: { uuid: guestOne.uuid },
+				secondary: { uuid: guestTwo.uuid },
+			},
+		});
+
+		const check2 = await this.associateRepository.findOne({
+			where: {
+				primary: { uuid: guestTwo.uuid },
+				secondary: { uuid: guestOne.uuid },
+			},
+		});
+
+		return check1 !== undefined || check2 !== undefined;
 	}
 
 	/**
@@ -35,11 +68,10 @@ export class AssociateService {
 	 * @returns All associates as an array of primaryData
 	 */
 	async getAllAssociates(uuid: string): Promise<primaryData[]> {
-		const associations: Associate[] =
-			await await this.associateRepository.find({
-				relations: { primary: true, secondary: true },
-				where: [{ primary: { uuid } }, { secondary: { uuid } }],
-			});
+		const associations: Associate[] = await this.associateRepository.find({
+			relations: { primary: true, secondary: true },
+			where: [{ primary: { uuid } }, { secondary: { uuid } }],
+		});
 
 		let associates: primaryData[] = [];
 		for (const association of associations) {

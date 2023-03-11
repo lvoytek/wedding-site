@@ -88,7 +88,6 @@ export class RsvpController {
 						);
 					}
 
-					// TODO: ignore if association already exists
 					// Associate the main guest with the associate
 					await this.associateService.create(guest, associate);
 
