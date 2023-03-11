@@ -4,6 +4,7 @@ import { RsvpService } from './rsvp.service';
 import { GuestService } from 'src/guest/guest.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
+import { AssociateService } from 'src/associate/associate.service';
 
 import {
 	contactData,
@@ -22,6 +23,7 @@ export class RsvpController {
 		private guestService: GuestService,
 		private contactService: ContactService,
 		private assignmentService: AssignmentService,
+		private associateService: AssociateService,
 	) {}
 
 	@Post()
@@ -35,6 +37,43 @@ export class RsvpController {
 		);
 
 		const rsvpInfo: rsvpData = await this.rsvpService.create(guest, rsvp);
+
+		if (rsvp.associates) {
+			// Add or update RSVP info for each associate provided
+			for (const associateInfo of rsvp.associates) {
+				let associate: primaryData | null = null;
+
+				// The associate already has a uuid, use the existing guest associated with it
+				if (
+					associateInfo?.uuid !== undefined &&
+					typeof associateInfo.uuid === 'string'
+				) {
+					associate = await this.guestService.getPrimaryData(
+						associateInfo.uuid,
+					);
+				}
+				// The associate has a first + last name, look for an existing guest by name or add new
+				else if (
+					associateInfo?.firstName !== undefined &&
+					typeof associateInfo.firstName === 'string' &&
+					associateInfo?.lastName !== undefined &&
+					typeof associateInfo.lastName === 'string'
+				) {
+					// TODO: check if first name + last name user already exists as an associate with main user
+					associate = await this.guestService.create(
+						associateInfo as primaryData,
+					);
+				}
+
+				// TODO: Also add RSVP data for each associate
+
+				// TODO: ignore if association already exists
+				// Associate the main guest with the associate
+				await this.associateService.create(guest, associate);
+			}
+
+			// TODO: Associate associates with each other too
+		}
 
 		return { ...guest, ...contactInfo, ...rsvpInfo };
 	}
