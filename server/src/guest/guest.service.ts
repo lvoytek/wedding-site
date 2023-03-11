@@ -63,6 +63,21 @@ export class GuestService {
 	}
 
 	/**
+	 * Attempt to get all guests with a given first and last name
+	 * @param firstName The first name of the guest
+	 * @param lastName The last name of the guest
+	 * @returns An array of primaryData of guests with the provided name, the array will be empty if there are none
+	 */
+	async getGuestsByName(
+		firstName: string,
+		lastName: string,
+	): Promise<primaryData[]> {
+		return await this.guestRepository.find({
+			where: { firstName, lastName },
+		});
+	}
+
+	/**
 	 * Update information about a guest
 	 * @param uuid The uuid of the guest to update
 	 * @param guestUpdate The new primary guest information
