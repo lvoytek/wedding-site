@@ -9,7 +9,7 @@ import { MaterialModule } from './material.module';
 import { RsvpComponent } from './components/rsvp/rsvp.component';
 import { InfoComponent } from './components/info/info.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RsvpService } from './services/rsvp.service';
 import { GuestService } from './services/guest.service';
 import { ApiService } from './services/api.service';
@@ -17,6 +17,8 @@ import { RsvpFormComponent } from './components/forms/rsvp/rsvp.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AddGuestComponent } from './components/forms/add-guest/add-guest.component';
 import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './services/authInterceptor.service';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from 
 	RsvpService,
 	GuestService,
 	ApiService,
+	AuthService,
 	{
 		provide: 'SocialAuthServiceConfig',
 		useValue: {
@@ -58,6 +61,11 @@ import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from 
 			console.error(err);
 		  }
 		} as SocialAuthServiceConfig,
+	  },
+	  {
+		provide: HTTP_INTERCEPTORS,
+		useClass: AuthInterceptor,
+		multi: true
 	  }
   ],
   bootstrap: [AppComponent]

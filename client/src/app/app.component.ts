@@ -1,4 +1,3 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -9,17 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit{
 	title = 'Wedding Site';
 
-	user!: SocialUser;
-  	loggedIn!: boolean;
-
-	constructor(private authService: SocialAuthService) { }
+	constructor() { }
 
 	ngOnInit() {
-		this.authService.authState.subscribe((user) => {
-			this.user = user;
-			this.loggedIn = (user != null);
 
-			console.log(this.user);
-		});
 	}
 }
