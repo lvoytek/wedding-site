@@ -46,7 +46,7 @@ export class GuestService {
 	 * @param uuid A uuid belonging to an existing user
 	 * @returns The primary data and associate arrays of that user
 	 */
-	async getGuest(uuid: string): Promise<Guest> {
+	async getGuest(uuid: string): Promise<primaryData> {
 		return await this.guestRepository.findOneBy({ uuid });
 	}
 
@@ -60,6 +60,21 @@ export class GuestService {
 		return guest.uuid
 			? await this.getPrimaryData(guest.uuid)
 			: await this.create(guest);
+	}
+
+	/**
+	 * Attempt to get all guests with a given first and last name
+	 * @param firstName The first name of the guest
+	 * @param lastName The last name of the guest
+	 * @returns An array of primaryData of guests with the provided name, the array will be empty if there are none
+	 */
+	async getGuestsByName(
+		firstName: string,
+		lastName: string,
+	): Promise<primaryData[]> {
+		return await this.guestRepository.find({
+			where: { firstName, lastName },
+		});
 	}
 
 	/**
