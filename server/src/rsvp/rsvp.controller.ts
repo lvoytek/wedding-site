@@ -31,12 +31,17 @@ export class RsvpController {
 		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
 		if (!guest) return null;
 
-		const contactInfo: contactData = await this.contactService.create(
-			guest,
-			rsvp,
-		);
+		// Add contact data if at least email was provided
+		const contactInfo: contactData =
+			rsvp.email !== undefined && typeof rsvp.email === 'string'
+				? await this.contactService.create(guest, rsvp)
+				: undefined;
 
-		const rsvpInfo: rsvpData = await this.rsvpService.create(guest, rsvp);
+		// Add rsvp data if at least isGoing is provided
+		const rsvpInfo: rsvpData =
+			rsvp.isGoing !== undefined && typeof rsvp.isGoing === 'string'
+				? await this.rsvpService.create(guest, rsvp)
+				: undefined;
 
 		// Add or update RSVP info for each associate provided
 		const associates: primaryData[] = [];
@@ -68,7 +73,7 @@ export class RsvpController {
 
 				if (associate) {
 					// Match the primary guest's isGoing to associates too if not already stated
-					if (typeof associateInfo.isGoing === "undefined")
+					if (typeof associateInfo.isGoing === 'undefined')
 						associateInfo.isGoing = rsvpInfo.isGoing;
 
 					// Add RSVP data for associate if it exists, luckily only isGoing is required and that was just handled
