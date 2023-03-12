@@ -9,13 +9,16 @@ import { MaterialModule } from './material.module';
 import { RsvpComponent } from './components/rsvp/rsvp.component';
 import { InfoComponent } from './components/info/info.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RsvpService } from './services/rsvp.service';
 import { GuestService } from './services/guest.service';
 import { ApiService } from './services/api.service';
 import { RsvpFormComponent } from './components/forms/rsvp/rsvp.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { AddGuestComponent } from './components/forms/add-guest/add-guest.component';
+import { SocialLoginModule, SocialAuthServiceConfig, GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { AuthService } from './services/auth.service';
+import { AuthInterceptor } from './services/authInterceptor.service';
 
 @NgModule({
   declarations: [
@@ -34,12 +37,36 @@ import { AddGuestComponent } from './components/forms/add-guest/add-guest.compon
     BrowserAnimationsModule,
 	FormsModule,
 	ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+	SocialLoginModule
   ],
   providers: [
 	RsvpService,
 	GuestService,
-	ApiService
+	ApiService,
+	AuthService,
+	{
+		provide: 'SocialAuthServiceConfig',
+		useValue: {
+		  autoLogin: false,
+		  providers: [
+			{
+			  id: GoogleLoginProvider.PROVIDER_ID,
+			  provider: new GoogleLoginProvider(
+				"688686179589-2e4vehv846dbemjq5aqts284r3bfhhfu.apps.googleusercontent.com"
+			  )
+			},
+		  ],
+		  onError: (err) => {
+			console.error(err);
+		  }
+		} as SocialAuthServiceConfig,
+	  },
+	  {
+		provide: HTTP_INTERCEPTORS,
+		useClass: AuthInterceptor,
+		multi: true
+	  }
   ],
   bootstrap: [AppComponent]
 })
