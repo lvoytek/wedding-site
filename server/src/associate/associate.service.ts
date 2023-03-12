@@ -24,7 +24,7 @@ export class AssociateService {
 		secondary: primaryData,
 	): Promise<{ primary: primaryData; secondary: primaryData }> {
 		// Check if association already exists
-		if(this.check(primary, secondary)) {
+		if(this.checkIfAssociationExists(primary, secondary)) {
 			return {primary, secondary};
 		}
 
@@ -41,7 +41,7 @@ export class AssociateService {
 	 * @param guestTwo The second guest
 	 * @returns true if the association exists, false otherwise
 	 */
-	async check(
+	async checkIfAssociationExists(
 		guestOne: primaryData,
 		guestTwo: primaryData,
 	): Promise<boolean> {
