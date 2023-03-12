@@ -65,10 +65,29 @@ export class RsvpController {
 					associateInfo.lastName !== undefined &&
 					typeof associateInfo.lastName === 'string'
 				) {
-					// TODO: check if first name + last name user already exists as an associate with main user
-					associate = await this.guestService.create(
-						associateInfo as primaryData,
-					);
+					// Check if first + last name as guest already exists and is already an associate of the main guest
+					const possibleMatches =
+						await this.associateService.getAllAssociates(
+							guest.uuid,
+						);
+
+					for (const possibleMatch of possibleMatches) {
+						if (
+							possibleMatch.firstName ==
+								associateInfo.firstName &&
+							possibleMatch.lastName == associateInfo.lastName
+						) {
+							associate = possibleMatch;
+							break;
+						}
+					}
+
+					// If associate was not found, create a new guest
+					if (!associate) {
+						associate = await this.guestService.create(
+							associateInfo as primaryData,
+						);
+					}
 				}
 
 				if (associate) {
@@ -108,9 +127,9 @@ export class RsvpController {
 					);
 				}
 			}
+			rsvpInfo.associates = associates;
 		}
 
-		rsvpInfo.associates = associates;
 		return { ...guest, ...contactInfo, ...rsvpInfo };
 	}
 
