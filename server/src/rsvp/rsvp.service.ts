@@ -21,6 +21,9 @@ export class RsvpService {
 	 * @returns The new RSVP information
 	 */
 	async create(guest: primaryData, rsvp: rsvpData): Promise<rsvpData> {
+		// Make diet an empty string if it is not provided
+		if (typeof rsvp.diet === 'undefined') rsvp.diet = '';
+
 		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
 			guest,
