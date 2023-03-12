@@ -2,9 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { GuestService } from 'src/guest/guest.service';
-import { AssociateService } from 'src/associate/associate.service';
-import { Guest } from '@entities/guest.entity';
 import { RSVP } from '@entities/rsvp.entity';
 
 import { primaryData, rsvpData } from '@libs/person';
@@ -14,39 +11,23 @@ export class RsvpService {
 	constructor(
 		@InjectRepository(RSVP)
 		private rsvpRepository: Repository<RSVP>,
-		private guestService: GuestService,
-		private associateService: AssociateService,
 	) {}
 
 	/**
-	 * Add RSVP information for a guest using their uuid to identify them.
+	 * Add RSVP information, excluding associates, for a guest using their uuid to identify them.
 	 * If no uuid is provided then create a new guest with the given name info
-	 * and associate the RSVP with them. Also add associate relationships if provided.
+	 * and associate the RSVP with them.
 	 * @param rsvp Relevant guest data and RSVP information.
-	 * @returns The Guest and their RSVP information
+	 * @returns The new RSVP information
 	 */
 	async create(guest: primaryData, rsvp: rsvpData): Promise<rsvpData> {
+		// Make diet an empty string if it is not provided
+		if (typeof rsvp.diet === 'undefined') rsvp.diet = '';
+
 		const rsvpOut: rsvpData = await this.rsvpRepository.save({
 			...rsvp,
 			guest,
 		});
-
-		if (rsvp.associates) {
-			// TODO: Associate associates with each other too
-			// TODO: Also add RSVP data for each associate
-			/*for (const associateInfo of rsvp.associates) {
-				const associate: primaryData =
-					await this.guestService.getOrCreate(associateInfo);
-				await this.associateService.create(guest, associate);
-			}*/
-
-			return {
-				...rsvpOut,
-				associates: await this.associateService.getAllAssociates(
-					guest.uuid,
-				),
-			};
-		}
 
 		return rsvpOut;
 	}
@@ -58,7 +39,6 @@ export class RsvpService {
 	 * @returns The result of the update
 	 */
 	async update(uuid: string, rsvpUpdate: rsvpData): Promise<UpdateResult> {
-		// TODO: update associates if included
 		// TODO: check if guest contains rsvp stuff in a more dynamic way
 		const rsvpUpdateData = {
 			isGoing: rsvpUpdate.isGoing,
