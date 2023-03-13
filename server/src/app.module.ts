@@ -20,6 +20,7 @@ import { RsvpService } from './rsvp/rsvp.service';
 import { ContactService } from './contact/contact.service';
 import { AssociateService } from './associate/associate.service';
 import { AssignmentService } from './assignment/assignment.service';
+import { AdminService } from './admin/admin.service';
 
 @Module({
 	imports: [
@@ -38,7 +39,14 @@ import { AssignmentService } from './assignment/assignment.service';
 			}),
 			inject: [ConfigService],
 		}),
-		TypeOrmModule.forFeature([Guest, RSVP, Contact, Assignment, Associate, Admin]),
+		TypeOrmModule.forFeature([
+			Guest,
+			RSVP,
+			Contact,
+			Assignment,
+			Associate,
+			Admin,
+		]),
 	],
 	controllers: [AppController, RsvpController, GuestController],
 	providers: [
@@ -48,6 +56,7 @@ import { AssignmentService } from './assignment/assignment.service';
 		ContactService,
 		AssociateService,
 		AssignmentService,
+		AdminService,
 	],
 })
 export class AppModule {}
