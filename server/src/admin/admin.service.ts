@@ -37,10 +37,8 @@ export class AdminService {
 	 * @returns true if the guest is an admin, false otherwise
 	 */
 	async isAdmin(guest: primaryData): Promise<boolean> {
-		return (
-			(await this.adminRepository.findOne({
-				where: { guest: { uuid: guest.uuid } },
-			})) !== undefined
-		);
+		return !!(await this.adminRepository.findOne({
+			where: { guest: { uuid: guest.uuid } },
+		}));
 	}
 }
