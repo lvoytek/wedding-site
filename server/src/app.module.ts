@@ -11,6 +11,7 @@ import { RSVP } from '@entities/rsvp.entity';
 import { Contact } from '@entities/contact.entity';
 import { Assignment } from '@entities/assignment.entity';
 import { Associate } from '@entities/associate.entity';
+import { Admin } from '@entities/admin.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
 import { GuestService } from './guest/guest.service';
@@ -19,6 +20,7 @@ import { RsvpService } from './rsvp/rsvp.service';
 import { ContactService } from './contact/contact.service';
 import { AssociateService } from './associate/associate.service';
 import { AssignmentService } from './assignment/assignment.service';
+import { AdminService } from './admin/admin.service';
 
 @Module({
 	imports: [
@@ -37,7 +39,14 @@ import { AssignmentService } from './assignment/assignment.service';
 			}),
 			inject: [ConfigService],
 		}),
-		TypeOrmModule.forFeature([Guest, RSVP, Contact, Assignment, Associate]),
+		TypeOrmModule.forFeature([
+			Guest,
+			RSVP,
+			Contact,
+			Assignment,
+			Associate,
+			Admin,
+		]),
 	],
 	controllers: [AppController, RsvpController, GuestController],
 	providers: [
@@ -47,6 +56,7 @@ import { AssignmentService } from './assignment/assignment.service';
 		ContactService,
 		AssociateService,
 		AssignmentService,
+		AdminService,
 	],
 })
 export class AppModule {}

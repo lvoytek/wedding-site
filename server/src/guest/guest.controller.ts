@@ -1,11 +1,11 @@
 import { Controller, Post, Put, Get, Body, Param } from '@nestjs/common';
-import { UpdateResult } from 'typeorm';
 
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
+import { AdminService } from 'src/admin/admin.service';
 
 import { RecursivePartial } from '@libs/utils';
 import {
@@ -24,6 +24,7 @@ export class GuestController {
 		private rsvpService: RsvpService,
 		private contactService: ContactService,
 		private assignmentService: AssignmentService,
+		private adminService: AdminService,
 	) {}
 
 	@Post('')
@@ -42,12 +43,37 @@ export class GuestController {
 		return this.assignmentService.create(guest, assignments);
 	}
 
+	/**
+	 * Update a user with any set of new information
+	 * @param uuid The uuid of the user to modify
+	 * @param guest The new guest data
+	 */
 	@Put(':uuid')
 	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
 		this.guestService.update(uuid, guest);
 		this.rsvpService.update(uuid, guest);
 		this.contactService.update(uuid, guest);
 		this.assignmentService.update(uuid, guest);
+	}
+
+	/**
+	 * Make a user an admin
+	 * @param uuid The uuid of the user
+	 */
+	@Put('admin/add/:uuid')
+	async setAdmin(@Param('uuid') uuid: string) {
+		const user = await this.guestService.getPrimaryData(uuid);
+		if (user) await this.adminService.create(user);
+	}
+
+	/**
+	 * Remove admin privileges from user
+	 * @param uuid The uuid of the user
+	 */
+	@Put('admin/remove/:uuid')
+	async removeAdmin(@Param('uuid') uuid: string) {
+		const user = await this.guestService.getPrimaryData(uuid);
+		if (user) await this.adminService.remove(user);
 	}
 
 	/**
