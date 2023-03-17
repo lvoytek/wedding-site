@@ -67,7 +67,7 @@ export class GuestController {
 	}
 
 	/**
-	 * Remove admin priviledges from user
+	 * Remove admin privileges from user
 	 * @param uuid The uuid of the user
 	 */
 	@Put('admin/remove/:uuid')
