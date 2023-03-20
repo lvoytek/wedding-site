@@ -24,6 +24,7 @@ import { AssignmentService } from './assignment/assignment.service';
 import { AdminService } from './admin/admin.service';
 
 import { JwtStrategy } from '@auth/jwt.strategy';
+import { JwtAdminStrategy } from '@auth/jwtadmin.strategy';
 
 @Module({
 	imports: [
@@ -73,6 +74,7 @@ import { JwtStrategy } from '@auth/jwt.strategy';
 		AssignmentService,
 		AdminService,
 		JwtStrategy,
+		JwtAdminStrategy
 	],
 })
 export class AppModule {}
