@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Guest } from '@entities/guest.entity';
 import { Contact } from '@entities/contact.entity';
 
 import { contactData, primaryData } from '@libs/person';
@@ -72,5 +71,23 @@ export class ContactService {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Check for a Google user ID in each contact, and if it exists return the data of that user
+	 * @param id The unique Google ID for the user
+	 * @returns primaryData for the user or null if they do not exist
+	 */
+	async getUserByGoogleAuthID(id: string): Promise<primaryData> {
+		const contact: Contact = await this.contactRepository.findOne({
+			where: {
+				googleAuthId: id,
+			},
+			relations: { guest: true },
+		});
+
+		if (!contact) return null;
+
+		return contact.guest;
 	}
 }
