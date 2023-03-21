@@ -1,0 +1,80 @@
+import { Controller, Post, Body } from '@nestjs/common';
+
+import { JwtService } from '@nestjs/jwt';
+import { AuthService } from './auth.service';
+import { ContactService } from 'src/contact/contact.service';
+import { AssignmentService } from 'src/assignment/assignment.service';
+
+import { contactData, primaryData } from '@libs/person';
+
+@Controller('auth')
+export class AuthController {
+	constructor(
+		private authService: AuthService,
+		private contactService: ContactService,
+		private assignmentService: AssignmentService,
+		private jwtService: JwtService,
+	) {}
+
+	/**
+	 * Provide a signed JWT to a user if they provide a valid, existing google login
+	 * @param googleAuthJWT A JWT containing google oauth info and a token for a user
+	 * @returns A signed JWT for accessing endpoints or null if an invalid login was given
+	 */
+	@Post('login')
+	async login(@Body() googleAuthJWT: string): Promise<any> {
+		// Extract and validate google auth ID
+		const decoded = this.jwtService.decode(googleAuthJWT);
+		const googleId: string = await this.authService.getIdFromToken(
+			decoded['access_token'],
+		);
+		if (!googleId) return null;
+
+		// Get the user by their ID
+		if (!this.contactService.getUserByGoogleAuthID(googleId)) return null;
+
+		// Return a signed jwt for the user
+		return this.authService.createJWT(googleId);
+	}
+
+	/**
+	 * Provide a signed JWT to a user if they provide a valid google login JWT
+	 * @param googleAuthJWT A JWT containing google oauth info and a token for a user
+	 * @returns A signed JWT for accessing endpoints or null if an invalid login was given
+	 */
+	@Post('signup')
+	async signup(
+		@Body() tokenAndPokemon: { token: string; pokemon: string },
+	): Promise<any> {
+		// Extract and validate google auth ID
+		const decoded = this.jwtService.decode(tokenAndPokemon.token);
+		const googleId: string = await this.authService.getIdFromToken(
+			decoded['access_token'],
+		);
+		if (!googleId) return null;
+
+		// Get a user by the provided pokemon assignment
+		const user: primaryData =
+			await this.assignmentService.getGuestByPokemon(
+				tokenAndPokemon.pokemon,
+			);
+		if (!user) return null;
+
+		const userContact: contactData = await this.contactService.get(user);
+
+		// Contact info does not exist yet, create with email contained in google JWT
+		if (!userContact)
+			this.contactService.create(user, {
+				email: decoded['email'],
+				googleAuthId: googleId,
+			});
+		// Otherwise update contact with google auth
+		else {
+			userContact.googleAuthId = googleId;
+			this.contactService.update(user.uuid, userContact);
+		}
+
+		// Return a signed jwt for the user
+		return this.authService.createJWT(googleId);
+	}
+}

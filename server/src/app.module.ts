@@ -25,6 +25,8 @@ import { AdminService } from './admin/admin.service';
 
 import { JwtStrategy } from '@auth/jwt.strategy';
 import { JwtAdminStrategy } from '@auth/jwtadmin.strategy';
+import { AuthService } from './auth/auth.service';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
 	imports: [
@@ -64,7 +66,7 @@ import { JwtAdminStrategy } from '@auth/jwtadmin.strategy';
 			inject: [ConfigService],
 		}),
 	],
-	controllers: [AppController, RsvpController, GuestController],
+	controllers: [AppController, RsvpController, GuestController, AuthController],
 	providers: [
 		AppService,
 		GuestService,
@@ -74,7 +76,8 @@ import { JwtAdminStrategy } from '@auth/jwtadmin.strategy';
 		AssignmentService,
 		AdminService,
 		JwtStrategy,
-		JwtAdminStrategy
+		JwtAdminStrategy,
+		AuthService
 	],
 })
 export class AppModule {}
