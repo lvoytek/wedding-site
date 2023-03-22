@@ -28,10 +28,10 @@ export class AuthController {
 		if (!googleId) return null;
 
 		// Get the user by their ID
-		if (!this.contactService.getUserByGoogleAuthID(googleId)) return null;
+		if (!(await this.contactService.getUserByGoogleAuthID(googleId))) return null;
 
 		// Return a signed jwt for the user
-		return this.authService.createJWT(googleId);
+		return await this.authService.createJWT(googleId);
 	}
 
 	/**
@@ -60,17 +60,17 @@ export class AuthController {
 
 		// Contact info does not exist yet, create with email contained in google JWT
 		if (!userContact)
-			this.contactService.create(user, {
-				email: decoded['email'],
+			await this.contactService.create(user, {
+				email: await this.authService.getemailFromToken(tokenAndPokemon.token),
 				googleAuthId: googleId,
 			});
 		// Otherwise update contact with google auth
 		else {
 			userContact.googleAuthId = googleId;
-			this.contactService.update(user.uuid, userContact);
+			await this.contactService.update(user.uuid, userContact);
 		}
 
 		// Return a signed jwt for the user
-		return this.authService.createJWT(googleId);
+		return await this.authService.createJWT(googleId);
 	}
 }
