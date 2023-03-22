@@ -1,17 +1,11 @@
 import { Controller, Post, Body } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
-import { ContactService } from 'src/contact/contact.service';
-import { AssignmentService } from 'src/assignment/assignment.service';
-
-import { contactData, primaryData } from '@libs/person';
 
 @Controller('auth')
 export class AuthController {
 	constructor(
-		private authService: AuthService,
-		private contactService: ContactService,
-		private assignmentService: AssignmentService,
+		private authService: AuthService
 	) {}
 
 	/**
