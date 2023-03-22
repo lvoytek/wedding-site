@@ -22,13 +22,9 @@ export class AuthService {
 	 * @returns The user id from Google or null if token was not verified
 	 */
 	async getIdFromToken(tokenJWT: string): Promise<string> {
-		const decoded = this.jwtService.decode(tokenJWT);
-
-		if (!decoded['access_token']) return null;
-
 		try {
 			const ticket = await this.client.verifyIdToken({
-				idToken: decoded['access_token'],
+				idToken: tokenJWT,
 				audience: this.clientId,
 			});
 			const payload = ticket.getPayload();

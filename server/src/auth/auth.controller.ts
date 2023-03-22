@@ -14,10 +14,10 @@ export class AuthController {
 	 * @returns A signed JWT for accessing endpoints or null if an invalid login was given
 	 */
 	@Post('login')
-	async login(@Body() googleAuthJWT: string): Promise<any> {
+	async login(@Body() googleAuthJWT: {token: string}): Promise<any> {
 		// Extract and validate google auth ID
 		const googleId: string = await this.authService.getIdFromToken(
-			googleAuthJWT,
+			googleAuthJWT.token,
 		);
 		if (!googleId) return null;
 

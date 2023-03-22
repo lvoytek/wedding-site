@@ -17,7 +17,7 @@ export class AuthService {
 	}
 
 	login(token: string) {
-		this.api.post(`auth/login`, token).subscribe((jwt) => {
+		this.api.post(`auth/login`, {token}).subscribe((jwt) => {
 			console.log(jwt);
 		})
 	}
