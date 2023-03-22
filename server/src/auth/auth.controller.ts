@@ -1,6 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
 
-import { JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
@@ -13,7 +12,6 @@ export class AuthController {
 		private authService: AuthService,
 		private contactService: ContactService,
 		private assignmentService: AssignmentService,
-		private jwtService: JwtService,
 	) {}
 
 	/**
@@ -24,9 +22,8 @@ export class AuthController {
 	@Post('login')
 	async login(@Body() googleAuthJWT: string): Promise<any> {
 		// Extract and validate google auth ID
-		const decoded = this.jwtService.decode(googleAuthJWT);
 		const googleId: string = await this.authService.getIdFromToken(
-			decoded['access_token'],
+			googleAuthJWT,
 		);
 		if (!googleId) return null;
 
@@ -47,9 +44,8 @@ export class AuthController {
 		@Body() tokenAndPokemon: { token: string; pokemon: string },
 	): Promise<any> {
 		// Extract and validate google auth ID
-		const decoded = this.jwtService.decode(tokenAndPokemon.token);
 		const googleId: string = await this.authService.getIdFromToken(
-			decoded['access_token'],
+			tokenAndPokemon.token,
 		);
 		if (!googleId) return null;
 
