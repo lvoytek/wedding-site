@@ -4,9 +4,7 @@ import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-	constructor(
-		private authService: AuthService
-	) {}
+	constructor(private authService: AuthService) {}
 
 	/**
 	 * Provide a signed JWT to a user if they provide a valid, existing google login
@@ -14,9 +12,9 @@ export class AuthController {
 	 * @returns A signed JWT for accessing endpoints or null if an invalid login was given
 	 */
 	@Post('login')
-	async login(@Body() googleAuthJWT: {token: string}): Promise<any> {
+	async login(@Body() googleAuthJWT: { token: string }): Promise<any> {
 		// Extract and validate google auth ID
-		const googleId: string = await this.authService.getIdFromToken(
+		const googleId: string = await this.authService.getIdFromGoogleToken(
 			googleAuthJWT.token,
 		);
 		if (!googleId) return null;

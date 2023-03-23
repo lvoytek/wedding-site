@@ -18,10 +18,10 @@ export class AuthService {
 
 	/**
 	 * Verify an oauth token with Google and get the user id if it is valid
-	 * @param tokenJWT The auth JWT provided by Google containing an access_token
+	 * @param tokenJWT The auth JWT provided by Google
 	 * @returns The user id from Google or null if token was not verified
 	 */
-	async getIdFromToken(tokenJWT: string): Promise<string> {
+	async getIdFromGoogleToken(tokenJWT: string): Promise<string> {
 		try {
 			const ticket = await this.client.verifyIdToken({
 				idToken: tokenJWT,
@@ -36,12 +36,26 @@ export class AuthService {
 	}
 
 	/**
+	 * Verify a token originally provided by the server and get the google user id if valid
+	 * @param tokenJWT The auth JWT provided by this server
+	 * @returns The user id from Google or null if token was not verified
+	 */
+	async getIdFromServerToken(tokenJWT: string): Promise<string> {
+		try {
+			const payload = await this.jwtService.verifyAsync(tokenJWT);
+			return payload.sub;
+		} catch (error) {
+			return null;
+		}
+	}
+
+	/**
 	 * Create a signed JWT for a user based on their user id
 	 * @param id The google auth ID for a user
 	 * @returns A signed JWT to return to the user
 	 */
-	async createJWT(id: string): Promise<{token: string}> {
+	async createJWT(id: string): Promise<{ token: string }> {
 		const payload = { sub: id };
-		return {token: await this.jwtService.signAsync(payload)};
+		return { token: await this.jwtService.signAsync(payload) };
 	}
 }
