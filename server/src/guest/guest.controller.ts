@@ -1,4 +1,12 @@
-import { Controller, Post, Put, Get, Body, Param } from '@nestjs/common';
+import {
+	Controller,
+	Post,
+	Put,
+	Get,
+	Body,
+	Param,
+	UseGuards,
+} from '@nestjs/common';
 
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
@@ -6,6 +14,7 @@ import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AdminService } from 'src/admin/admin.service';
+import { JwtAdminAuthGuard } from '@auth/jwtadmin.guard';
 
 import { RecursivePartial } from '@libs/utils';
 import {
@@ -27,11 +36,13 @@ export class GuestController {
 		private adminService: AdminService,
 	) {}
 
+	@UseGuards(JwtAdminAuthGuard)
 	@Post('')
 	async create(@Body() guest: primaryData): Promise<any> {
 		return this.guestService.create(guest);
 	}
 
+	@UseGuards(JwtAdminAuthGuard)
 	@Post(':uuid/assignment')
 	async addAssignments(
 		@Param('uuid') uuid: string,
@@ -48,6 +59,7 @@ export class GuestController {
 	 * @param uuid The uuid of the user to modify
 	 * @param guest The new guest data
 	 */
+	@UseGuards(JwtAdminAuthGuard)
 	@Put(':uuid')
 	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
 		this.guestService.update(uuid, guest);
@@ -60,6 +72,7 @@ export class GuestController {
 	 * Make a user an admin
 	 * @param uuid The uuid of the user
 	 */
+	@UseGuards(JwtAdminAuthGuard)
 	@Put('admin/add/:uuid')
 	async setAdmin(@Param('uuid') uuid: string) {
 		const user = await this.guestService.getPrimaryData(uuid);
@@ -70,6 +83,7 @@ export class GuestController {
 	 * Remove admin privileges from user
 	 * @param uuid The uuid of the user
 	 */
+	@UseGuards(JwtAdminAuthGuard)
 	@Put('admin/remove/:uuid')
 	async removeAdmin(@Param('uuid') uuid: string) {
 		const user = await this.guestService.getPrimaryData(uuid);
@@ -80,6 +94,7 @@ export class GuestController {
 	 * Get the primary data for all guests
 	 * @returns The guests as an array of primaryData
 	 */
+	@UseGuards(JwtAdminAuthGuard)
 	@Get('all')
 	async readAll(): Promise<primaryData[]> {
 		return this.guestService.getAllPrimaryData();
@@ -90,6 +105,7 @@ export class GuestController {
 	 * @param uuid The uuid of the guest to get data for
 	 * @returns The data for a guest through the return body
 	 */
+	@UseGuards(JwtAdminAuthGuard)
 	@Get(':uuid')
 	async read(
 		@Param('uuid') uuid: string,
@@ -112,6 +128,7 @@ export class GuestController {
 	 * @param uuid the guest's uuid
 	 * @returns The primary data through the return body
 	 */
+	@UseGuards(JwtAdminAuthGuard)
 	@Get(':uuid/primary')
 	async readPrimary(@Param('uuid') uuid: string): Promise<primaryData> {
 		return this.guestService.getPrimaryData(uuid);
