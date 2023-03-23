@@ -28,7 +28,7 @@ export class JwtAdminStrategy extends PassportStrategy(Strategy, 'jwtadmin') {
 		if (!user)
 			throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
 
-		if (!this.adminService.isAdmin(user))
+		if (!(await this.adminService.isAdmin(user)))
 			throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
 
 		return user;
