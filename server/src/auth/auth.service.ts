@@ -40,8 +40,8 @@ export class AuthService {
 	 * @param id The google auth ID for a user
 	 * @returns A signed JWT to return to the user
 	 */
-	async createJWT(id: string) {
+	async createJWT(id: string): Promise<{token: string}> {
 		const payload = { sub: id };
-		return await this.jwtService.signAsync(payload);
+		return {token: await this.jwtService.signAsync(payload)};
 	}
 }
