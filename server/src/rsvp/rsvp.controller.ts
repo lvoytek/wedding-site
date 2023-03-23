@@ -1,10 +1,11 @@
-import { Controller, Post, Get, Param, Body } from '@nestjs/common';
+import { Controller, Post, Get, Param, Headers, Body } from '@nestjs/common';
 
 import { RsvpService } from './rsvp.service';
 import { GuestService } from 'src/guest/guest.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AssociateService } from 'src/associate/associate.service';
+import { AuthService } from '@auth/auth.service';
 
 import {
 	contactData,
@@ -24,12 +25,25 @@ export class RsvpController {
 		private contactService: ContactService,
 		private assignmentService: AssignmentService,
 		private associateService: AssociateService,
+		private authService: AuthService,
 	) {}
 
 	@Post()
-	async create(@Body() rsvp: submissionData): Promise<any> {
+	async create(
+		@Headers('Authorization') authHeader: string,
+		@Body() rsvp: submissionData,
+	): Promise<any> {
 		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
 		if (!guest) return null;
+
+		if (authHeader) {
+			const [bearer, token] = authHeader.split(' ');
+			if (bearer == 'Bearer' && token) {
+				const googleAuthId: string =
+					await this.authService.getIdFromServerToken(token);
+				if (googleAuthId) rsvp.googleAuthId = googleAuthId;
+			}
+		}
 
 		// Add contact data if at least email was provided
 		const contactInfo: contactData =

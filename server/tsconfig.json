@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
 	"paths": {
 		"@libs/*": ["../libs/types/*"],
-		"@entities/*": ["src/entities/*"]
+		"@entities/*": ["src/entities/*"],
+		"@auth/*": ["src/auth/*"],
 	}
   }
 }

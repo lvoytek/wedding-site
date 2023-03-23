@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -21,6 +22,11 @@ import { ContactService } from './contact/contact.service';
 import { AssociateService } from './associate/associate.service';
 import { AssignmentService } from './assignment/assignment.service';
 import { AdminService } from './admin/admin.service';
+
+import { JwtStrategy } from '@auth/jwt.strategy';
+import { JwtAdminStrategy } from '@auth/jwtadmin.strategy';
+import { AuthService } from './auth/auth.service';
+import { AuthController } from './auth/auth.controller';
 
 @Module({
 	imports: [
@@ -47,8 +53,20 @@ import { AdminService } from './admin/admin.service';
 			Associate,
 			Admin,
 		]),
+		JwtModule.registerAsync({
+			imports: [ConfigModule],
+			useFactory: (configService: ConfigService) => ({
+				secret: configService.get<string>('auth.jwt_secret'),
+				signOptions: {
+					expiresIn: configService.get<string>(
+						'auth.jwt_expire_time',
+					),
+				},
+			}),
+			inject: [ConfigService],
+		}),
 	],
-	controllers: [AppController, RsvpController, GuestController],
+	controllers: [AppController, RsvpController, GuestController, AuthController],
 	providers: [
 		AppService,
 		GuestService,
@@ -57,6 +75,9 @@ import { AdminService } from './admin/admin.service';
 		AssociateService,
 		AssignmentService,
 		AdminService,
+		JwtStrategy,
+		JwtAdminStrategy,
+		AuthService
 	],
 })
 export class AppModule {}

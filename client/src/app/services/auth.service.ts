@@ -1,22 +1,24 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Injectable } from '@angular/core';
+import { ApiService } from './api.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
-	//We don't really use these for anything so far, but that's okay
-	user!: SocialUser;
+	//Will likely rename this later, don't worry about it;
+	jwt: string = '';
 
 	//Subscribe to changes in auth state
-	constructor(private googleService: SocialAuthService) {
-		this.googleService.authState.subscribe((user) => {
-			this.user = user;
-		});
-	}
+	constructor(private api: ApiService) {}
 
 	get token(): string {
 		//Since we're subscribed to changes in auth state, that should mean our idToken is always refreshed
-		return this.user?.idToken || '';
+		return this.jwt || '';
+	}
+
+	login(token: string) {
+		this.api.post(`auth/login`, {token}).subscribe((res) => {
+			this.jwt = JSON.parse(JSON.stringify(res)).token;
+		})
 	}
 }
