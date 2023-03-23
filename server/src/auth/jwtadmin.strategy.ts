@@ -8,7 +8,7 @@ import { AdminService } from 'src/admin/admin.service';
 import { primaryData } from '@libs/person';
 
 @Injectable()
-export class JwtAdminStrategy extends PassportStrategy(Strategy) {
+export class JwtAdminStrategy extends PassportStrategy(Strategy, 'jwtadmin') {
 	constructor(
 		private contactService: ContactService,
 		private adminService: AdminService,
