@@ -174,7 +174,7 @@ export class RsvpController {
 	 * @returns The guest info or null if not logged in or there is no rsvp data
 	 */
 	@UseGuards(JwtAuthGuard)
-	@Get('bylogin')
+	@Get('')
 	async getFillByLogin(
 		@Headers('Authorization') authHeader: string,
 	): Promise<RecursivePartial<guestData>> {
