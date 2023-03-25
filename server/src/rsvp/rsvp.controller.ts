@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Param, Headers, Body } from '@nestjs/common';
+import {
+	Controller,
+	Post,
+	Get,
+	Param,
+	Headers,
+	Body,
+	UseGuards,
+} from '@nestjs/common';
 
 import { RsvpService } from './rsvp.service';
 import { GuestService } from 'src/guest/guest.service';
@@ -6,6 +14,8 @@ import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { AuthService } from '@auth/auth.service';
+
+import { JwtAuthGuard } from '@auth/jwt.guard';
 
 import {
 	contactData,
@@ -36,14 +46,10 @@ export class RsvpController {
 		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
 		if (!guest) return null;
 
-		if (authHeader) {
-			const [bearer, token] = authHeader.split(' ');
-			if (bearer == 'Bearer' && token) {
-				const googleAuthId: string =
-					await this.authService.getIdFromServerToken(token);
-				if (googleAuthId) rsvp.googleAuthId = googleAuthId;
-			}
-		}
+		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
+		if (googleAuthId) rsvp.googleAuthId = googleAuthId;
 
 		// Add contact data if at least email was provided
 		const contactInfo: contactData =
@@ -164,5 +170,21 @@ export class RsvpController {
 		const guestRSVP = await this.rsvpService.get(guestToGet);
 		const guestContact = await this.contactService.get(guestToGet);
 		return { ...guestToGet, ...guestRSVP, ...guestContact };
+	}
+
+	/**
+	 * Send back existing primary and rsvp info for the currently logged in guest
+	 * @param authHeader The header containing the user's JWT
+	 * @returns The guest info or null if not logged in or there is no rsvp data
+	 */
+	@UseGuards(JwtAuthGuard)
+	@Get('bylogin')
+	async getFillByLogin(
+		@Headers('Authorization') authHeader: string,
+	): Promise<RecursivePartial<guestData>> {
+		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
+		if (!googleAuthId) return null;
 	}
 }
