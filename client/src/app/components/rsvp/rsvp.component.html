@@ -1,12 +1,15 @@
-<div *ngIf="!pokemonValidated">
-	<app-code-input-form
-		(submit)="validatePokemon($event)"
-	></app-code-input-form>
-</div>
-<div *ngIf="pokemonValidated">
+<div *ngIf="pokemonValidated; then rsvpBlock else enterCodeBlock"></div>
+
+<ng-template #rsvpBlock>
 	<app-rsvp-form
 		[pokemon]="pokemon"
 		[existingRsvpData]="existingRsvpData"
 		(submit)="sendForm($event)"
 	></app-rsvp-form>
-</div>
+</ng-template>
+
+<ng-template #enterCodeBlock>
+	<app-code-input-form
+		(submit)="validatePokemon($event)"
+	></app-code-input-form>
+</ng-template>
