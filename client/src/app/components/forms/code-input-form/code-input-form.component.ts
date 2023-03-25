@@ -15,8 +15,10 @@ export class CodeInputFormComponent {
 
 	constructor(private fb: NonNullableFormBuilder) {}
 
+	/**
+	 * Submit pokemon input for validation
+	 */
 	onSubmit() {
-		// do something with the code
-		console.log(this.codeForm.value.code);
+		this.submit.emit(this.codeForm.value.code);
 	}
 }

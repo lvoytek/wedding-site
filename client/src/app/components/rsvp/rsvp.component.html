@@ -1,5 +1,7 @@
 <div *ngIf="!pokemonValidated">
-	<app-code-input-form></app-code-input-form>
+	<app-code-input-form
+		(submit)="validatePokemon($event)"
+	></app-code-input-form>
 </div>
 <div *ngIf="pokemonValidated">
 	<app-rsvp-form
