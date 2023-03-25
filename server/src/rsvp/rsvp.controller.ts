@@ -165,11 +165,7 @@ export class RsvpController {
 		const guestToGet: primaryData =
 			await this.assignmentService.getGuestByPokemon(code);
 
-		if (!guestToGet) return null;
-
-		const guestRSVP = await this.rsvpService.get(guestToGet);
-		const guestContact = await this.contactService.get(guestToGet);
-		return { ...guestToGet, ...guestRSVP, ...guestContact };
+		return await this.getGuestRSVPInfo(guestToGet);
 	}
 
 	/**
@@ -186,5 +182,20 @@ export class RsvpController {
 			authHeader,
 		);
 		if (!googleAuthId) return null;
+
+		const guestToGet: primaryData =
+			await this.contactService.getUserByGoogleAuthID(googleAuthId);
+
+		return await this.getGuestRSVPInfo(guestToGet);
+	}
+
+	async getGuestRSVPInfo(
+		guestToGet: primaryData,
+	): Promise<RecursivePartial<guestData>> {
+		if (!guestToGet) return null;
+
+		const guestRSVP = await this.rsvpService.get(guestToGet);
+		const guestContact = await this.contactService.get(guestToGet);
+		return { ...guestToGet, ...guestRSVP, ...guestContact };
 	}
 }
