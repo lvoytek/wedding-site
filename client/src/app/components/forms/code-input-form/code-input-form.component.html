@@ -1,0 +1,11 @@
+<div class="container">
+	<form class="form" [formGroup]="codeForm" (ngSubmit)="onSubmit()">
+		<div class="form-section">
+			<mat-form-field>
+				<mat-label>Code</mat-label>
+				<input matInput type="code" formControlName="code">
+			</mat-form-field>
+	  	</div>
+	</form>
+	<button class="submit-button" (click)="onSubmit()" mat-flat-button color="accent" [disabled]="!codeForm.valid">Submit</button>
+</div>
