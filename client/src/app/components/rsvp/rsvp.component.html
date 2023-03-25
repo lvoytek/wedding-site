@@ -1,6 +1,10 @@
-<app-code-input-form></app-code-input-form>
-<app-rsvp-form
-	[pokemon]="pokemon"
-	[existingRsvpData]="existingRsvpData"
-	(submit)="sendForm($event)"
-></app-rsvp-form>
+<div *ngIf="!pokemonValidated">
+	<app-code-input-form></app-code-input-form>
+</div>
+<div *ngIf="pokemonValidated">
+	<app-rsvp-form
+		[pokemon]="pokemon"
+		[existingRsvpData]="existingRsvpData"
+		(submit)="sendForm($event)"
+	></app-rsvp-form>
+</div>
