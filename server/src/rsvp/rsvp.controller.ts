@@ -198,11 +198,13 @@ export class RsvpController {
 	 * Use a guest's primary data to get their RSVP and contact data too, keeping auth in mind
 	 * @param guestToGet The primaryData for the guest
 	 * @param googleAuthId The google auth ID added if the user is logged in
+	 * @param isAssociate Recursion variable that states if this call is a search for main user or associate
 	 * @returns RSVP info or null if guest is not found or data blocked by login
 	 */
 	async getGuestRSVPInfo(
 		guestToGet: primaryData,
 		googleAuthId: string,
+		isAssociate: boolean = false,
 	): Promise<RecursivePartial<guestData>> {
 		if (!guestToGet) return null;
 
@@ -211,10 +213,27 @@ export class RsvpController {
 
 		// If guest has an associated google account, make sure they are logged in
 		if (
-			guestContact.googleAuthId &&
+			!isAssociate &&
+			guestContact?.googleAuthId &&
 			guestContact.googleAuthId != googleAuthId
 		)
 			return null;
+
+		// Get all associates recursively if this is the main guest
+		if (!isAssociate) {
+			const associates: RecursivePartial<guestData>[] = [];
+			const associatesPrimary: primaryData[] =
+				await this.associateService.getAllAssociates(guestToGet.uuid);
+
+			for (const associate of associatesPrimary) {
+				const newAssociate: RecursivePartial<guestData> =
+					await this.getGuestRSVPInfo(associate, null, true);
+				if(newAssociate)
+					associates.push(newAssociate);
+			}
+
+			return { ...guestToGet, ...guestRSVP, ...guestContact, associates };
+		}
 
 		return { ...guestToGet, ...guestRSVP, ...guestContact };
 	}
