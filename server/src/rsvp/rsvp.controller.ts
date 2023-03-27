@@ -59,7 +59,7 @@ export class RsvpController {
 
 		// Add rsvp data if at least isGoing is provided
 		const rsvpInfo: rsvpData =
-			rsvp.isGoing !== undefined && typeof rsvp.isGoing === 'string'
+			rsvp.isGoing !== undefined && typeof rsvp.isGoing === 'boolean'
 				? await this.rsvpService.create(guest, rsvp)
 				: undefined;
 
