@@ -123,7 +123,7 @@ export class RsvpFormComponent implements OnChanges {
 					i < this.existingRsvpData.associates.length;
 					i++
 				) {
-					if (this.guests.length < i + 1) this.addGuest();
+					if (i >= this.guests.length) this.addGuest();
 					this.populateGuest(
 						this.guests[i],
 						this.existingRsvpData.associates[i]
