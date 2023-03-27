@@ -50,6 +50,25 @@ export class AuthService {
 	}
 
 	/**
+	 * Attempt to extract a JWT from an auth header and get the google auth id from it
+	 * @param authHeader The header starting with 'Bearer'
+	 * @returns The user id from Google or null if token was not verified
+	 */
+	async getIdFromAuthHeader(authHeader: string): Promise<string> {
+		if (authHeader) {
+			const [bearer, token] = authHeader.split(' ');
+			if (bearer == 'Bearer' && token) {
+				const googleAuthId: string = await this.getIdFromServerToken(
+					token,
+				);
+				if (googleAuthId) return googleAuthId;
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Create a signed JWT for a user based on their user id
 	 * @param id The google auth ID for a user
 	 * @returns A signed JWT to return to the user

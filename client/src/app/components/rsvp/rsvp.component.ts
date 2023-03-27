@@ -22,25 +22,23 @@ export class RsvpComponent implements OnInit {
 
 	ngOnInit() {
 		const pokemonInput = this.route.snapshot.queryParamMap.get('code');
-		if (pokemonInput) this.validatePokemon(pokemonInput);
+		this.validatePokemon(pokemonInput);
 	}
 
 	/**
 	 * Check if a pokemon input is valid from the server, if so set the pokemon and mark as valid
 	 * @param pokemon The pokemon name input to check
 	 */
-	validatePokemon(pokemon: string) {
-		if (pokemon) {
-			this.api.getRSVPFromCode(pokemon).subscribe((data: any) => {
-				this.pokemonValidated = false;
+	validatePokemon(pokemon: string | null) {
+		this.api.getRSVP(pokemon).subscribe((data: any) => {
+			this.pokemonValidated = false;
 
-				if (data) {
-					this.pokemonValidated = true;
-					this.pokemon = pokemon;
-					this.existingRsvpData = data;
-				}
-			});
-		}
+			if (data) {
+				this.pokemonValidated = true;
+				this.pokemon = data.pokemon;
+				this.existingRsvpData = data;
+			}
+		});
 	}
 
 	sendForm(rsvpData: RecursivePartial<submissionData>) {

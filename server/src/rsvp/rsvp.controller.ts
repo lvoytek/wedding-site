@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Param, Headers, Body } from '@nestjs/common';
+import {
+	Controller,
+	Post,
+	Get,
+	Param,
+	Headers,
+	Body,
+	UseGuards,
+} from '@nestjs/common';
 
 import { RsvpService } from './rsvp.service';
 import { GuestService } from 'src/guest/guest.service';
@@ -6,6 +14,8 @@ import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { AuthService } from '@auth/auth.service';
+
+import { JwtAuthGuard } from '@auth/jwt.guard';
 
 import {
 	contactData,
@@ -36,14 +46,10 @@ export class RsvpController {
 		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
 		if (!guest) return null;
 
-		if (authHeader) {
-			const [bearer, token] = authHeader.split(' ');
-			if (bearer == 'Bearer' && token) {
-				const googleAuthId: string =
-					await this.authService.getIdFromServerToken(token);
-				if (googleAuthId) rsvp.googleAuthId = googleAuthId;
-			}
-		}
+		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
+		if (googleAuthId) rsvp.googleAuthId = googleAuthId;
 
 		// Add contact data if at least email was provided
 		const contactInfo: contactData =
@@ -150,19 +156,66 @@ export class RsvpController {
 	/**
 	 * Send back existing primary and rsvp info for the guest with the given code
 	 * @param code The guest's code (assigned pokemon name)
+	 * @param authHeader The optional auth header for a logged in user
 	 * @returns The guest info or null if the code value is unused
 	 */
 	@Get(':code')
 	async getFillByCode(
 		@Param('code') code: string,
+		@Headers('Authorization') authHeader: string,
 	): Promise<RecursivePartial<guestData>> {
+		const googleAuthId = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
 		const guestToGet: primaryData =
 			await this.assignmentService.getGuestByPokemon(code);
 
+		return await this.getGuestRSVPInfo(guestToGet, googleAuthId);
+	}
+
+	/**
+	 * Send back existing primary and rsvp info for the currently logged in guest
+	 * @param authHeader The header containing the user's JWT
+	 * @returns The guest info or null if not logged in or there is no rsvp data
+	 */
+	@UseGuards(JwtAuthGuard)
+	@Get('')
+	async getFillByLogin(
+		@Headers('Authorization') authHeader: string,
+	): Promise<RecursivePartial<guestData>> {
+		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
+		if (!googleAuthId) return null;
+
+		const guestToGet: primaryData =
+			await this.contactService.getUserByGoogleAuthID(googleAuthId);
+
+		return await this.getGuestRSVPInfo(guestToGet, googleAuthId);
+	}
+
+	/**
+	 * Use a guest's primary data to get their RSVP and contact data too, keeping auth in mind
+	 * @param guestToGet The primaryData for the guest
+	 * @param googleAuthId The google auth ID added if the user is logged in
+	 * @returns RSVP info or null if guest is not found or data blocked by login
+	 */
+	async getGuestRSVPInfo(
+		guestToGet: primaryData,
+		googleAuthId: string,
+	): Promise<RecursivePartial<guestData>> {
 		if (!guestToGet) return null;
 
 		const guestRSVP = await this.rsvpService.get(guestToGet);
 		const guestContact = await this.contactService.get(guestToGet);
+
+		// If guest has an associated google account, make sure they are logged in
+		if (
+			guestContact.googleAuthId &&
+			guestContact.googleAuthId != googleAuthId
+		)
+			return null;
+
 		return { ...guestToGet, ...guestRSVP, ...guestContact };
 	}
 }

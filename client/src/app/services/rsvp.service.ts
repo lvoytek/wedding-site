@@ -5,13 +5,17 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class RsvpService {
-  constructor(private api: ApiService) {}
+	constructor(private api: ApiService) {}
 
-  sendRSVP(data: RecursivePartial<submissionData>) {
-	return this.api.post(`rsvp`, data);
-  }
+	sendRSVP(data: RecursivePartial<submissionData>) {
+		return this.api.post(`rsvp`, data);
+	}
 
-  getRSVPFromCode(code: string) {
-	return this.api.get(`rsvp/${code}`);
-  }
+	getRSVP(code: string | null) {
+		let url = `rsvp`;
+		if (code) {
+			url += `/${code}`;
+		}
+		return this.api.get(url);
+	}
 }
