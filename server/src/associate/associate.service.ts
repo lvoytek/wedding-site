@@ -24,7 +24,7 @@ export class AssociateService {
 		secondary: primaryData,
 	): Promise<{ primary: primaryData; secondary: primaryData }> {
 		// Check if association already exists
-		if(this.checkIfAssociationExists(primary, secondary)) {
+		if(await this.checkIfAssociationExists(primary, secondary)) {
 			return {primary, secondary};
 		}
 
@@ -59,7 +59,7 @@ export class AssociateService {
 			},
 		});
 
-		return check1 !== undefined || check2 !== undefined;
+		return !!check1 || !!check2;
 	}
 
 	/**
