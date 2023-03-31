@@ -38,6 +38,12 @@ export class RsvpController {
 		private authService: AuthService,
 	) {}
 
+	/**
+	 * Create or update RSVP info for a user
+	 * @param authHeader The user's authorization info
+	 * @param rsvp The new RSVP info
+	 * @returns Info on what was updated
+	 */
 	@Post()
 	async create(
 		@Headers('Authorization') authHeader: string,
@@ -139,6 +145,7 @@ export class RsvpController {
 				}
 			}
 
+			// Associate associates with each other
 			for (let i = 0; i < associates.length; i++) {
 				for (let j = i + 1; j < associates.length; j++) {
 					await this.associateService.create(
@@ -147,10 +154,15 @@ export class RsvpController {
 					);
 				}
 			}
-			rsvpInfo.associates = associates;
 		}
 
-		return { ...guest, ...contactInfo, ...rsvpInfo };
+		return {
+			primary: !!guest,
+			usedGoogleAuth: !!googleAuthId,
+			contact: !!contactInfo,
+			rsvp: !!rsvpInfo,
+			associates: associates.length,
+		};
 	}
 
 	/**
@@ -228,8 +240,7 @@ export class RsvpController {
 			for (const associate of associatesPrimary) {
 				const newAssociate: RecursivePartial<guestData> =
 					await this.getGuestRSVPInfo(associate, null, true);
-				if(newAssociate)
-					associates.push(newAssociate);
+				if (newAssociate) associates.push(newAssociate);
 			}
 
 			return { ...guestToGet, ...guestRSVP, ...guestContact, associates };
