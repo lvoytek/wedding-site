@@ -66,6 +66,7 @@ export class RsvpFormComponent implements OnChanges {
 		//Yay!
 		if (formData.attending) {
 			rsvpData = {
+				uuid: this.existingRsvpData.uuid,
 				firstName: formData.firstName,
 				lastName: formData.lastName,
 				isGoing: formData.attending,
