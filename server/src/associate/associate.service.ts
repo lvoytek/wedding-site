@@ -37,31 +37,29 @@ export class AssociateService {
 
 	/**
 	 * Check if two guests are already associated with each other bi-directionally
-	 * @param guestOne The first guest
-	 * @param guestTwo The second guest
+	 * @param primaryGuest The first guest
+	 * @param secondaryGuest The second guest
 	 * @returns true if the association exists, false otherwise
 	 */
 	async checkIfAssociationExists(
-		guestOne: primaryData,
-		guestTwo: primaryData,
+		primaryGuest: primaryData,
+		secondaryGuest: primaryData,
 	): Promise<boolean> {
-		const checkOnePrimaryTwoSecondary =
-			await this.associateRepository.findOne({
-				where: {
-					primary: { uuid: guestOne.uuid },
-					secondary: { uuid: guestTwo.uuid },
-				},
-			});
+		const primaryHasSecondary = !!(await this.associateRepository.findOne({
+			where: {
+				primary: { uuid: primaryGuest.uuid },
+				secondary: { uuid: secondaryGuest.uuid },
+			},
+		}));
 
-		const checkTwoPrimaryOneSecondary =
-			await this.associateRepository.findOne({
-				where: {
-					primary: { uuid: guestTwo.uuid },
-					secondary: { uuid: guestOne.uuid },
-				},
-			});
+		const secondaryHasPrimary = !!(await this.associateRepository.findOne({
+			where: {
+				primary: { uuid: secondaryGuest.uuid },
+				secondary: { uuid: primaryGuest.uuid },
+			},
+		}));
 
-		return !!checkOnePrimaryTwoSecondary || !!checkTwoPrimaryOneSecondary;
+		return primaryHasSecondary || secondaryHasPrimary;
 	}
 
 	/**
