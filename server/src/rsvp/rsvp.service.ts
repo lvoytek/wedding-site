@@ -68,7 +68,7 @@ export class RsvpService {
 			return await this.create(guest, rsvp);
 		} catch (err) {
 			if (await this.update(guest.uuid, rsvp))
-				return await this.get(guest);
+				return await this.get(guest.uuid);
 		}
 
 		return null;
@@ -76,11 +76,13 @@ export class RsvpService {
 
 	/**
 	 * Get the RSVP data associated with a guest
-	 * @param guest the guest associated with the RSVP
+	 * @param uuid the uuid of the guest associated with the RSVP
 	 * @returns the guest's RSVP data
 	 */
-	async get(guest: primaryData): Promise<rsvpData> {
-		let rsvp: RSVP = await this.rsvpRepository.findOneBy({ guest });
+	async get(uuid: string): Promise<rsvpData> {
+		let rsvp: RSVP = await this.rsvpRepository.findOneBy({
+			guest: { uuid },
+		});
 
 		if (rsvp) {
 			delete rsvp.id;

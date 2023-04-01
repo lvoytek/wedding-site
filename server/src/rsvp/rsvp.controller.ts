@@ -220,7 +220,7 @@ export class RsvpController {
 	): Promise<RecursivePartial<guestData>> {
 		if (!guestToGet) return null;
 
-		const guestRSVP = await this.rsvpService.get(guestToGet);
+		const guestRSVP = await this.rsvpService.get(guestToGet.uuid);
 		const guestContact = await this.contactService.get(guestToGet.uuid);
 
 		// If guest has an associated google account, make sure they are logged in
