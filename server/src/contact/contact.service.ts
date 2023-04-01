@@ -68,7 +68,7 @@ export class ContactService {
 			return await this.create(guest, contact);
 		} catch (err) {
 			if (await this.update(guest.uuid, contact))
-				return await this.get(guest);
+				return await this.get(guest.uuid);
 		}
 
 		return null;
@@ -76,12 +76,12 @@ export class ContactService {
 
 	/**
 	 * Get the contact info of a guest
-	 * @param guest The guest to find contact info for
+	 * @param uuid The uuid of the guest to find contact info for
 	 * @returns contactData with the information for the guest
 	 */
-	async get(guest: primaryData): Promise<contactData> {
+	async get(uuid: string): Promise<contactData> {
 		let contact: Contact = await this.contactRepository.findOneBy({
-			guest,
+			guest: {uuid},
 		});
 
 		if (contact) {

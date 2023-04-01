@@ -114,7 +114,7 @@ export class GuestController {
 		if (!guest) return null;
 
 		const rsvp: rsvpData = await this.rsvpService.get(guest);
-		const contact: contactData = await this.contactService.get(guest);
+		const contact: contactData = await this.contactService.get(guest.uuid);
 		const assign: assignmentData = await this.assignmentService.get(guest);
 
 		const associates: primaryData[] =
