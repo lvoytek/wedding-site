@@ -55,13 +55,33 @@ export class ContactService {
 	}
 
 	/**
+	 * Attempt to create a new contact data entry, if it already exists just update it
+	 * @param guest The primaryData of the guest to add contact info for
+	 * @param contact The new or updated contact info
+	 * @return The resulting contact data
+	 */
+	async createOrUpdate(
+		guest: primaryData,
+		contact: contactData,
+	): Promise<contactData> {
+		try {
+			return await this.create(guest, contact);
+		} catch (err) {
+			if (await this.update(guest.uuid, contact))
+				return await this.get(guest.uuid);
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get the contact info of a guest
-	 * @param guest The guest to find contact info for
+	 * @param uuid The uuid of the guest to find contact info for
 	 * @returns contactData with the information for the guest
 	 */
-	async get(guest: primaryData): Promise<contactData> {
+	async get(uuid: string): Promise<contactData> {
 		let contact: Contact = await this.contactRepository.findOneBy({
-			guest,
+			guest: { uuid },
 		});
 
 		if (contact) {

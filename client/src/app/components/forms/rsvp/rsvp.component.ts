@@ -12,7 +12,7 @@ import {
 	Validators,
 	FormGroup,
 } from '@angular/forms';
-import { guestData, rsvpData, submissionData } from '@libs/person';
+import { guestData, submissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 @Component({
@@ -34,6 +34,8 @@ export class RsvpFormComponent implements OnChanges {
 		dietaryRestrictions: [''],
 		guests: this.fb.array([]),
 	});
+
+	associateToInputMap: { [uuid: string]: FormGroup } = {};
 
 	constructor(private fb: NonNullableFormBuilder) {}
 
@@ -66,6 +68,7 @@ export class RsvpFormComponent implements OnChanges {
 		//Yay!
 		if (formData.attending) {
 			rsvpData = {
+				uuid: this.existingRsvpData.uuid,
 				firstName: formData.firstName,
 				lastName: formData.lastName,
 				isGoing: formData.attending,
@@ -80,7 +83,14 @@ export class RsvpFormComponent implements OnChanges {
 			const associates: Partial<guestData>[] = [];
 
 			for (const guest of this.guests.values()) {
+				let uuid = undefined;
+				for(const associateUuid in this.associateToInputMap) {
+					if(this.associateToInputMap[associateUuid] === guest)
+						uuid = associateUuid;
+				}
+
 				const associate: Partial<guestData> = {
+					uuid,
 					firstName: guest.value.firstName,
 					lastName: guest.value.lastName,
 					diet: guest.value.dietaryRestrictions,
@@ -128,6 +138,9 @@ export class RsvpFormComponent implements OnChanges {
 						this.guests[i],
 						this.existingRsvpData.associates[i]
 					);
+					this.associateToInputMap[
+						this.existingRsvpData.associates[i]?.uuid ?? 'default'
+					] = this.guests[i];
 				}
 			}
 		}
@@ -151,7 +164,7 @@ export class RsvpFormComponent implements OnChanges {
 
 			guestFormGroup.controls['firstName'].setValue(firstName);
 			guestFormGroup.controls['lastName'].setValue(lastName);
-			guestFormGroup.controls['attending'].setValue(isGoing);
+			guestFormGroup.controls['attending']?.setValue(isGoing);
 			guestFormGroup.controls['email'].setValue(email);
 			guestFormGroup.controls['dietaryRestrictions'].setValue(diet);
 		}

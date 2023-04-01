@@ -24,8 +24,8 @@ export class AssociateService {
 		secondary: primaryData,
 	): Promise<{ primary: primaryData; secondary: primaryData }> {
 		// Check if association already exists
-		if(this.checkIfAssociationExists(primary, secondary)) {
-			return {primary, secondary};
+		if (await this.checkIfAssociationExists(primary, secondary)) {
+			return { primary, secondary };
 		}
 
 		// If no association exists, create one
@@ -37,29 +37,29 @@ export class AssociateService {
 
 	/**
 	 * Check if two guests are already associated with each other bi-directionally
-	 * @param guestOne The first guest
-	 * @param guestTwo The second guest
+	 * @param primaryGuest The first guest
+	 * @param secondaryGuest The second guest
 	 * @returns true if the association exists, false otherwise
 	 */
 	async checkIfAssociationExists(
-		guestOne: primaryData,
-		guestTwo: primaryData,
+		primaryGuest: primaryData,
+		secondaryGuest: primaryData,
 	): Promise<boolean> {
-		const check1 = await this.associateRepository.findOne({
+		const primaryHasSecondary = !!(await this.associateRepository.findOne({
 			where: {
-				primary: { uuid: guestOne.uuid },
-				secondary: { uuid: guestTwo.uuid },
+				primary: { uuid: primaryGuest.uuid },
+				secondary: { uuid: secondaryGuest.uuid },
 			},
-		});
+		}));
 
-		const check2 = await this.associateRepository.findOne({
+		const secondaryHasPrimary = !!(await this.associateRepository.findOne({
 			where: {
-				primary: { uuid: guestTwo.uuid },
-				secondary: { uuid: guestOne.uuid },
+				primary: { uuid: secondaryGuest.uuid },
+				secondary: { uuid: primaryGuest.uuid },
 			},
-		});
+		}));
 
-		return check1 !== undefined || check2 !== undefined;
+		return primaryHasSecondary || secondaryHasPrimary;
 	}
 
 	/**

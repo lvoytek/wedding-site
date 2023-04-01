@@ -38,12 +38,18 @@ export class RsvpController {
 		private authService: AuthService,
 	) {}
 
+	/**
+	 * Create or update RSVP info for a user
+	 * @param authHeader The user's authorization info
+	 * @param rsvp The new RSVP info
+	 * @returns Info on what was updated
+	 */
 	@Post()
 	async create(
 		@Headers('Authorization') authHeader: string,
 		@Body() rsvp: submissionData,
 	): Promise<any> {
-		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
+		const guest: primaryData = await this.guestService.create(rsvp);
 		if (!guest) return null;
 
 		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
@@ -54,13 +60,13 @@ export class RsvpController {
 		// Add contact data if at least email was provided
 		const contactInfo: contactData =
 			rsvp.email !== undefined && typeof rsvp.email === 'string'
-				? await this.contactService.create(guest, rsvp)
+				? await this.contactService.createOrUpdate(guest, rsvp)
 				: undefined;
 
 		// Add rsvp data if at least isGoing is provided
 		const rsvpInfo: rsvpData =
-			rsvp.isGoing !== undefined && typeof rsvp.isGoing === 'string'
-				? await this.rsvpService.create(guest, rsvp)
+			rsvp.isGoing !== undefined && typeof rsvp.isGoing === 'boolean'
+				? await this.rsvpService.createOrUpdate(guest, rsvp)
 				: undefined;
 
 		// Add or update RSVP info for each associate provided
@@ -69,11 +75,21 @@ export class RsvpController {
 			for (const associateInfo of rsvp.associates) {
 				let associate: primaryData = null;
 
-				// The associate already has a uuid, use the existing guest associated with it
+				// The associate already has a uuid, use the existing guest associated with it and update name if needed
 				if (
 					associateInfo.uuid !== undefined &&
 					typeof associateInfo.uuid === 'string'
 				) {
+					if (
+						associateInfo.firstName !== undefined &&
+						typeof associateInfo.firstName === 'string' &&
+						associateInfo.lastName !== undefined &&
+						typeof associateInfo.lastName === 'string'
+					)
+						await this.guestService.update(
+							associateInfo.uuid,
+							associateInfo as primaryData,
+						);
 					associate = await this.guestService.getPrimaryData(
 						associateInfo.uuid,
 					);
@@ -116,7 +132,7 @@ export class RsvpController {
 						associateInfo.isGoing = rsvpInfo.isGoing;
 
 					// Add RSVP data for associate if it exists, luckily only isGoing is required and that was just handled
-					this.rsvpService.create(
+					await this.rsvpService.createOrUpdate(
 						associate,
 						associateInfo as rsvpData,
 					);
@@ -126,7 +142,7 @@ export class RsvpController {
 						associateInfo.email !== undefined &&
 						typeof associateInfo.email === 'string'
 					) {
-						this.contactService.create(
+						await this.contactService.createOrUpdate(
 							associate,
 							associateInfo as contactData,
 						);
@@ -139,6 +155,7 @@ export class RsvpController {
 				}
 			}
 
+			// Associate associates with each other
 			for (let i = 0; i < associates.length; i++) {
 				for (let j = i + 1; j < associates.length; j++) {
 					await this.associateService.create(
@@ -208,8 +225,8 @@ export class RsvpController {
 	): Promise<RecursivePartial<guestData>> {
 		if (!guestToGet) return null;
 
-		const guestRSVP = await this.rsvpService.get(guestToGet);
-		const guestContact = await this.contactService.get(guestToGet);
+		const guestRSVP = await this.rsvpService.get(guestToGet.uuid);
+		const guestContact = await this.contactService.get(guestToGet.uuid);
 
 		// If guest has an associated google account, make sure they are logged in
 		if (
@@ -228,8 +245,7 @@ export class RsvpController {
 			for (const associate of associatesPrimary) {
 				const newAssociate: RecursivePartial<guestData> =
 					await this.getGuestRSVPInfo(associate, null, true);
-				if(newAssociate)
-					associates.push(newAssociate);
+				if (newAssociate) associates.push(newAssociate);
 			}
 
 			return { ...guestToGet, ...guestRSVP, ...guestContact, associates };
