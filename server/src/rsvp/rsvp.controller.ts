@@ -75,11 +75,21 @@ export class RsvpController {
 			for (const associateInfo of rsvp.associates) {
 				let associate: primaryData = null;
 
-				// The associate already has a uuid, use the existing guest associated with it
+				// The associate already has a uuid, use the existing guest associated with it and update name if needed
 				if (
 					associateInfo.uuid !== undefined &&
 					typeof associateInfo.uuid === 'string'
 				) {
+					if (
+						associateInfo.firstName !== undefined &&
+						typeof associateInfo.firstName === 'string' &&
+						associateInfo.lastName !== undefined &&
+						typeof associateInfo.lastName === 'string'
+					)
+						await this.guestService.update(
+							associateInfo.uuid,
+							associateInfo as primaryData,
+						);
 					associate = await this.guestService.getPrimaryData(
 						associateInfo.uuid,
 					);
