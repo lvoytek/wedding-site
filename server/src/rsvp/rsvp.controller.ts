@@ -132,7 +132,7 @@ export class RsvpController {
 						associateInfo.isGoing = rsvpInfo.isGoing;
 
 					// Add RSVP data for associate if it exists, luckily only isGoing is required and that was just handled
-					this.rsvpService.createOrUpdate(
+					await this.rsvpService.createOrUpdate(
 						associate,
 						associateInfo as rsvpData,
 					);
@@ -142,7 +142,7 @@ export class RsvpController {
 						associateInfo.email !== undefined &&
 						typeof associateInfo.email === 'string'
 					) {
-						this.contactService.createOrUpdate(
+						await this.contactService.createOrUpdate(
 							associate,
 							associateInfo as contactData,
 						);
