@@ -15,7 +15,8 @@ export class GuestService {
 	) {}
 
 	/**
-	 * Create a guest from a name and give them a uuid if they don't have one
+	 * Create a guest from a name and give them a uuid if they don't have one.
+	 * If the UUID already exists this will act as an update function
 	 * @param guest Guest data containing at least a first and last name
 	 * @returns The newly created Guest object on success
 	 */
@@ -48,18 +49,6 @@ export class GuestService {
 	 */
 	async getGuest(uuid: string): Promise<primaryData> {
 		return await this.guestRepository.findOneBy({ uuid });
-	}
-
-	/**
-	 * Get a guest's primary data based on their uuid. If no
-	 * uuid exists create a new guest based on other info provided.
-	 * @param guest The guest's primary data
-	 * @returns The existing or newly created guest's primary data
-	 */
-	async getOrCreate(guest: primaryData): Promise<primaryData> {
-		return guest.uuid
-			? await this.getPrimaryData(guest.uuid)
-			: await this.create(guest);
 	}
 
 	/**

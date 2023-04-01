@@ -49,7 +49,7 @@ export class RsvpController {
 		@Headers('Authorization') authHeader: string,
 		@Body() rsvp: submissionData,
 	): Promise<any> {
-		const guest: primaryData = await this.guestService.getOrCreate(rsvp);
+		const guest: primaryData = await this.guestService.create(rsvp);
 		if (!guest) return null;
 
 		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
