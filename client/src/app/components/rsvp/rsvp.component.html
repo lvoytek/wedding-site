@@ -4,12 +4,14 @@
 	<app-rsvp-form
 		[pokemon]="pokemon"
 		[existingRsvpData]="existingRsvpData"
+		[isLoggedIn]="isLoggedIn"
 		(submit)="sendForm($event)"
 	></app-rsvp-form>
 </ng-template>
 
 <ng-template #enterCodeBlock>
 	<app-code-input-form
+		[isLoggedIn]="isLoggedIn"
 		(submit)="validatePokemon($event)"
 	></app-code-input-form>
 </ng-template>

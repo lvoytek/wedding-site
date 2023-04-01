@@ -58,6 +58,10 @@
 	  </div>
 </form>
 
+<div *ngIf="!isLoggedIn">
+	<asl-google-signin-button type="standard" color="filled_black" shape="circle" text="signup_with"></asl-google-signin-button>
+</div>
+
 <div class="submit-container">
 	<button class="submit-button" (click)="onSubmit()" mat-flat-button color="accent" [disabled]="!rsvpForm.valid">Submit</button>
 </div>

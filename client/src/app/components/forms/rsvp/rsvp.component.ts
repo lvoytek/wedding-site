@@ -25,6 +25,7 @@ export class RsvpFormComponent implements OnChanges {
 
 	@Input() existingRsvpData: RecursivePartial<guestData> = {};
 	@Input() pokemon: string = '';
+	@Input() isLoggedIn: boolean = false;
 
 	rsvpForm = this.fb.group({
 		firstName: ['', Validators.required],
@@ -84,8 +85,8 @@ export class RsvpFormComponent implements OnChanges {
 
 			for (const guest of this.guests.values()) {
 				let uuid = undefined;
-				for(const associateUuid in this.associateToInputMap) {
-					if(this.associateToInputMap[associateUuid] === guest)
+				for (const associateUuid in this.associateToInputMap) {
+					if (this.associateToInputMap[associateUuid] === guest)
 						uuid = associateUuid;
 				}
 

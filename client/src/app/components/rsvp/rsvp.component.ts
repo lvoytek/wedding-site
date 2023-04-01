@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { submissionData, guestData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 import { RsvpService } from '../../services/rsvp.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'app-rsvp',
@@ -13,14 +14,21 @@ export class RsvpComponent implements OnInit {
 	pokemon: string = '';
 	pokemonValidated: boolean = false;
 	existingRsvpData: RecursivePartial<guestData> = {};
+	isLoggedIn = false;
 
 	constructor(
 		private api: RsvpService,
 		private router: Router,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private authService: AuthService
 	) {}
 
 	ngOnInit() {
+		this.authService.isLoggedIn.subscribe((isLoggedIn) => {
+			this.isLoggedIn = isLoggedIn;
+			this.validatePokemon(null);
+		});
+
 		const pokemonInput = this.route.snapshot.queryParamMap.get('code');
 		this.validatePokemon(pokemonInput);
 	}
