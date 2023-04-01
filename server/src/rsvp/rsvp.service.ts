@@ -17,7 +17,8 @@ export class RsvpService {
 	 * Add RSVP information, excluding associates, for a guest using their uuid to identify them.
 	 * If no uuid is provided then create a new guest with the given name info
 	 * and associate the RSVP with them.
-	 * @param rsvp Relevant guest data and RSVP information.
+	 * @param guest primaryData for the guest
+	 * @param rsvp RSVP information for the guest
 	 * @returns The new RSVP information
 	 */
 	async create(guest: primaryData, rsvp: rsvpData): Promise<rsvpData> {
@@ -50,6 +51,26 @@ export class RsvpService {
 				{ guest: { uuid } },
 				rsvpUpdateData,
 			);
+		return null;
+	}
+
+	/**
+	 * Attempt to create a new RSVP data entry, if it already exists just update it
+	 * @param guest The primaryData of the guest to add RSVP info for
+	 * @param rsvp The new or updated RSVP info
+	 * @return The resulting RSVP data
+	 */
+	async createOrUpdate(
+		guest: primaryData,
+		rsvp: rsvpData,
+	): Promise<rsvpData> {
+		try {
+			return await this.create(guest, rsvp);
+		} catch (err) {
+			if (await this.update(guest.uuid, rsvp))
+				return await this.get(guest);
+		}
+
 		return null;
 	}
 

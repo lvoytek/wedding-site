@@ -66,7 +66,7 @@ export class RsvpController {
 		// Add rsvp data if at least isGoing is provided
 		const rsvpInfo: rsvpData =
 			rsvp.isGoing !== undefined && typeof rsvp.isGoing === 'boolean'
-				? await this.rsvpService.create(guest, rsvp)
+				? await this.rsvpService.createOrUpdate(guest, rsvp)
 				: undefined;
 
 		// Add or update RSVP info for each associate provided
