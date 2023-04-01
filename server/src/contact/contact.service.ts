@@ -81,7 +81,7 @@ export class ContactService {
 	 */
 	async get(uuid: string): Promise<contactData> {
 		let contact: Contact = await this.contactRepository.findOneBy({
-			guest: {uuid},
+			guest: { uuid },
 		});
 
 		if (contact) {
