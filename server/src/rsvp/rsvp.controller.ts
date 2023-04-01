@@ -164,15 +164,10 @@ export class RsvpController {
 					);
 				}
 			}
+			rsvpInfo.associates = associates;
 		}
 
-		return {
-			primary: !!guest,
-			usedGoogleAuth: !!googleAuthId,
-			contact: !!contactInfo,
-			rsvp: !!rsvpInfo,
-			associates: associates.length,
-		};
+		return { ...guest, ...contactInfo, ...rsvpInfo };
 	}
 
 	/**
