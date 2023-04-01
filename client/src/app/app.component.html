@@ -1,14 +1,16 @@
 <mat-toolbar color="primary">
     <div class="nav-items">
-        <button mat-icon-button [routerLink]="''" aria-label="Home">
-            <mat-icon>home</mat-icon>
-        </button>
-
+		<span class="flexExpand"></span>
         <div class="buttons">
-            <button mat-button [routerLink]="'/rsvp'">RSVP</button>
-            <button mat-button [routerLink]="'/info'">Info</button>
-			<button mat-button [routerLink]="'/admin'">Admin</button>
-			<asl-google-signin-button type='icon' color="filled_black" shape="circle"></asl-google-signin-button>
+			<button mat-icon-button [routerLink]="''" aria-label="Home">
+				<mat-icon>home</mat-icon>
+			</button>
+			<button mat-icon-button [routerLink]="'/rsvp'" aria-label="RSVP">
+				<mat-icon>mail</mat-icon>
+			</button>
+			<button mat-icon-button [routerLink]="'/info'" aria-label="Info">
+				<mat-icon>info</mat-icon>
+			</button>
         </div>
     </div>
 
