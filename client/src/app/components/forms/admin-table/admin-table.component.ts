@@ -4,11 +4,11 @@ import { primaryData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 @Component({
-  selector: 'app-add-guest',
-  templateUrl: './add-guest.component.html',
+  selector: 'app-admin-table',
+  templateUrl: './admin-table.component.html',
   styleUrls: ['../form.component.scss']
 })
-export class AddGuestComponent {
+export class AdminTableComponent {
 	@Output() submit = new EventEmitter<RecursivePartial<primaryData>>()
 
 	guestForm = this.fb.group({

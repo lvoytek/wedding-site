@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddGuestComponent } from './add-guest.component';
+import { AdminTableComponent } from './admin-table.component';
 
 describe('AddGuestComponent', () => {
   let component: AddGuestComponent;
