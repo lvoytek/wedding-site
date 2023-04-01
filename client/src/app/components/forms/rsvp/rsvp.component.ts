@@ -152,7 +152,7 @@ export class RsvpFormComponent implements OnChanges {
 
 			guestFormGroup.controls['firstName'].setValue(firstName);
 			guestFormGroup.controls['lastName'].setValue(lastName);
-			guestFormGroup.controls['attending'].setValue(isGoing);
+			guestFormGroup.controls['attending']?.setValue(isGoing);
 			guestFormGroup.controls['email'].setValue(email);
 			guestFormGroup.controls['dietaryRestrictions'].setValue(diet);
 		}
