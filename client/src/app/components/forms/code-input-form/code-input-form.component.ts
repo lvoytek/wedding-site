@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,8 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 })
 export class CodeInputFormComponent {
 	@Output() submit = new EventEmitter<string>();
+
+	@Input() isLoggedIn: boolean = false;
 
 	codeForm = this.fb.group({
 		code: ['', Validators.required],
