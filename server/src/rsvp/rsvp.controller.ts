@@ -60,7 +60,7 @@ export class RsvpController {
 		// Add contact data if at least email was provided
 		const contactInfo: contactData =
 			rsvp.email !== undefined && typeof rsvp.email === 'string'
-				? await this.contactService.create(guest, rsvp)
+				? await this.contactService.createOrUpdate(guest, rsvp)
 				: undefined;
 
 		// Add rsvp data if at least isGoing is provided
