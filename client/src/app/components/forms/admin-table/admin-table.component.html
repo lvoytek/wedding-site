@@ -28,9 +28,9 @@
 	  </ng-container>
 
 	  <ng-container matColumnDef="isGoing">
-		<th mat-header-cell *matHeaderCellDef>Is Going</th>
+		<th mat-header-cell *matHeaderCellDef>Going</th>
 		<td mat-cell *matCellDef="let element">
-		  <input matInput [(ngModel)]="element.isGoing" type="boolean" />
+		  <mat-checkbox [(ngModel)]="element.isGoing" />
 		</td>
 	  </ng-container>
 
