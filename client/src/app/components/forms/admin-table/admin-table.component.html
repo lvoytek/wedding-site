@@ -20,10 +20,38 @@
 		</td>
 	  </ng-container>
 
-	  <ng-container matColumnDef="email">
-		<th mat-header-cell *matHeaderCellDef>Email</th>
+	  <ng-container matColumnDef="pokemon">
+		<th mat-header-cell *matHeaderCellDef>Pokemon</th>
+		<<td mat-cell *matCellDef="let element">
+		  <input matInput [(ngModel)]="element.pokemon" />
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="isInBridalParty">
+		<th mat-header-cell *matHeaderCellDef>Bride Party</th>
 		<td mat-cell *matCellDef="let element">
-		  <input matInput [(ngModel)]="element.email" />
+		  <mat-checkbox [(ngModel)]="element.isInBridalParty" />
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="isInGroomishParty">
+		<th mat-header-cell *matHeaderCellDef>Groom Party</th>
+		<td mat-cell *matCellDef="let element">
+		  <mat-checkbox [(ngModel)]="element.isInGroomishParty" />
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="isFamily">
+		<th mat-header-cell *matHeaderCellDef>Family</th>
+		<td mat-cell *matCellDef="let element">
+		  <mat-checkbox [(ngModel)]="element.isFamily" />
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="table">
+		<th mat-header-cell *matHeaderCellDef>Table #</th>
+		<<td mat-cell *matCellDef="let element">
+		  <input matInput [(ngModel)]="element.table" type="number" />
 		</td>
 	  </ng-container>
 
@@ -31,6 +59,13 @@
 		<th mat-header-cell *matHeaderCellDef>Going</th>
 		<td mat-cell *matCellDef="let element">
 		  <mat-checkbox [(ngModel)]="element.isGoing" />
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="email">
+		<th mat-header-cell *matHeaderCellDef>Email</th>
+		<td mat-cell *matCellDef="let element">
+		  <input matInput [(ngModel)]="element.email" />
 		</td>
 	  </ng-container>
 

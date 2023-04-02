@@ -50,8 +50,13 @@ export class AdminTableComponent implements OnInit {
 		'uuid',
 		'firstName',
 		'lastName',
-		'email',
+		'pokemon',
+		'isInBridalParty',
+		'isInGroomishParty',
+		'isFamily',
+		'table',
 		'isGoing',
+		'email',
 		'actions',
 	];
 	dataSource = ELEMENT_DATA;
