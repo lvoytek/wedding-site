@@ -28,10 +28,6 @@ export class AdminTableComponent implements OnInit {
 
 	ngOnInit(): void {}
 
-	onEdit(element: guestData) {
-		// Handle edit operation here
-	}
-
 	onDelete(element: guestData) {
 		// Handle delete operation here
 	}
