@@ -95,9 +95,26 @@ export class GuestController {
 	 * @returns The guests as an array of primaryData
 	 */
 	@UseGuards(JwtAdminAuthGuard)
-	@Get('all')
-	async readAll(): Promise<primaryData[]> {
-		return this.guestService.getAllPrimaryData();
+	@Get('all/primary')
+	async readAllPrimary(): Promise<primaryData[]> {
+		return await this.guestService.getAllPrimaryData();
+	}
+
+	/**
+	 * Get all data for all guests
+	 * @returns The guests as an array of each guest's available data
+	 */
+	@UseGuards(JwtAdminAuthGuard)
+	@Get('all/')
+	async readAll(): Promise<RecursivePartial<guestData>[]> {
+		const guestPrimaryData: primaryData[] = await this.guestService.getAllPrimaryData();
+		const guestData: RecursivePartial<guestData>[] = [];
+
+		for(const guestPrimary of guestPrimaryData) {
+			guestData.push(await this.read(guestPrimary.uuid));
+		}
+
+		return guestData;
 	}
 
 	/**
