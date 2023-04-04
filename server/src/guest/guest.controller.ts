@@ -48,7 +48,7 @@ export class GuestController {
 		@Param('uuid') uuid: string,
 		@Body() assignments: assignmentData,
 	): Promise<any> {
-		const guest = await this.guestService.getGuest(uuid);
+		const guest = await this.guestService.getPrimaryData(uuid);
 		if (!guest) return null;
 
 		return this.assignmentService.create(guest, assignments);
@@ -127,7 +127,7 @@ export class GuestController {
 	async read(
 		@Param('uuid') uuid: string,
 	): Promise<RecursivePartial<guestData>> {
-		const guest = await this.guestService.getGuest(uuid);
+		const guest = await this.guestService.getPrimaryData(uuid);
 		if (!guest) return null;
 
 		const rsvp: rsvpData = await this.rsvpService.get(uuid);
