@@ -62,10 +62,13 @@ export class GuestController {
 	@UseGuards(JwtAdminAuthGuard)
 	@Put(':uuid')
 	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
+		const guestPrimaryData: primaryData = await this.guestService.getPrimaryData(uuid);
+		if(!guestPrimaryData) return null;
+
 		this.guestService.update(uuid, guest);
-		this.rsvpService.update(uuid, guest);
-		this.contactService.update(uuid, guest);
-		this.assignmentService.update(uuid, guest);
+		this.rsvpService.createOrUpdate(guestPrimaryData, guest);
+		this.contactService.createOrUpdate(guestPrimaryData, guest);
+		this.assignmentService.createOrUpdate(guestPrimaryData, guest);
 	}
 
 	/**
