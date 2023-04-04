@@ -59,6 +59,26 @@ export class AssignmentService {
 	}
 
 	/**
+	 * Attempt to create a new assignment data entry, if it already exists just update it
+	 * @param guest The primaryData of the guest to add assignment data for
+	 * @param assignment The new or updated assignment data
+	 * @return The resulting assignment data
+	 */
+	async createOrUpdate(
+		guest: primaryData,
+		assignment: assignmentData,
+	): Promise<assignmentData> {
+		try {
+			return await this.create(guest, assignment);
+		} catch (err) {
+			if (await this.update(guest.uuid, assignment))
+				return await this.get(guest);
+		}
+
+		return null;
+	}
+
+	/**
 	 * Get the assignments for a guest
 	 * @param guest The guest to check
 	 * @returns assignmentData with relevant guest assignment info
