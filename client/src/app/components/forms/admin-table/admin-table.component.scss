@@ -4,6 +4,13 @@
 
 td.mat-column-uuid {
 	font-size: small;
+	overflow: visible;
+	text-overflow: "";
+	word-wrap: break-word;
+}
+
+.mat-column-uuid {
+	max-width: 100px;
 }
 
 .mat-column-firstName,
