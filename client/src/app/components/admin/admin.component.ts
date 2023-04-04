@@ -1,21 +1,30 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { primaryData } from '@libs/person';
+import { Component, OnInit } from '@angular/core';
+import { guestData, primaryData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 import { GuestService } from 'src/app/services/guest.service';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+	selector: 'app-admin',
+	templateUrl: './admin.component.html',
+	styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent {
-	constructor(private api: GuestService){}
+export class AdminComponent implements OnInit {
+	guestEntries: RecursivePartial<guestData>[] = [];
 
-	createGuest(guestData: RecursivePartial<primaryData>){
+	constructor(private api: GuestService) {}
+
+	ngOnInit() {
+		this.api.getAllGuests().subscribe((data: any) => {
+			this.guestEntries = data;
+		});
+	}
+
+	createGuest(guestData: RecursivePartial<primaryData>) {
 		//TODO: Not sure what to actually do after sending for now
 		this.api.createGuest(guestData).subscribe(() => {
-			console.log(`Guest ${guestData.firstName} ${guestData.lastName} submitted`);
-		})
+			console.log(
+				`Guest ${guestData.firstName} ${guestData.lastName} submitted`
+			);
+		});
 	}
 }

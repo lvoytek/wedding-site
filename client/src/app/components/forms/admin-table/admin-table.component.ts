@@ -1,44 +1,6 @@
-import { Component, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { guestData } from '@libs/person';
-
-const ELEMENT_DATA: guestData[] = [
-	{
-		uuid: 'b7fab6d7-151e-4944-b8f9-dfe7bb0fa259',
-		firstName: 'Test',
-		lastName: 'User',
-		email: 'test@gmail.com',
-		isGoing: false,
-		table: 1,
-		isInBridalParty: false,
-		isInGroomishParty: true,
-		isFamily: false,
-		pokemon: 'Pikachu',
-	},
-	{
-		uuid: 'b7fab6d7-151e-4944-b8f9-dfe7bb0fa259',
-		firstName: 'Best',
-		lastName: 'User',
-		email: 'test@gmail.com',
-		isGoing: true,
-		table: 1,
-		isInBridalParty: true,
-		isInGroomishParty: false,
-		isFamily: false,
-		pokemon: 'Pichu',
-	},
-	{
-		uuid: 'b7fab6d7-151e-4944-b8f9-dfe7bb0fa259',
-		firstName: 'Last',
-		lastName: 'User',
-		email: 'test@gmail.com',
-		isGoing: true,
-		table: 1,
-		isInBridalParty: false,
-		isInGroomishParty: false,
-		isFamily: true,
-		pokemon: 'Raichu',
-	},
-];
+import { RecursivePartial } from '@libs/utils';
 
 @Component({
 	selector: 'app-admin-table',
@@ -59,7 +21,8 @@ export class AdminTableComponent implements OnInit {
 		'email',
 		'actions',
 	];
-	dataSource = ELEMENT_DATA;
+
+	@Input() guestEntries: RecursivePartial<guestData>[] = [];
 
 	constructor() {}
 
