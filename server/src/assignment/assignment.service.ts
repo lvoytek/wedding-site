@@ -72,7 +72,7 @@ export class AssignmentService {
 			return await this.create(guest, assignment);
 		} catch (err) {
 			if (await this.update(guest.uuid, assignment))
-				return await this.get(guest);
+				return await this.get(guest.uuid);
 		}
 
 		return null;
@@ -80,12 +80,12 @@ export class AssignmentService {
 
 	/**
 	 * Get the assignments for a guest
-	 * @param guest The guest to check
+	 * @param uuid The uuid of the guest to check
 	 * @returns assignmentData with relevant guest assignment info
 	 */
-	async get(guest: primaryData): Promise<assignmentData> {
+	async get(uuid: string): Promise<assignmentData> {
 		let assignment: Assignment = await this.assignmentRepository.findOneBy({
-			guest,
+			guest: { uuid },
 		});
 
 		if (assignment) {
