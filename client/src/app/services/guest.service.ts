@@ -15,6 +15,10 @@ export class GuestService {
 		return this.api.put(`guest/${guest.uuid}`, guest);
 	}
 
+	deleteGuest(uuid: string) {
+		return this.api.delete(`guest/${uuid}`);
+	}
+
 	getAllGuests() {
 		return this.api.get('guest/all');
 	}

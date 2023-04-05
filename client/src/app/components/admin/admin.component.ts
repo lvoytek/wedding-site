@@ -41,4 +41,17 @@ export class AdminComponent implements OnInit {
 			console.log(JSON.stringify(guest));
 		});
 	}
+
+	/**
+	 * Delete a guest from the database
+	 * @param uuid The uuid of the guest to remove
+	 */
+	deleteGuest(uuid: string) {
+		this.api.deleteGuest(uuid).subscribe((data) => {
+			console.log(data);
+			this.api.getAllGuests().subscribe((data: any) => {
+				this.guestEntries = data;
+			});
+		});
+	}
 }

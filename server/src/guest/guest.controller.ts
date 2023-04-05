@@ -6,7 +6,9 @@ import {
 	Body,
 	Param,
 	UseGuards,
+	Delete,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
@@ -62,8 +64,9 @@ export class GuestController {
 	@UseGuards(JwtAdminAuthGuard)
 	@Put(':uuid')
 	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
-		const guestPrimaryData: primaryData = await this.guestService.getPrimaryData(uuid);
-		if(!guestPrimaryData) return null;
+		const guestPrimaryData: primaryData =
+			await this.guestService.getPrimaryData(uuid);
+		if (!guestPrimaryData) return null;
 
 		this.guestService.update(uuid, guest);
 		this.rsvpService.createOrUpdate(guestPrimaryData, guest);
@@ -110,10 +113,11 @@ export class GuestController {
 	@UseGuards(JwtAdminAuthGuard)
 	@Get('all/')
 	async readAll(): Promise<RecursivePartial<guestData>[]> {
-		const guestPrimaryData: primaryData[] = await this.guestService.getAllPrimaryData();
+		const guestPrimaryData: primaryData[] =
+			await this.guestService.getAllPrimaryData();
 		const guestData: RecursivePartial<guestData>[] = [];
 
-		for(const guestPrimary of guestPrimaryData) {
+		for (const guestPrimary of guestPrimaryData) {
 			guestData.push(await this.read(guestPrimary.uuid));
 		}
 
@@ -152,5 +156,16 @@ export class GuestController {
 	@Get(':uuid/primary')
 	async readPrimary(@Param('uuid') uuid: string): Promise<primaryData> {
 		return this.guestService.getPrimaryData(uuid);
+	}
+
+	/**
+	 * Delete a guest
+	 * @param uuid The uuid of the guest to remove
+	 * @returns The result of the deletion
+	 */
+	@UseGuards(JwtAdminAuthGuard)
+	@Delete(':uuid')
+	async remove(@Param('uuid') uuid: string): Promise<DeleteResult> {
+		return this.guestService.delete(uuid);
 	}
 }

@@ -1,5 +1,6 @@
 <app-admin-table
 	[guestEntries]="guestEntries"
-	(newGuest)="createGuest($event)"
+	(createGuest)="createGuest($event)"
 	(updateGuest)="updateGuest($event)"
+	(deleteGuest)="deleteGuest($event)"
 ></app-admin-table>

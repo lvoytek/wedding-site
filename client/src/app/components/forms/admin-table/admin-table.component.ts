@@ -22,8 +22,9 @@ export class AdminTableComponent implements OnInit {
 		'actions',
 	];
 
-	@Output() newGuest = new EventEmitter<primaryData>();
+	@Output() createGuest = new EventEmitter<primaryData>();
 	@Output() updateGuest = new EventEmitter<RecursivePartial<guestData>>();
+	@Output() deleteGuest = new EventEmitter<string>();
 
 	@Input() guestEntries: RecursivePartial<guestData>[] = [];
 
@@ -31,8 +32,8 @@ export class AdminTableComponent implements OnInit {
 
 	ngOnInit(): void {}
 
-	onDelete(element: guestData) {
-		// Handle delete operation here
+	onDelete(element: RecursivePartial<guestData>) {
+		this.deleteGuest.emit(element.uuid);
 	}
 
 	onSave(element: RecursivePartial<guestData>) {
