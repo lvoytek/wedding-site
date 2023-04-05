@@ -18,7 +18,7 @@ export class RSVP {
 	@Column()
 	diet: string;
 
-	@OneToOne(() => Guest)
+	@OneToOne(() => Guest, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	guest: Guest;
 }

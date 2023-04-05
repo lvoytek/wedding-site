@@ -6,9 +6,13 @@ export class Associate {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => Guest, (guest) => guest.secondaryAssociates)
+	@ManyToOne(() => Guest, (guest) => guest.secondaryAssociates, {
+		onDelete: 'CASCADE',
+	})
 	primary: Guest;
 
-	@ManyToOne(() => Guest, (guest) => guest.primaryAssociates)
+	@ManyToOne(() => Guest, (guest) => guest.primaryAssociates, {
+		onDelete: 'CASCADE',
+	})
 	secondary: Guest;
 }
