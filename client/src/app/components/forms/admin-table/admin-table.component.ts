@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { guestData } from '@libs/person';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { guestData, primaryData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 @Component({
@@ -22,6 +22,9 @@ export class AdminTableComponent implements OnInit {
 		'actions',
 	];
 
+	@Output() newGuest = new EventEmitter<primaryData>();
+	@Output() updateGuest = new EventEmitter<RecursivePartial<guestData>>();
+
 	@Input() guestEntries: RecursivePartial<guestData>[] = [];
 
 	constructor() {}
@@ -32,7 +35,7 @@ export class AdminTableComponent implements OnInit {
 		// Handle delete operation here
 	}
 
-	onSave(element: guestData) {
-		// Handle save operation here
+	onSave(element: RecursivePartial<guestData>) {
+		this.updateGuest.emit(element);
 	}
 }

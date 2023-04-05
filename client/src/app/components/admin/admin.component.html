@@ -1,3 +1,5 @@
 <app-admin-table
 	[guestEntries]="guestEntries"
+	(newGuest)="createGuest($event)"
+	(updateGuest)="updateGuest($event)"
 ></app-admin-table>

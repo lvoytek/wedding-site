@@ -19,12 +19,26 @@ export class AdminComponent implements OnInit {
 		});
 	}
 
+	/**
+	 * Create a new guest with only primary data in the database
+	 * @param guestData The new guest's primary data
+	 */
 	createGuest(guestData: RecursivePartial<primaryData>) {
 		//TODO: Not sure what to actually do after sending for now
 		this.api.createGuest(guestData).subscribe(() => {
 			console.log(
 				`Guest ${guestData.firstName} ${guestData.lastName} submitted`
 			);
+		});
+	}
+
+	/**
+	 * Update or add any info to an existing guest
+	 * @param guest All updated data to add
+	 */
+	updateGuest(guest: RecursivePartial<guestData>) {
+		this.api.editGuest(guest).subscribe(() => {
+			console.log(JSON.stringify(guest));
 		});
 	}
 }
