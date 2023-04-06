@@ -17,6 +17,7 @@ import { RsvpFormComponent } from './components/forms/rsvp/rsvp.component';
 import { CodeInputFormComponent } from './components/forms/code-input-form/code-input-form.component';
 import { AddGuestComponent } from './components/forms/add-guest/add-guest.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { AdminLoginComponent } from './components/forms/admin-login/admin-login.component';
 import { AdminTableComponent } from './components/forms/admin-table/admin-table.component';
 import {
 	SocialLoginModule,
@@ -37,6 +38,7 @@ import { AuthInterceptor } from './services/authInterceptor.service';
 		AdminTableComponent,
 		CodeInputFormComponent,
 		AddGuestComponent,
+		AdminLoginComponent,
 	],
 	imports: [
 		BrowserModule,
