@@ -29,6 +29,9 @@ export class AdminComponent implements OnInit {
 			console.log(
 				`Guest ${guestData.firstName} ${guestData.lastName} submitted`
 			);
+			this.api.getAllGuests().subscribe((data: any) => {
+				this.guestEntries = data;
+			});
 		});
 	}
 
