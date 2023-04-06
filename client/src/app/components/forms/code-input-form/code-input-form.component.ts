@@ -4,7 +4,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 @Component({
 	selector: 'app-code-input-form',
 	templateUrl: './code-input-form.component.html',
-	styleUrls: ['./code-input-form.component.scss'],
+	styleUrls: ['../login-form.component.scss'],
 })
 export class CodeInputFormComponent {
 	@Output() submit = new EventEmitter<string>();
