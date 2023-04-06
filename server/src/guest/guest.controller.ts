@@ -6,6 +6,7 @@ import {
 	Body,
 	Param,
 	UseGuards,
+	Headers,
 	Delete,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
@@ -16,7 +17,9 @@ import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AdminService } from 'src/admin/admin.service';
+import { AuthService } from '@auth/auth.service';
 import { JwtAdminAuthGuard } from '@auth/jwtadmin.guard';
+import { JwtAuthGuard } from '@auth/jwt.guard';
 
 import { RecursivePartial } from '@libs/utils';
 import {
@@ -36,6 +39,7 @@ export class GuestController {
 		private contactService: ContactService,
 		private assignmentService: AssignmentService,
 		private adminService: AdminService,
+		private authService: AuthService,
 	) {}
 
 	@UseGuards(JwtAdminAuthGuard)
@@ -94,6 +98,24 @@ export class GuestController {
 	async removeAdmin(@Param('uuid') uuid: string) {
 		const user = await this.guestService.getPrimaryData(uuid);
 		if (user) await this.adminService.remove(user);
+	}
+
+	/**
+	 * Check if a user is an admin
+	 * @param uuid The uuid of the user to check
+	 */
+	@UseGuards(JwtAuthGuard)
+	@Get('isadmin')
+	async isAdmin(
+		@Headers('Authorization') authHeader: string,
+	): Promise<boolean> {
+		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
+		const user: primaryData =
+			await this.contactService.getUserByGoogleAuthID(googleAuthId);
+		if (user) return await this.adminService.isAdmin(user);
+		return false;
 	}
 
 	/**

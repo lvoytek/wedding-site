@@ -20,10 +20,16 @@ export class AdminComponent implements OnInit {
 			this.guestEntries = data;
 		});
 		this.authService.isLoggedIn.subscribe((isLoggedIn) => {
-			this.isAdminLoggedIn = isLoggedIn;
-			this.api.getAllGuests().subscribe((data: any) => {
-				this.guestEntries = data;
-			});
+			if (isLoggedIn) {
+				this.api.isAdmin().subscribe((data: any) => {
+					this.isAdminLoggedIn = data;
+					if (this.isAdminLoggedIn) {
+						this.api.getAllGuests().subscribe((data: any) => {
+							this.guestEntries = data;
+						});
+					}
+				});
+			}
 		});
 	}
 
