@@ -1,7 +1,13 @@
-<app-admin-table
-	[guestEntries]="guestEntries"
-	(updateGuest)="updateGuest($event)"
-	(deleteGuest)="deleteGuest($event)"
-></app-admin-table>
+<div *ngIf="isAdminLoggedIn; then adminBlock else adminLoginBlock"></div>
 
-<app-add-guest (createGuest)="createGuest($event)"></app-add-guest>
+<ng-template #adminBlock>
+	<app-admin-table
+		[guestEntries]="guestEntries"
+		(updateGuest)="updateGuest($event)"
+		(deleteGuest)="deleteGuest($event)"
+	></app-admin-table>
+
+	<app-add-guest (createGuest)="createGuest($event)"></app-add-guest>
+</ng-template>
+
+<ng-template #adminLoginBlock></ng-template>

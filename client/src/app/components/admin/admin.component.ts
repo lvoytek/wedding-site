@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { guestData, primaryData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 import { GuestService } from 'src/app/services/guest.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
 	selector: 'app-admin',
@@ -10,12 +11,19 @@ import { GuestService } from 'src/app/services/guest.service';
 })
 export class AdminComponent implements OnInit {
 	guestEntries: RecursivePartial<guestData>[] = [];
+	isAdminLoggedIn = false;
 
-	constructor(private api: GuestService) {}
+	constructor(private api: GuestService, private authService: AuthService) {}
 
 	ngOnInit() {
 		this.api.getAllGuests().subscribe((data: any) => {
 			this.guestEntries = data;
+		});
+		this.authService.isLoggedIn.subscribe((isLoggedIn) => {
+			this.isAdminLoggedIn = isLoggedIn;
+			this.api.getAllGuests().subscribe((data: any) => {
+				this.guestEntries = data;
+			});
 		});
 	}
 
