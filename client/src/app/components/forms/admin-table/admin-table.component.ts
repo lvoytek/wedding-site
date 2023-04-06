@@ -1,5 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { guestData, primaryData } from '@libs/person';
+import { guestData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 @Component({
@@ -22,7 +22,6 @@ export class AdminTableComponent implements OnInit {
 		'actions',
 	];
 
-	@Output() createGuest = new EventEmitter<primaryData>();
 	@Output() updateGuest = new EventEmitter<RecursivePartial<guestData>>();
 	@Output() deleteGuest = new EventEmitter<string>();
 
