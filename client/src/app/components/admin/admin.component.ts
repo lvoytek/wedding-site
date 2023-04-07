@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { guestData, primaryData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 import { GuestService } from 'src/app/services/guest.service';
@@ -13,22 +14,21 @@ export class AdminComponent implements OnInit {
 	guestEntries: RecursivePartial<guestData>[] = [];
 	isAdminLoggedIn = false;
 
-	constructor(private api: GuestService, private authService: AuthService) {}
+	constructor(
+		private api: GuestService,
+		private authService: AuthService,
+		private router: Router
+	) {}
 
 	ngOnInit() {
-		this.api.getAllGuests().subscribe((data: any) => {
-			this.guestEntries = data;
-		});
-		this.authService.isLoggedIn.subscribe((isLoggedIn) => {
-			if (isLoggedIn) {
-				this.authService.isAdminLoggedIn.subscribe((isAdmin) => {
-					this.isAdminLoggedIn = isAdmin;
-					if (this.isAdminLoggedIn) {
-						this.api.getAllGuests().subscribe((data: any) => {
-							this.guestEntries = data;
-						});
-					}
+		this.authService.isAdminLoggedIn.subscribe((isAdmin) => {
+			this.isAdminLoggedIn = isAdmin;
+			if (this.isAdminLoggedIn) {
+				this.api.getAllGuests().subscribe((data: any) => {
+					this.guestEntries = data;
 				});
+			} else {
+				this.router.navigate(['']);
 			}
 		});
 	}
