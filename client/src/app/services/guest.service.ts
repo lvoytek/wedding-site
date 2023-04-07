@@ -5,15 +5,21 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class GuestService {
-  constructor(private api: ApiService) {}
+	constructor(private api: ApiService) {}
 
-  createGuest(guest: RecursivePartial<primaryData>) {
-	return this.api.post(`guest`, guest);
-  }
+	createGuest(guest: RecursivePartial<primaryData>) {
+		return this.api.post(`guest`, guest);
+	}
 
-  editGuest(guest: RecursivePartial<guestData>) {
-	return this.api.put(`guest/${guest.uuid}`, guest);
-  }
+	editGuest(guest: RecursivePartial<guestData>) {
+		return this.api.put(`guest/${guest.uuid}`, guest);
+	}
 
+	deleteGuest(uuid: string) {
+		return this.api.delete(`guest/${uuid}`);
+	}
 
+	getAllGuests() {
+		return this.api.get('guest/all');
+	}
 }

@@ -6,7 +6,7 @@ export class Admin {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@OneToOne(() => Guest)
+	@OneToOne(() => Guest, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	guest: Guest;
 }

@@ -1,0 +1,31 @@
+.admin-table-container {
+	overflow-x: scroll;
+}
+
+td.mat-column-uuid {
+	font-size: small;
+	overflow: visible;
+	text-overflow: "";
+	word-wrap: break-word;
+}
+
+.mat-column-uuid {
+	max-width: 100px;
+}
+
+.mat-column-firstName,
+.mat-column-lastName,
+.mat-column-pokemon,
+.mat-column-email {
+	input {
+		min-width: 30px;
+		max-width: 100px;
+		width: 10vw;
+	}
+}
+
+.mat-column-table {
+	input {
+		width: 35px;
+	}
+}

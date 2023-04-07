@@ -6,7 +6,10 @@ import {
 	Body,
 	Param,
 	UseGuards,
+	Headers,
+	Delete,
 } from '@nestjs/common';
+import { DeleteResult } from 'typeorm';
 
 import { GuestService } from './guest.service';
 import { AssociateService } from 'src/associate/associate.service';
@@ -14,7 +17,9 @@ import { RsvpService } from 'src/rsvp/rsvp.service';
 import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AdminService } from 'src/admin/admin.service';
+import { AuthService } from '@auth/auth.service';
 import { JwtAdminAuthGuard } from '@auth/jwtadmin.guard';
+import { JwtAuthGuard } from '@auth/jwt.guard';
 
 import { RecursivePartial } from '@libs/utils';
 import {
@@ -34,6 +39,7 @@ export class GuestController {
 		private contactService: ContactService,
 		private assignmentService: AssignmentService,
 		private adminService: AdminService,
+		private authService: AuthService,
 	) {}
 
 	@UseGuards(JwtAdminAuthGuard)
@@ -48,7 +54,7 @@ export class GuestController {
 		@Param('uuid') uuid: string,
 		@Body() assignments: assignmentData,
 	): Promise<any> {
-		const guest = await this.guestService.getGuest(uuid);
+		const guest = await this.guestService.getPrimaryData(uuid);
 		if (!guest) return null;
 
 		return this.assignmentService.create(guest, assignments);
@@ -62,10 +68,14 @@ export class GuestController {
 	@UseGuards(JwtAdminAuthGuard)
 	@Put(':uuid')
 	async update(@Param('uuid') uuid: string, @Body() guest: guestData) {
+		const guestPrimaryData: primaryData =
+			await this.guestService.getPrimaryData(uuid);
+		if (!guestPrimaryData) return null;
+
 		this.guestService.update(uuid, guest);
-		this.rsvpService.update(uuid, guest);
-		this.contactService.update(uuid, guest);
-		this.assignmentService.update(uuid, guest);
+		this.rsvpService.createOrUpdate(guestPrimaryData, guest);
+		this.contactService.createOrUpdate(guestPrimaryData, guest);
+		this.assignmentService.createOrUpdate(guestPrimaryData, guest);
 	}
 
 	/**
@@ -91,13 +101,49 @@ export class GuestController {
 	}
 
 	/**
+	 * Check if a user is an admin
+	 * @param uuid The uuid of the user to check
+	 */
+	@UseGuards(JwtAuthGuard)
+	@Get('isadmin')
+	async isAdmin(
+		@Headers('Authorization') authHeader: string,
+	): Promise<boolean> {
+		const googleAuthId: string = await this.authService.getIdFromAuthHeader(
+			authHeader,
+		);
+		const user: primaryData =
+			await this.contactService.getUserByGoogleAuthID(googleAuthId);
+		if (user) return await this.adminService.isAdmin(user);
+		return false;
+	}
+
+	/**
 	 * Get the primary data for all guests
 	 * @returns The guests as an array of primaryData
 	 */
 	@UseGuards(JwtAdminAuthGuard)
-	@Get('all')
-	async readAll(): Promise<primaryData[]> {
-		return this.guestService.getAllPrimaryData();
+	@Get('all/primary')
+	async readAllPrimary(): Promise<primaryData[]> {
+		return await this.guestService.getAllPrimaryData();
+	}
+
+	/**
+	 * Get all data for all guests
+	 * @returns The guests as an array of each guest's available data
+	 */
+	@UseGuards(JwtAdminAuthGuard)
+	@Get('all/')
+	async readAll(): Promise<RecursivePartial<guestData>[]> {
+		const guestPrimaryData: primaryData[] =
+			await this.guestService.getAllPrimaryData();
+		const guestData: RecursivePartial<guestData>[] = [];
+
+		for (const guestPrimary of guestPrimaryData) {
+			guestData.push(await this.read(guestPrimary.uuid));
+		}
+
+		return guestData;
 	}
 
 	/**
@@ -110,12 +156,12 @@ export class GuestController {
 	async read(
 		@Param('uuid') uuid: string,
 	): Promise<RecursivePartial<guestData>> {
-		const guest = await this.guestService.getGuest(uuid);
+		const guest = await this.guestService.getPrimaryData(uuid);
 		if (!guest) return null;
 
 		const rsvp: rsvpData = await this.rsvpService.get(uuid);
 		const contact: contactData = await this.contactService.get(uuid);
-		const assign: assignmentData = await this.assignmentService.get(guest);
+		const assign: assignmentData = await this.assignmentService.get(uuid);
 
 		const associates: primaryData[] =
 			await this.associateService.getAllAssociates(uuid);
@@ -132,5 +178,16 @@ export class GuestController {
 	@Get(':uuid/primary')
 	async readPrimary(@Param('uuid') uuid: string): Promise<primaryData> {
 		return this.guestService.getPrimaryData(uuid);
+	}
+
+	/**
+	 * Delete a guest
+	 * @param uuid The uuid of the guest to remove
+	 * @returns The result of the deletion
+	 */
+	@UseGuards(JwtAdminAuthGuard)
+	@Delete(':uuid')
+	async remove(@Param('uuid') uuid: string): Promise<DeleteResult> {
+		return this.guestService.delete(uuid);
 	}
 }

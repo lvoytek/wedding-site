@@ -12,22 +12,22 @@ export class Assignment {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column({ default: 0 })
 	table: number;
 
-	@Column()
+	@Column({ default: false })
 	isInGroomishParty: boolean;
 
-	@Column()
+	@Column({ default: false })
 	isInBridalParty: boolean;
 
-	@Column()
+	@Column({ default: false })
 	isFamily: boolean;
 
-	@Column({unique: true})
+	@Column({ unique: true })
 	pokemon: string;
 
-	@OneToOne(() => Guest)
+	@OneToOne(() => Guest, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	guest: Guest;
 }

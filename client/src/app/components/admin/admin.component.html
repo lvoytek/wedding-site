@@ -1,1 +1,7 @@
-<app-add-guest (submit)="createGuest($event)"></app-add-guest>
+<app-admin-table
+	[guestEntries]="guestEntries"
+	(updateGuest)="updateGuest($event)"
+	(deleteGuest)="deleteGuest($event)"
+></app-admin-table>
+
+<app-add-guest (createGuest)="createGuest($event)"></app-add-guest>

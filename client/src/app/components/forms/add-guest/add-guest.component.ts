@@ -9,7 +9,7 @@ import { RecursivePartial } from '@libs/utils';
   styleUrls: ['../form.component.scss']
 })
 export class AddGuestComponent {
-	@Output() submit = new EventEmitter<RecursivePartial<primaryData>>()
+	@Output() createGuest = new EventEmitter<RecursivePartial<primaryData>>()
 
 	guestForm = this.fb.group({
 		firstName: ['', Validators.required],
@@ -24,7 +24,7 @@ export class AddGuestComponent {
 			lastName: this.guestForm.value.lastName,
 		}
 
-		this.submit.emit(guestData);
+		this.createGuest.emit(guestData);
 		this.guestForm.reset();
 	}
 

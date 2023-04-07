@@ -11,6 +11,11 @@
 			<button mat-icon-button [routerLink]="'/info'" aria-label="Info">
 				<mat-icon>info</mat-icon>
 			</button>
+			<div *ngIf="isAdminLoggedIn">
+				<button mat-icon-button [routerLink]="'/admin'" aria-label="Admin">
+					<mat-icon>shield_person</mat-icon>
+				</button>
+			</div>
         </div>
     </div>
 

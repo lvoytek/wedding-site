@@ -18,7 +18,7 @@ export class Contact {
 	@Column({ nullable: true })
 	googleAuthId: string;
 
-	@OneToOne(() => Guest)
+	@OneToOne(() => Guest, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	guest: Guest;
 }
