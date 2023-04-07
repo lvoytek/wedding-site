@@ -21,8 +21,8 @@ export class AdminComponent implements OnInit {
 		});
 		this.authService.isLoggedIn.subscribe((isLoggedIn) => {
 			if (isLoggedIn) {
-				this.api.isAdmin().subscribe((data: any) => {
-					this.isAdminLoggedIn = data;
+				this.authService.isAdminLoggedIn.subscribe((isAdmin) => {
+					this.isAdminLoggedIn = isAdmin;
 					if (this.isAdminLoggedIn) {
 						this.api.getAllGuests().subscribe((data: any) => {
 							this.guestEntries = data;

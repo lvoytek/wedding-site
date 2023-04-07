@@ -22,8 +22,4 @@ export class GuestService {
 	getAllGuests() {
 		return this.api.get('guest/all');
 	}
-
-	isAdmin() {
-		return this.api.get('guest/isadmin');
-	}
 }

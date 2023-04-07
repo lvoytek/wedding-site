@@ -1,7 +1,6 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
-import { GuestService } from './services/guest.service';
 
 @Component({
 	selector: 'app-root',
@@ -14,8 +13,7 @@ export class AppComponent implements OnInit {
 
 	constructor(
 		private googleService: SocialAuthService,
-		private authService: AuthService,
-		private guestService: GuestService
+		private authService: AuthService
 	) {}
 
 	ngOnInit() {
@@ -26,8 +24,8 @@ export class AppComponent implements OnInit {
 
 		this.authService.isLoggedIn.subscribe((isLoggedIn) => {
 			if (isLoggedIn) {
-				this.guestService.isAdmin().subscribe((data: any) => {
-					this.isAdminLoggedIn = data;
+				this.authService.isAdminLoggedIn.subscribe((isAdmin) => {
+					this.isAdminLoggedIn = isAdmin;
 				});
 			}
 		});
