@@ -12,7 +12,6 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AdminComponent implements OnInit {
 	guestEntries: RecursivePartial<guestData>[] = [];
-	isAdminLoggedIn = false;
 
 	constructor(
 		private api: GuestService,
@@ -22,8 +21,7 @@ export class AdminComponent implements OnInit {
 
 	ngOnInit() {
 		this.authService.isAdminLoggedIn.subscribe((isAdmin) => {
-			this.isAdminLoggedIn = isAdmin;
-			if (this.isAdminLoggedIn) {
+			if (isAdmin) {
 				this.api.getAllGuests().subscribe((data: any) => {
 					this.guestEntries = data;
 				});
