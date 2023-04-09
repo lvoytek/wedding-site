@@ -1,1 +1,6 @@
-Home page check
+<ng-container *ngIf="isPortrait; else desktopImage">
+	<img class="decor" src="assets/decor_mobile.png">
+  </ng-container>
+  <ng-template #desktopImage>
+	<img class="decor" src="assets/decor_desktop.png">
+  </ng-template>
