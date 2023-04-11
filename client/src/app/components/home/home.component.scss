@@ -2,11 +2,13 @@
 @font-face {
 	font-family: 'DarlingModern';
 	src: url('../../../assets/fonts/DarlingModernRegular.woff');
+	font-weight: 600;
 }
 
 @font-face {
 	font-family: 'Cecily';
 	src: url('../../../assets/fonts/cecily.ttf');
+	font-weight: 600;
 }
 
 .names-container {
@@ -26,9 +28,7 @@
 		position: absolute;
 		text-align: center;
 		font-size: 2em;
-		font-weight: lighter;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
-		text-rendering: optimizeLegibility;
 	}
 
 	.names-left {
