@@ -11,6 +11,12 @@
 	font-weight: 600;
 }
 
+@font-face {
+	font-family: 'Forum';
+	src: url('../../../assets/fonts/Forum-Regular.ttf');
+	font-weight: 600;
+}
+
 .names-container {
 
 	position: relative;
@@ -27,6 +33,7 @@
 		position: absolute;
 		text-align: center;
 		font-size: 2em;
+		color: #00171f;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
 	}
 
@@ -44,5 +51,28 @@
 		@extend .names;
 		font-family: 'Cecily', 'Serif';
 		transform: translate(7vw, 7vh);
+	}
+
+	.dateinfo {
+		@extend .names;
+		display: flex;
+		align-items: center;
+		font-family: 'Forum', 'Serif';
+		font-size: 1em;
+		transform: translate(0, 50vh);
+
+		h2 {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
+
+	.datewithlines {
+		border-top: 1px solid #00171f;
+		border-bottom: 1px solid #00171f;
+	}
+
+	.bigdate {
+		font-size: 4em;
 	}
 }
