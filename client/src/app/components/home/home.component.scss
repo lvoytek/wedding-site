@@ -1,3 +1,49 @@
-img.decor {
-	width: 100vw;
+// This font needs to be copied into client/src/assets/fonts since it is not open source
+@font-face {
+	font-family: 'DarlingModern';
+	src: url('../../../assets/fonts/DarlingModernRegular.woff');
+}
+
+@font-face {
+	font-family: 'Cecily';
+	src: url('../../../assets/fonts/cecily.ttf');
+}
+
+.names-container {
+
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+
+	img {
+		width: 100vw;
+		height: auto;
+	}
+
+	.names {
+		position: absolute;
+		text-align: center;
+		font-size: 2em;
+		font-weight: lighter;
+		font-family: 'DarlingModern', 'Cecily', 'Serif';
+		text-rendering: optimizeLegibility;
+	}
+
+	.names-left {
+		@extend .names;
+		transform: translate(-5vw, -5vh);
+	}
+
+	.names-right {
+		@extend .names;
+		transform: translate(20vw, 20vh);
+	}
+
+	.ampersand {
+		@extend .names;
+		font-family: 'Cecily', 'Serif';
+		transform: translate(7vw, 7vh);
+	}
 }

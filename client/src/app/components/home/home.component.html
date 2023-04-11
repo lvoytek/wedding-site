@@ -1,6 +1,17 @@
-<ng-container *ngIf="isPortrait; else desktopImage">
-	<img class="decor" src="assets/decor_mobile.png">
-  </ng-container>
-  <ng-template #desktopImage>
-	<img class="decor" src="assets/decor_desktop.png">
-  </ng-template>
+<div class="names-container">
+	<ng-container *ngIf="isPortrait; else desktopImage">
+		<img src="assets/decor_mobile.png">
+  	</ng-container>
+  	<ng-template #desktopImage>
+		<img src="assets/decor_desktop.png">
+  	</ng-template>
+	<div class="names-left">
+		<h1>Lena</h1>
+	</div>
+	<div class="ampersand">
+		<h1>&</h1>
+	</div>
+	<div class="names-right">
+		<h1>Lucas</h1>
+	</div>
+</div>
