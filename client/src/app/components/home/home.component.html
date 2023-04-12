@@ -1,21 +1,13 @@
-<div class="names-container">
-	<ng-container *ngIf="isPortrait; else desktopImage">
-		<img src="assets/decor_mobile.png">
-  	</ng-container>
-  	<ng-template #desktopImage>
-		<img src="assets/decor_desktop.png">
-  	</ng-template>
-	<div class="names-left">
+<div class="home-container">
+	<div class="names">
 		<h1>Lena</h1>
-	</div>
-	<div class="ampersand">
-		<h1>&</h1>
-	</div>
-	<div class="names-right">
+		<div class="ampersand">
+			<h1>&</h1>
+		</div>
 		<h1>Lucas</h1>
 	</div>
 
-	<div class="dateinfo">
+	<div class="dateandlocationinfo">
 		<div><h2 class="datewithlines">SATURDAY</h2></div>
 		<div>
 			<h2>OCTOBER</h2>
@@ -23,5 +15,12 @@
 			<h2>2023</h2>
 		</div>
 		<div><h2 class="datewithlines">6:00PM</h2></div>
+	</div>
+
+	<div class="dateandlocationinfo">
+		<div>
+			<h2>BUFFALO BOTANICAL GARDENS</h2>
+			<h2>SOUTH PARK AVE, BUFFALO, NY</h2>
+		</div>
 	</div>
 </div>
