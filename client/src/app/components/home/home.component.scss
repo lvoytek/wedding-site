@@ -18,17 +18,52 @@
 }
 
 .home-container {
+	width: 100%;
+	height: 92vh;
 	position: relative;
+	overflow: hidden;
+
+	.corner {
+		z-index: 1;
+		position: absolute;
+		width: 20%;
+		min-width: 150px;
+	}
+
+	.top {
+		top: 0;
+	}
+
+	.bottom {
+		bottom: 0;
+	}
+
+	.left {
+		left: 0;
+	}
+
+	.right {
+		right: 0;
+		transform: scaleX(-1);
+	}
+}
+
+.content-container {
+	position: relative;
+    z-index: 2;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: space-evenly;
 	align-items: center;
+	height: 100%;
 
 	.names {
 		text-align: center;
 		display: flex;
 		align-items: center;
-		font-size: 2em;
+		font-size: min(2em, 5vw);
+		height: min(2em, 5vw);
+		margin-top: 5vw;
 		color: #00171f;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
 	}
@@ -39,8 +74,10 @@
 
 	.dateandlocationinfo {
 		@extend .names;
+		height: auto;
+		margin-top: 0;
 		font-family: 'Forum', 'Serif';
-		font-size: 1em;
+		font-size: min(1em, 2.5vw);
 
 		h2 {
 			margin-top: 0;
@@ -51,10 +88,10 @@
 	.datewithlines {
 		border-top: 1px solid #00171f;
 		border-bottom: 1px solid #00171f;
-		min-width: 5em;
+		min-width: min(5em, 12.5vw);
 	}
 
 	.bigdate {
-		font-size: 4em;
+		font-size: min(4em, 10vw);
 	}
 }
