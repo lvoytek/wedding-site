@@ -45,8 +45,7 @@
 		display: flex;
 		align-items: center;
 		font-size: min(2em, 6vw);
-		height: min(2em, 6vw);
-		margin-top: 5vw;
+		height: fit-content;
 		color: #00171f;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
 	}
@@ -64,8 +63,6 @@
 
 	.date-location-info {
 		@extend .names;
-		height: auto;
-		margin-top: 0;
 		font-family: 'Forum', 'Serif';
 		font-size: min(1em, 3.5vw);
 
