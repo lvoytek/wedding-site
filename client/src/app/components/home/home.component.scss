@@ -1,0 +1,85 @@
+@import url('../../../assets/fonts.css');
+
+.home-container {
+	width: 100%;
+	height: 92vh;
+	position: relative;
+	overflow: hidden;
+
+	.corner {
+		z-index: 1;
+		position: absolute;
+		width: 20%;
+		min-width: 150px;
+	}
+
+	.top {
+		top: 0;
+	}
+
+	.bottom {
+		bottom: 0;
+	}
+
+	.left {
+		left: 0;
+	}
+
+	.right {
+		right: 0;
+		transform: scaleX(-1);
+	}
+}
+
+.content-container {
+	position: relative;
+    z-index: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 100%;
+
+	.names {
+		text-align: center;
+		display: flex;
+		align-items: center;
+		font-size: min(2em, 6vw);
+		height: fit-content;
+		color: #00171f;
+		font-family: 'DarlingModern', 'Cecily', 'Serif';
+	}
+
+	.ampersand {
+		font-family: 'Cecily', 'Serif';
+	}
+
+	.date-location-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.date-location-info {
+		@extend .names;
+		font-family: 'Forum', 'Serif';
+		font-size: min(1em, 3.5vw);
+
+		h2 {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
+
+	.date-with-lines {
+		border-top: 1px solid #00171f;
+		border-bottom: 1px solid #00171f;
+		min-width: min(5em, 20vw);
+		padding: .25em 0;
+	}
+
+	.big-date {
+		font-size: min(4em, 20vw);
+	}
+}
