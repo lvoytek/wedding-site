@@ -44,8 +44,8 @@
 		text-align: center;
 		display: flex;
 		align-items: center;
-		font-size: min(2em, 5vw);
-		height: min(2em, 5vw);
+		font-size: min(2em, 6vw);
+		height: min(2em, 6vw);
 		margin-top: 5vw;
 		color: #00171f;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
@@ -67,7 +67,7 @@
 		height: auto;
 		margin-top: 0;
 		font-family: 'Forum', 'Serif';
-		font-size: min(1em, 2.5vw);
+		font-size: min(1em, 3.5vw);
 
 		h2 {
 			margin-top: 0;
@@ -79,9 +79,10 @@
 		border-top: 1px solid #00171f;
 		border-bottom: 1px solid #00171f;
 		min-width: min(5em, 20vw);
+		padding: .25em 0;
 	}
 
 	.big-date {
-		font-size: min(4em, 10vw);
+		font-size: min(4em, 20vw);
 	}
 }
