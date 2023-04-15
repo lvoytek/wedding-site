@@ -55,6 +55,13 @@
 		font-family: 'Cecily', 'Serif';
 	}
 
+	.date-location-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
 	.date-location-info {
 		@extend .names;
 		height: auto;
@@ -71,7 +78,7 @@
 	.date-with-lines {
 		border-top: 1px solid #00171f;
 		border-bottom: 1px solid #00171f;
-		min-width: min(5em, 12.5vw);
+		min-width: min(5em, 20vw);
 	}
 
 	.big-date {
