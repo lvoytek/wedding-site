@@ -8,6 +8,10 @@
     color: rgba($ll-black, 0.75);
 }
 
+mat-toolbar {
+	height: 8vh;
+}
+
 .buttons {
 	display: inline-flex;
 	align-items: self-end;

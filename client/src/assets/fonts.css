@@ -1,0 +1,19 @@
+/* Fonts that need to be copied into client/src/assets/fonts since they are not open source */
+@font-face {
+	font-family: 'DarlingModern';
+	src: url('/assets/fonts/DarlingModernRegular.woff');
+	font-weight: 600;
+}
+
+/* Open source fonts that are already in the repository */
+@font-face {
+	font-family: 'Cecily';
+	src: url('/assets/fonts/cecily.ttf');
+	font-weight: 600;
+}
+
+@font-face {
+	font-family: 'Forum';
+	src: url('/assets/fonts/Forum-Regular.ttf');
+	font-weight: 600;
+}
