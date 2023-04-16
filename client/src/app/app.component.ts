@@ -42,7 +42,11 @@ export class AppComponent implements OnInit {
 				map(() => {
 					let route: ActivatedRoute = this.router.routerState.root;
 					let routeTitle = 'Lena & Lucas';
-					while (route!.firstChild) route = route.firstChild;
+
+					// Wait for title in data to be available
+					while (route!.firstChild) {
+						route = route.firstChild;
+					}
 
 					if (route.snapshot.data['title'])
 						routeTitle = route!.snapshot.data['title'];
