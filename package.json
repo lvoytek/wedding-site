@@ -4,9 +4,12 @@
   "description": "Our wedding website",
   "main": "index.js",
   "scripts": {
+    "build": "cd client && ng build",
+    "client-prod": "cd client && ng serve --host 0.0.0.0 --port 4200 --public-host l2.wedding",
     "client": "cd client && ng serve",
     "server": "cd server && nest start",
-    "start": "npm-run-all --parallel client server"
+    "start": "npm-run-all --parallel client server",
+    "start-prod": "npm-run-all --parallel client-prod server"
   },
   "repository": {
     "type": "git",
