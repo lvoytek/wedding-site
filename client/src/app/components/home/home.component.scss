@@ -1,3 +1,4 @@
+@import '../../../styles.scss';
 @import url('../../../assets/fonts.css');
 
 .home-container {
@@ -46,7 +47,7 @@
 		align-items: center;
 		font-size: min(2em, 6vw);
 		height: fit-content;
-		color: #00171f;
+		color: $ll-black;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
 	}
 
