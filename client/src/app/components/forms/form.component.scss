@@ -1,3 +1,14 @@
+@import '../../../styles.scss';
+@import url('../../../assets/fonts.css');
+
+.page-title {
+	padding-top: 4vh;
+	font-size: min(4em, 12vw);
+	color: $ll-black;
+	text-align: center;
+	font-family: 'Cecily', 'Serif';
+}
+
 .container {
 	min-height: 100%;
   	display: flex;
