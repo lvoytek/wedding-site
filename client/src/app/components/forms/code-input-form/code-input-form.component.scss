@@ -1,0 +1,58 @@
+@import '../../../../styles.scss';
+@import '../../../../assets/fonts.css';
+
+.container > {
+	div {
+		flex: 1;
+	}
+}
+
+.code-input {
+	width: 100vw;
+	margin-top: -5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	justify-content: center;
+
+	background-image: url("/assets/dusty_blue_backsplash.png");
+	background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.label {
+	font-size: 2em;
+	text-align: center;
+	padding-bottom: 5px;
+	font-family: auto;
+	color: $ll-black;
+}
+
+.form-section {
+	::ng-deep mat-form-field{
+		margin-bottom: -8px;
+		width: 65vw;
+		.mat-mdc-text-field-wrapper {
+			background-color: $ll-creme;
+		}
+	 }
+
+}
+.framing-flowers {
+	width: 100vw;
+	height: 35vh;
+}
+
+
+.top-flowers {
+	width: 75%;
+}
+
+.bottom-flowers {
+	height: 27%;
+    width: 75%;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}

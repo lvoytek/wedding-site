@@ -1,14 +1,25 @@
 <div class="container">
-	<form class="form" [formGroup]="codeForm" (ngSubmit)="onSubmit()">
-		<div class="form-section">
-			<mat-form-field>
-				<mat-label>Enter Code</mat-label>
-				<input matInput type="code" formControlName="code">
-			</mat-form-field>
-	  	</div>
-	</form>
-	<button class="submit-button" (click)="onSubmit()" mat-flat-button color="accent" [disabled]="!codeForm.valid">Submit</button>
-	<div *ngIf="!isLoggedIn">
-		<asl-google-signin-button type="standard" color="filled_black" shape="circle"></asl-google-signin-button>
+	<div class="framing-flowers" >
+		<img class="top-flowers" src="assets/dusty_blue_bouquet_crop.png">
+	</div>
+
+	<div class="code-input">
+		<form class="form" [formGroup]="codeForm" (ngSubmit)="submitCode()">
+			<div class="label">
+				Enter RSVP code
+			</div>
+			<div class="form-section">
+				<mat-form-field appearance="outline">
+					<input matInput type="code" formControlName="code">
+				</mat-form-field>
+			</div>
+		</form>
+		<div *ngIf="!isLoggedIn">
+			<asl-google-signin-button type="standard" color="filled_black" shape="circle"></asl-google-signin-button>
+		</div>
+	</div>
+
+	<div class="framing-flowers">
+		<img class="bottom-flowers" src="assets/dusty_blue_ivory_bouquet_crop.png">
 	</div>
 </div>

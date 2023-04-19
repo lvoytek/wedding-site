@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { debounceTime, pipe } from 'rxjs';
 
 @Component({
 	selector: 'app-code-input-form',
 	templateUrl: './code-input-form.component.html',
-	styleUrls: ['../login-form.component.scss'],
+	styleUrls: ['../login-form.component.scss', './code-input-form.component.scss'],
 })
 export class CodeInputFormComponent {
 	@Output() submit = new EventEmitter<string>();
@@ -12,15 +13,18 @@ export class CodeInputFormComponent {
 	@Input() isLoggedIn: boolean = false;
 
 	codeForm = this.fb.group({
-		code: ['', Validators.required],
+		code: [''],
 	});
 
-	constructor(private fb: NonNullableFormBuilder) {}
+	constructor(private fb: NonNullableFormBuilder) {
+		//After the user enters a code and stops typing for a second, try to see if that pokemon is valid
+		this.codeForm.valueChanges.pipe(debounceTime(1000)).subscribe(data => {
+			this.submitCode();
+		});
+	}
 
-	/**
-	 * Submit pokemon input for validation
-	 */
-	onSubmit() {
-		this.submit.emit(this.codeForm.value.code);
+	submitCode() {
+		const pokemon = this.codeForm.value.code?.trim().toLocaleLowerCase();
+		this.submit.emit(pokemon);
 	}
 }
