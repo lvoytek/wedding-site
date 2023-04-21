@@ -51,6 +51,10 @@ export class RsvpFormComponent implements OnChanges {
 			.controls as FormGroup[];
 	}
 
+	get attending() {
+		return this.rsvpForm.get('attending')?.value;
+	}
+
 	addGuest() {
 		const newGuest = this.fb.group({
 			firstName: ['', Validators.required],

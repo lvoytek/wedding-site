@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
 @NgModule({
@@ -20,6 +21,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 		MatSelectModule,
 		MatInputModule,
 		MatCheckboxModule,
+		MatRadioModule
 	],
 	exports: [
 		MatButtonModule,
@@ -31,6 +33,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 		MatCheckboxModule,
 		MatTableModule,
 		MatGridListModule,
+		MatRadioModule
 	],
 })
 export class MaterialModule {}

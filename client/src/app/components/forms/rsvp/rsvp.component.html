@@ -1,6 +1,11 @@
 <div class="page-title">RSVP</div>
 <form class="form" [formGroup]="rsvpForm" (ngSubmit)="onSubmit()">
 	<div class="form-section">
+		<mat-radio-group class="attending" color="primary" formControlName="attending" aria-label="Select an option">
+			<mat-radio-button [value]="true">Accept</mat-radio-button>
+			<mat-radio-button [value]="false">Decline</mat-radio-button>
+		</mat-radio-group>
+
 		<mat-form-field>
 			<mat-label>First name</mat-label>
 			<input matInput type="text" formControlName="firstName">
@@ -11,23 +16,20 @@
 			<input matInput type="text" formControlName="lastName">
 		</mat-form-field>
 
-		<mat-form-field>
-			<mat-label>Email</mat-label>
-			<input matInput type="email" formControlName="email">
-		</mat-form-field>
+		<div *ngIf="attending">
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input matInput type="email" formControlName="email">
+			</mat-form-field>
 
-		<mat-form-field>
-			<mat-label>Dietary Restrictions</mat-label>
-			<textarea matInput formControlName="dietaryRestrictions"></textarea>
-		</mat-form-field>
-
-		<mat-checkbox formControlName="attending">
-			Attending
-		</mat-checkbox>
+			<mat-form-field>
+				<mat-label>Dietary Restrictions</mat-label>
+				<textarea matInput formControlName="dietaryRestrictions"></textarea>
+			</mat-form-field>
+		</div>
 	</div>
 
-
-	<div formArrayName="guests">
+	<div formArrayName="guests" *ngIf="attending">
 		<h2>Guests</h2>
 		<button type="button" (click)="addGuest()">+ Add another guest</button>
 

@@ -29,6 +29,26 @@ mat-form-field {
 	flex-direction: column;
 }
 
+.attending {
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+	padding-bottom: 1.5em;
+
+	//Make radio buttons fill the circle entirely when selected
+	::ng-deep .mdc-radio__native-control:checked+.mdc-radio__background .mdc-radio__inner-circle {
+		transform: scale(1);
+	}
+
+	//Place the labels beneath the buttons
+	::ng-deep .mdc-form-field {
+		flex-direction: column;
+		//At some point get this working so we can import green-palette 700 :/
+		color: #627865;
+		font-size: large;
+		font-family: auto;
+	}
+}
 
 .submit-container {
 	padding: 2vh 10vw;
