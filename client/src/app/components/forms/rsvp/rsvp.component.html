@@ -30,8 +30,11 @@
 	</div>
 
 	<div formArrayName="guests" *ngIf="attending">
-		<h2>Guests</h2>
-		<button type="button" (click)="addGuest()">+ Add another guest</button>
+		<div class="add-guest">
+			<button mat-fab color="accent" type="button" (click)="addGuest()">
+			  <mat-icon>add</mat-icon>
+			</button>
+		</div>
 
 		<div *ngFor="let guest of guests; let i = index">
 			<form [formGroup]="guest">
