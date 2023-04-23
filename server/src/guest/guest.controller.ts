@@ -190,4 +190,37 @@ export class GuestController {
 	async remove(@Param('uuid') uuid: string): Promise<DeleteResult> {
 		return this.guestService.delete(uuid);
 	}
+
+	/**
+	 * If no admin exists, make the user with the provided google Id or create one and make them an admin
+	 * @param googleId The google Id for the new admin
+	 * @returns The new admin user's primary data
+	 */
+	@Post('createadmin')
+	async createAdmin(
+		@Body() googleId: {id: string},
+	): Promise<primaryData | { error: string }> {
+		if (await this.adminService.doAnyAdminsExist())
+			return { error: 'There are already admins' };
+
+		let user = await this.contactService.getUserByGoogleAuthID(googleId.id);
+
+		if (!user) {
+			user = await this.guestService.create({
+				firstName: 'Admin',
+				lastName: 'User',
+				uuid: null,
+			});
+
+			if (!user) return { error: 'Could not get user' };
+
+			await this.contactService.create(user, {
+				email: 'admin@localhost',
+				googleAuthId: googleId.id,
+			});
+		}
+
+		await this.adminService.create(user);
+		return user;
+	}
 }
