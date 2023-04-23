@@ -41,4 +41,12 @@ export class AdminService {
 			where: { guest: { uuid: guest.uuid } },
 		}));
 	}
+
+	/**
+	 * Check if there are any admin entries in the table
+	 * @returns true if there are any admins
+	 */
+	async doAnyAdminsExist(): Promise<boolean> {
+		return (await this.adminRepository.count()) > 0;
+	}
 }
