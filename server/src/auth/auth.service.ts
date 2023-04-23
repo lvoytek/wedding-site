@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
+import { RecursivePartial } from '@libs/utils';
+import { guestIdentity } from '@libs/person';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +31,33 @@ export class AuthService {
 			});
 			const payload = ticket.getPayload();
 			return payload.sub;
+		} catch (err) {
+			console.error(`Error verifying token: ${err}`);
+			return null;
+		}
+	}
+
+	/**
+	 * Verify and oauth token with google and get all relevant guest identity info if valid
+	 * @param tokenJWT The auth JWT provided by Google
+	 * @returns The available identity information from Google or null if token was not verified
+	 */
+	async getIdentityFromGoogleToken(
+		tokenJWT: string,
+	): Promise<RecursivePartial<guestIdentity>> {
+		try {
+			const ticket = await this.client.verifyIdToken({
+				idToken: tokenJWT,
+				audience: this.clientId,
+			});
+			const payload = ticket.getPayload();
+
+			return {
+				googleAuthId: payload.sub,
+				firstName: payload.given_name,
+				lastName: payload.family_name,
+				email: payload.email,
+			};
 		} catch (err) {
 			console.error(`Error verifying token: ${err}`);
 			return null;
