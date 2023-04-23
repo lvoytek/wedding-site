@@ -8,6 +8,10 @@ import {
 	UseGuards,
 	Headers,
 	Delete,
+	HttpException,
+	HttpStatus,
+	UnauthorizedException,
+	InternalServerErrorException,
 } from '@nestjs/common';
 import { DeleteResult } from 'typeorm';
 
@@ -200,17 +204,24 @@ export class GuestController {
 	@Post('createadmin')
 	async createAdmin(
 		@Body() googleAuthJWT: { token: string },
-	): Promise<primaryData | { error: string }> {
+	): Promise<primaryData> {
 		// Check if there are already any admins
-		if (await this.adminService.doAnyAdminsExist())
-			return { error: 'There are already admins' };
+		if (await this.adminService.doAnyAdminsExist()) {
+			throw new HttpException(
+				{
+					status: HttpStatus.FORBIDDEN,
+					error: 'There are already admins',
+				},
+				HttpStatus.FORBIDDEN,
+			);
+		}
 
 		// Get user info from google and check if a user already has the google id provided
 		const userIdentity: RecursivePartial<guestIdentity> =
 			await this.authService.getIdentityFromGoogleToken(
 				googleAuthJWT.token,
 			);
-		if (!userIdentity) return null;
+		if (!userIdentity) throw new UnauthorizedException();
 
 		let user = await this.contactService.getUserByGoogleAuthID(
 			userIdentity.googleAuthId,
@@ -224,7 +235,7 @@ export class GuestController {
 				uuid: null,
 			});
 
-			if (!user) return { error: 'Could not get user' };
+			if (!user) throw new InternalServerErrorException();
 
 			await this.contactService.create(user, {
 				email: userIdentity.email || 'admin@localhost',
