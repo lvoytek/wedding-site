@@ -84,6 +84,48 @@ export class GuestController {
 	}
 
 	/**
+	 * Associate a guest and all their associates with another guest and their associates
+	 * @param uuid1 The uuid of the first guest
+	 * @param uuid2 The uuid of the second guest
+	 */
+	@UseGuards(JwtAdminAuthGuard)
+	@Put(':uuid1/associate/:uuid2')
+	async associateAll(
+		@Param('uuid1') uuid1: string,
+		@Param('uuid2') uuid2: string,
+	) {
+		const guest1PrimaryData: primaryData =
+			await this.guestService.getPrimaryData(uuid1);
+		const guest2PrimaryData: primaryData =
+			await this.guestService.getPrimaryData(uuid1);
+
+		if (!guest1PrimaryData || !guest2PrimaryData) return null;
+
+		let guest1AndAssociates: primaryData[] =
+			await this.associateService.getAllAssociates(uuid1);
+		let guest2AndAssociates: primaryData[] =
+			await this.associateService.getAllAssociates(uuid2);
+
+		if (guest1AndAssociates) {
+			guest1AndAssociates.push(guest1PrimaryData);
+		} else {
+			guest1AndAssociates = [guest1PrimaryData];
+		}
+
+		if (guest2AndAssociates) {
+			guest2AndAssociates.push(guest2PrimaryData);
+		} else {
+			guest2AndAssociates = [guest2PrimaryData];
+		}
+
+		for (const associate1 of guest1AndAssociates) {
+			for (const associate2 of guest2AndAssociates) {
+				this.associateService.create(associate1, associate2);
+			}
+		}
+	}
+
+	/**
 	 * Make a user an admin
 	 * @param uuid The uuid of the user
 	 */
