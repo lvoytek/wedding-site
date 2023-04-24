@@ -1,5 +1,11 @@
+<div class="page-title">RSVP</div>
 <form class="form" [formGroup]="rsvpForm" (ngSubmit)="onSubmit()">
 	<div class="form-section">
+		<mat-radio-group class="attending" color="primary" formControlName="attending" aria-label="Select an option">
+			<mat-radio-button [value]="true">Accept</mat-radio-button>
+			<mat-radio-button [value]="false">Decline</mat-radio-button>
+		</mat-radio-group>
+
 		<mat-form-field>
 			<mat-label>First name</mat-label>
 			<input matInput type="text" formControlName="firstName">
@@ -10,25 +16,25 @@
 			<input matInput type="text" formControlName="lastName">
 		</mat-form-field>
 
-		<mat-form-field>
-			<mat-label>Email</mat-label>
-			<input matInput type="email" formControlName="email">
-		</mat-form-field>
+		<div *ngIf="attending">
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input matInput type="email" formControlName="email">
+			</mat-form-field>
 
-		<mat-form-field>
-			<mat-label>Dietary Restrictions</mat-label>
-			<textarea matInput formControlName="dietaryRestrictions"></textarea>
-		</mat-form-field>
-
-		<mat-checkbox formControlName="attending">
-			Attending
-		</mat-checkbox>
+			<mat-form-field>
+				<mat-label>Dietary Restrictions</mat-label>
+				<textarea matInput formControlName="dietaryRestrictions"></textarea>
+			</mat-form-field>
+		</div>
 	</div>
 
-
-	<div formArrayName="guests">
-		<h2>Guests</h2>
-		<button type="button" (click)="addGuest()">+ Add another guest</button>
+	<div formArrayName="guests" *ngIf="attending">
+		<div class="add-guest">
+			<button mat-fab color="accent" type="button" (click)="addGuest()">
+			  <mat-icon>add</mat-icon>
+			</button>
+		</div>
 
 		<div *ngFor="let guest of guests; let i = index">
 			<form [formGroup]="guest">
@@ -58,10 +64,7 @@
 	  </div>
 </form>
 
-<div *ngIf="!isLoggedIn">
-	<asl-google-signin-button type="standard" color="filled_black" shape="circle" text="signup_with"></asl-google-signin-button>
-</div>
-
 <div class="submit-container">
+	<asl-google-signin-button *ngIf="!isLoggedIn" class="google-signin" type="standard" color="filled_black" width="300" shape="circle" text="signup_with"></asl-google-signin-button>
 	<button class="submit-button" (click)="onSubmit()" mat-flat-button color="accent" [disabled]="!rsvpForm.valid">Submit</button>
 </div>

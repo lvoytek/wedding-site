@@ -1,3 +1,14 @@
+@import '../../../styles.scss';
+@import url('../../../assets/fonts.css');
+
+.page-title {
+	padding-top: 4vh;
+	font-size: min(4em, 12vw);
+	color: $ll-black;
+	text-align: center;
+	font-family: 'Cecily', 'Serif';
+}
+
 .container {
 	min-height: 100%;
   	display: flex;
@@ -18,16 +29,40 @@ mat-form-field {
 	flex-direction: column;
 }
 
+.attending {
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+	padding-bottom: 1.5em;
+
+	//Make radio buttons fill the circle entirely when selected
+	::ng-deep .mdc-radio__native-control:checked+.mdc-radio__background .mdc-radio__inner-circle {
+		transform: scale(1);
+	}
+
+	//Place the labels beneath the buttons
+	::ng-deep .mdc-form-field {
+		flex-direction: column;
+		//At some point get this working so we can import green-palette 700 :/
+		color: #627865;
+		font-size: large;
+		font-family: auto;
+	}
+}
 
 .submit-container {
-	padding: 2vh 10vw;
-    display: flex;
-    height: 5rem;
-    width: 80vw;
+	display: flex;
+    flex-direction: column;
+    padding: 2vh 7vw;
+	align-self: center;
 
 	.submit-button {
-		width: 100%;
-		height: 100%;
-		font-size: x-large;
+		height: 30px;
+		width: 300px;
+		border-radius: 25px;
+	}
+
+	.google-signin {
+		padding-bottom: 10px;
 	}
 }

@@ -18,7 +18,7 @@ import { RecursivePartial } from '@libs/utils';
 @Component({
 	selector: 'app-rsvp-form',
 	templateUrl: './rsvp.component.html',
-	styleUrls: ['../form.component.scss'],
+	styleUrls: ['../form.component.scss', './rsvp.component.scss'],
 })
 export class RsvpFormComponent implements OnChanges {
 	@Output() submit = new EventEmitter<RecursivePartial<submissionData>>();
@@ -49,6 +49,10 @@ export class RsvpFormComponent implements OnChanges {
 	get guests() {
 		return (this.rsvpForm.get('guests') as FormArray)
 			.controls as FormGroup[];
+	}
+
+	get attending() {
+		return this.rsvpForm.get('attending')?.value;
 	}
 
 	addGuest() {

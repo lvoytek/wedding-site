@@ -32,26 +32,26 @@
 .form-section {
 	::ng-deep mat-form-field{
 		margin-bottom: -8px;
-		width: 65vw;
+		width: 15em;
 		.mat-mdc-text-field-wrapper {
 			background-color: $ll-creme;
 		}
 	 }
-
 }
+
 .framing-flowers {
 	width: 100vw;
 	height: 35vh;
 }
 
-
 .top-flowers {
-	width: 75%;
+	width: 75vw;
+	max-width: 50vh;
+	height: auto;
 }
 
 .bottom-flowers {
-	height: 27%;
-    width: 75%;
+    @extend .top-flowers;
     bottom: 0;
     right: 0;
     position: absolute;
