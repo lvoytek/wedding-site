@@ -2,25 +2,30 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { guestData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
+const baseColumns: string[] = [
+	'uuid',
+	'firstName',
+	'lastName',
+	'pokemon',
+	'isInBridalParty',
+	'isInGroomishParty',
+	'isFamily',
+	'table',
+	'isGoing',
+	'actions',
+];
+
+const additionalColumns: string[] = ['email', 'associates'];
+
 @Component({
 	selector: 'app-admin-table',
 	templateUrl: './admin-table.component.html',
 	styleUrls: ['./admin-table.component.scss'],
 })
 export class AdminTableComponent implements OnInit {
-	displayedColumns: string[] = [
-		'uuid',
-		'firstName',
-		'lastName',
-		'pokemon',
-		'isInBridalParty',
-		'isInGroomishParty',
-		'isFamily',
-		'table',
-		'isGoing',
-		'email',
-		'actions',
-	];
+	displayedColumns: string[] = baseColumns;
+
+	expanded: boolean = false;
 
 	@Output() updateGuest = new EventEmitter<RecursivePartial<guestData>>();
 	@Output() deleteGuest = new EventEmitter<string>();
@@ -37,5 +42,16 @@ export class AdminTableComponent implements OnInit {
 
 	onSave(element: RecursivePartial<guestData>) {
 		this.updateGuest.emit(element);
+	}
+
+	onExpand() {
+		if (this.expanded) {
+			this.displayedColumns = baseColumns;
+			this.expanded = false;
+		} else {
+			this.displayedColumns = baseColumns.concat(additionalColumns);
+			console.log(this.displayedColumns);
+			this.expanded = true;
+		}
 	}
 }
