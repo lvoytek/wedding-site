@@ -50,7 +50,6 @@ export class AdminTableComponent implements OnInit {
 			this.expanded = false;
 		} else {
 			this.displayedColumns = baseColumns.concat(additionalColumns);
-			console.log(this.displayedColumns);
 			this.expanded = true;
 		}
 	}
