@@ -92,14 +92,10 @@ export class GuestController {
 	async associateAll(
 		@Body() uuids: {uuid1: string, uuid2: string}
 	) {
-		console.log("Hi");
-		console.log(uuids);
 		const guest1PrimaryData: primaryData =
 			await this.guestService.getPrimaryData(uuids.uuid1);
 		const guest2PrimaryData: primaryData =
 			await this.guestService.getPrimaryData(uuids.uuid2);
-
-		console.log(guest1PrimaryData, guest2PrimaryData);
 
 		if (!guest1PrimaryData || !guest2PrimaryData) return null;
 
