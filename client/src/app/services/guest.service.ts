@@ -11,6 +11,10 @@ export class GuestService {
 		return this.api.post(`guest`, guest);
 	}
 
+	associateGuests(uuid1: string, uuid2:string) {
+		return this.api.post(`guest/associate`, {uuid1, uuid2});
+	}
+
 	editGuest(guest: RecursivePartial<guestData>) {
 		return this.api.put(`guest/${guest.uuid}`, guest);
 	}
