@@ -85,26 +85,28 @@ export class GuestController {
 
 	/**
 	 * Associate a guest and all their associates with another guest and their associates
-	 * @param uuid1 The uuid of the first guest
-	 * @param uuid2 The uuid of the second guest
+	 * @param uuids The uuids of the guests to associate
 	 */
 	@UseGuards(JwtAdminAuthGuard)
-	@Put(':uuid1/associate/:uuid2')
+	@Post('associate')
 	async associateAll(
-		@Param('uuid1') uuid1: string,
-		@Param('uuid2') uuid2: string,
+		@Body() uuids: {uuid1: string, uuid2: string}
 	) {
+		console.log("Hi");
+		console.log(uuids);
 		const guest1PrimaryData: primaryData =
-			await this.guestService.getPrimaryData(uuid1);
+			await this.guestService.getPrimaryData(uuids.uuid1);
 		const guest2PrimaryData: primaryData =
-			await this.guestService.getPrimaryData(uuid1);
+			await this.guestService.getPrimaryData(uuids.uuid2);
+
+		console.log(guest1PrimaryData, guest2PrimaryData);
 
 		if (!guest1PrimaryData || !guest2PrimaryData) return null;
 
 		let guest1AndAssociates: primaryData[] =
-			await this.associateService.getAllAssociates(uuid1);
+			await this.associateService.getAllAssociates(uuids.uuid1);
 		let guest2AndAssociates: primaryData[] =
-			await this.associateService.getAllAssociates(uuid2);
+			await this.associateService.getAllAssociates(uuids.uuid2);
 
 		if (guest1AndAssociates) {
 			guest1AndAssociates.push(guest1PrimaryData);
