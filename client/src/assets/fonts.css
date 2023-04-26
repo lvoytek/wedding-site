@@ -24,3 +24,9 @@
 	src: url('/assets/fonts/Spectral-MediumItalic.ttf');
 	font-weight: 600;
 }
+
+@font-face {
+	font-family: 'DancingScript';
+	src: url('/assets/fonts/DancingScript-SemiBold.ttf');
+	font-weight: 600;
+}
