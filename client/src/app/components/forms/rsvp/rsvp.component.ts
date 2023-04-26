@@ -63,7 +63,22 @@ export class RsvpFormComponent implements OnChanges {
 			dietaryRestrictions: ['', Validators.required],
 		});
 
+		newGuest.get('firstName')?.value;
+
 		this.guests.push(newGuest);
+	}
+
+	/**
+	 * Get a formatted name for a guest
+	 * @param guest the form group with associated info for the guest
+	 * @param i The "number" guest they are. 0 indexed, so we'll want to add 1
+	 */
+	getGuestName(guest: FormGroup, i : number): string {
+		if(guest.get('firstName')?.value || guest.get('lastName')?.value) {
+			//Trim means we don't have to worry about properly building up a string
+			return `${guest.get('firstName')?.value || ''} ${guest.get('lastName')?.value || ''}`.trim();
+		}
+		return `Guest ${i + 1}`;
 	}
 
 	onSubmit() {
@@ -81,7 +96,7 @@ export class RsvpFormComponent implements OnChanges {
 			};
 
 			if (formData.email) {
-				rsvpData.email = formData.email;
+				rsvpData.email = formData.email.trim();
 			}
 
 			//We need to parse our guests array into the correct format
@@ -96,8 +111,8 @@ export class RsvpFormComponent implements OnChanges {
 
 				const associate: Partial<guestData> = {
 					uuid,
-					firstName: guest.value.firstName,
-					lastName: guest.value.lastName,
+					firstName: guest.value.firstName.trim(),
+					lastName: guest.value.lastName.trim(),
 					diet: guest.value.dietaryRestrictions,
 				};
 
