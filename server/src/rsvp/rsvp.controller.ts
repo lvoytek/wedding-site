@@ -155,6 +155,30 @@ export class RsvpController {
 				}
 			}
 
+			// Check if already existing associates were not included,
+			// if so mark them as not going and disassociate them
+			const existingAssociates: primaryData[] =
+				await this.associateService.getAllAssociates(rsvp.uuid);
+
+			for (const existingAssociate of existingAssociates) {
+				let found: boolean = false;
+				for (const updatedAssociate of associates) {
+					if (existingAssociate.uuid == updatedAssociate.uuid) {
+						found = true;
+						break;
+					}
+				}
+
+				if (!found) {
+					await this.rsvpService.createOrUpdate(existingAssociate, {
+						isGoing: false,
+					});
+					await this.associateService.removeAllAssociatesOfGuest(
+						existingAssociate.uuid,
+					);
+				}
+			}
+
 			// Associate associates with each other
 			for (let i = 0; i < associates.length; i++) {
 				for (let j = i + 1; j < associates.length; j++) {
