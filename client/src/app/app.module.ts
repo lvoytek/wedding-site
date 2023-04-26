@@ -26,6 +26,7 @@ import {
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './services/authInterceptor.service';
 import { AddAssociateComponent } from './components/forms/add-associate/add-associate.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
 	declarations: [
@@ -76,7 +77,7 @@ import { AddAssociateComponent } from './components/forms/add-associate/add-asso
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptor,
 			multi: true,
-		},
+		}
 	],
 	bootstrap: [AppComponent],
 })
