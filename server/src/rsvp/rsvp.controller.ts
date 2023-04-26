@@ -189,6 +189,19 @@ export class RsvpController {
 				}
 			}
 			rsvpInfo.associates = associates;
+		} else {
+			// No associates provided: remove all existing associations
+			const existingAssociates: primaryData[] =
+				await this.associateService.getAllAssociates(rsvp.uuid);
+
+			for (const existingAssociate of existingAssociates) {
+				await this.rsvpService.createOrUpdate(existingAssociate, {
+					isGoing: false,
+				});
+				await this.associateService.removeAllAssociatesOfGuest(
+					existingAssociate.uuid,
+				);
+			}
 		}
 
 		return { ...guest, ...contactInfo, ...rsvpInfo };
