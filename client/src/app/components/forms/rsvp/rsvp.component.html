@@ -6,30 +6,38 @@
 			<mat-radio-button [value]="false">Decline</mat-radio-button>
 		</mat-radio-group>
 
-		<mat-form-field>
-			<mat-label>First name</mat-label>
-			<input matInput type="text" formControlName="firstName">
-		</mat-form-field>
+		<div class="row">
+			<mat-form-field>
+				<mat-label>First name</mat-label>
+				<input matInput type="text" formControlName="firstName">
+			</mat-form-field>
 
-		<mat-form-field>
-			<mat-label>Last name</mat-label>
-			<input matInput type="text" formControlName="lastName">
-		</mat-form-field>
+			<mat-form-field>
+				<mat-label>Last name</mat-label>
+				<input matInput type="text" formControlName="lastName">
+			</mat-form-field>
+		</div>
 
 		<div *ngIf="attending">
-			<mat-form-field>
-				<mat-label>Email</mat-label>
-				<input matInput type="email" formControlName="email">
-			</mat-form-field>
+			<div class="row">
+				<mat-form-field>
+					<mat-label>Email</mat-label>
+					<input matInput type="email" formControlName="email">
+				</mat-form-field>
+			</div>
 
-			<mat-form-field>
-				<mat-label>Dietary Restrictions</mat-label>
-				<textarea matInput formControlName="dietaryRestrictions"></textarea>
-			</mat-form-field>
+			<div class="row">
+				<mat-form-field>
+					<mat-label>Dietary Restrictions</mat-label>
+					<textarea matInput formControlName="dietaryRestrictions"></textarea>
+				</mat-form-field>
+			</div>
+
 		</div>
 	</div>
 
 	<div formArrayName="guests" *ngIf="attending">
+		<hr>
 		<div class="add-guest">
 			<button mat-fab color="accent" type="button" (click)="addGuest()">
 			  <mat-icon>add</mat-icon>
@@ -39,9 +47,9 @@
 		<div class="guest-list">
 			<mat-accordion>
 				<div *ngFor="let guest of guests; let i = index">
-					<mat-expansion-panel>
-						<mat-expansion-panel-header>
-						  <mat-panel-title>
+					<mat-expansion-panel togglePosition="before">
+						<mat-expansion-panel-header class="guest-info">
+						  <mat-panel-title class="guest-name">
 							{{getGuestName(guest, i)}}
 						  </mat-panel-title>
 						  <mat-panel-description class="guest-actions">
@@ -50,32 +58,38 @@
 						</mat-expansion-panel-header>
 						<form [formGroup]="guest">
 							<div class="form-section">
-								<mat-form-field>
-									<mat-label>First name</mat-label>
-									<input matInput type="text" formControlName="firstName">
-								</mat-form-field>
+								<div class="row">
+									<mat-form-field>
+										<mat-label>First name</mat-label>
+										<input matInput type="text" formControlName="firstName">
+									</mat-form-field>
 
-								<mat-form-field>
-									<mat-label>Last name</mat-label>
-									<input matInput type="text" formControlName="lastName">
-								</mat-form-field>
+									<mat-form-field>
+										<mat-label>Last name</mat-label>
+										<input matInput type="text" formControlName="lastName">
+									</mat-form-field>
+								</div>
 
-								<mat-form-field>
-									<mat-label>Email</mat-label>
-									<input matInput type="email" formControlName="email">
-								</mat-form-field>
+								<div class="row">
+									<mat-form-field>
+										<mat-label>Email</mat-label>
+										<input matInput type="email" formControlName="email">
+									</mat-form-field>
+								</div>
 
-								<mat-form-field>
-									<mat-label>Dietary Restrictions</mat-label>
-									<textarea matInput formControlName="dietaryRestrictions"></textarea>
-								</mat-form-field>
+								<div class="row">
+									<mat-form-field>
+										<mat-label>Dietary Restrictions</mat-label>
+										<textarea matInput formControlName="dietaryRestrictions"></textarea>
+									</mat-form-field>
+								</div>
 							</div>
 						</form>
 					</mat-expansion-panel>
 				</div>
 			</mat-accordion>
 		</div>
-	  </div>
+	</div>
 </form>
 
 <div class="submit-container">

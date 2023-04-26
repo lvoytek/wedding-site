@@ -17,3 +17,10 @@
 	src: url('/assets/fonts/Forum-Regular.ttf');
 	font-weight: 600;
 }
+
+
+@font-face {
+	font-family: 'Spectral';
+	src: url('/assets/fonts/Spectral-Italic.ttf');
+	font-weight: 600;
+}

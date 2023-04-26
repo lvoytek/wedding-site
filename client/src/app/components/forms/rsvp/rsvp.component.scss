@@ -1,3 +1,11 @@
+@import '../../../../styles.scss';
+
+hr {
+	//TODO: Figure out how to pull in ll-green 800 :/
+	border-top: 1px solid #58685a;
+	opacity: 0.5;
+}
+
 .add-guest {
     display: flex;
     justify-content: space-around;
@@ -7,14 +15,27 @@
 	margin-top: 2rem;
 }
 
+::ng-deep .guest-info > .mat-expansion-indicator:after {
+	color: $ll-burgundy;
+}
+
+
+.guest-name {
+	white-space: nowrap;
+	place-content: center;
+	flex-grow: 1;
+}
+
 .guest-actions {
-	place-content: flex-end;
+	flex-grow: 0;
+	margin-right: 0;
 }
 
 .remove-guest {
 	will-change: opacity;
 	transition: opacity 150ms ease-in-out;
 	opacity: 0.6;
+	color: $ll-burgundy;
 
 	&:hover {
 		opacity: 1.0;
