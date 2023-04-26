@@ -15,6 +15,14 @@
   	flex-direction: column;
 }
 
+.row {
+	display: flex;
+
+	::ng-deep mat-form-field {
+		width: 100%;
+	}
+}
+
 .form {
 	flex: 1;
 	padding: 2rem;
