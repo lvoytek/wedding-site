@@ -10,7 +10,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MatExpansionModule } from '@angular/material/expansion'
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 @NgModule({
 	declarations: [],
 	imports: [
@@ -22,7 +24,9 @@ import { MatExpansionModule } from '@angular/material/expansion'
 		MatSelectModule,
 		MatInputModule,
 		MatCheckboxModule,
+		MatGridListModule,
 		MatRadioModule,
+		MatListModule,
 		MatExpansionModule
 	],
 	exports: [
@@ -36,6 +40,7 @@ import { MatExpansionModule } from '@angular/material/expansion'
 		MatTableModule,
 		MatGridListModule,
 		MatRadioModule,
+		MatListModule,
 		MatExpansionModule
 	],
 })

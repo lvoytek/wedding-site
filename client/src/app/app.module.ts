@@ -25,6 +25,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { AuthService } from './services/auth.service';
 import { AuthInterceptor } from './services/authInterceptor.service';
+import { AddAssociateComponent } from './components/forms/add-associate/add-associate.component';
 
 @NgModule({
 	declarations: [
@@ -37,6 +38,7 @@ import { AuthInterceptor } from './services/authInterceptor.service';
 		AdminTableComponent,
 		CodeInputFormComponent,
 		AddGuestComponent,
+  AddAssociateComponent,
 	],
 	imports: [
 		BrowserModule,

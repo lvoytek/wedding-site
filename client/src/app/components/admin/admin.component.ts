@@ -48,6 +48,19 @@ export class AdminComponent implements OnInit {
 	}
 
 	/**
+	 * Associate two guests and all of their associates
+	 * @param uuids The uuids of the guests to associate
+	 */
+	associateGuests(uuids: { uuid1: string; uuid2: string }) {
+		this.api.associateGuests(uuids.uuid1, uuids.uuid2).subscribe(() => {
+			console.log('Guests associated');
+			this.api.getAllGuests().subscribe((data: any) => {
+				this.guestEntries = data;
+			});
+		});
+	}
+
+	/**
 	 * Update or add any info to an existing guest
 	 * @param guest All updated data to add
 	 */
