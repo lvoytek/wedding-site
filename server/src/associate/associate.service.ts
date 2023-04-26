@@ -73,7 +73,47 @@ export class AssociateService {
 			where: [{ primary: { uuid } }, { secondary: { uuid } }],
 		});
 
-		let associates: primaryData[] = [];
+		return this.getAssociatesFromAssociations(uuid, associations);
+	}
+
+	/**
+	 * Remove all associations with a specific guest
+	 * @param uuid The guest to be disassociated
+	 * @return The guests that had associations removed
+	 */
+	async removeAllAssociatesOfGuest(uuid: string): Promise<primaryData[]> {
+		const associations: Associate[] = await this.associateRepository.find({
+			relations: { primary: true, secondary: true },
+			where: [{ primary: { uuid } }, { secondary: { uuid } }],
+		});
+
+		if (associations) {
+			const removedAssociations = await this.associateRepository.remove(
+				associations,
+			);
+			return this.getAssociatesFromAssociations(
+				uuid,
+				removedAssociations,
+			);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get a list of associates for a guest as a primary data array from a list of database associations
+	 * @param uuid The uuid of the guest to get associates for
+	 * @param associations The array of Associate[] database entries
+	 * @returns The list of associates
+	 */
+	private getAssociatesFromAssociations(
+		uuid: string,
+		associations: Associate[],
+	): primaryData[] {
+		if (!associations) return [];
+
+		const associates: primaryData[] = [];
+
 		for (const association of associations) {
 			if (
 				association.primary.uuid == uuid &&
