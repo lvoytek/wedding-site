@@ -3,10 +3,10 @@
 
 .page-title {
 	padding-top: 4vh;
-	font-size: min(4em, 12vw);
+	font-size: min(3em, 13vw);
 	color: $ll-black;
 	text-align: center;
-	font-family: 'Cecily', 'Serif';
+	font-family: 'DancingScript', 'Serif';
 }
 
 .container {
@@ -26,6 +26,11 @@
 .form {
 	flex: 1;
 	padding: 2rem;
+
+	@media (min-width: 768px) {
+		width: 70%;
+    	align-self: center;
+	}
 }
 
 mat-form-field {
@@ -53,8 +58,9 @@ mat-form-field {
 		flex-direction: column;
 		//At some point get this working so we can import green-palette 700 :/
 		color: #627865;
-		font-size: large;
-		font-family: auto;
+		font-size: medium;
+		font-weight: 400;
+		font-family: 'Roboto', 'Serif';
 	}
 }
 
