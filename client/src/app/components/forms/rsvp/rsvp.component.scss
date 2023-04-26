@@ -2,3 +2,21 @@
     display: flex;
     justify-content: space-around;
 }
+
+.guest-list {
+	margin-top: 2rem;
+}
+
+.guest-actions {
+	place-content: flex-end;
+}
+
+.remove-guest {
+	will-change: opacity;
+	transition: opacity 150ms ease-in-out;
+	opacity: 0.6;
+
+	&:hover {
+		opacity: 1.0;
+	}
+}

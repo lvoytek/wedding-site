@@ -55,6 +55,18 @@ export class RsvpFormComponent implements OnChanges {
 		return this.rsvpForm.get('attending')?.value;
 	}
 
+	get formIsValid() {
+		//If they are attending, we need all guests to be valid in order to submit
+		if(this.attending){
+			for(const guest of this.guests){
+				if(!guest.valid) {
+					return false;
+				}
+			}
+		}
+		return this.rsvpForm.valid;
+	}
+
 	addGuest() {
 		const newGuest = this.fb.group({
 			firstName: ['', Validators.required],
@@ -66,6 +78,14 @@ export class RsvpFormComponent implements OnChanges {
 		newGuest.get('firstName')?.value;
 
 		this.guests.push(newGuest);
+	}
+
+	/**
+	 * Remove the guest at index i from the guest list
+	 * @param i
+	 */
+	removeGuest(i: number) {
+		this.rsvpForm.get('guests')?.setValue(this.guests.splice(i, 1));
 	}
 
 	/**
