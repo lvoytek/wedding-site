@@ -24,7 +24,8 @@ td.mat-column-uuid {
 	}
 }
 
-.mat-column-table {
+.mat-column-table,
+.mat-column-associateLimit {
 	input {
 		width: 35px;
 	}

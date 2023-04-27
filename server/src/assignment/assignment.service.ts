@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { Repository, UpdateResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Guest } from '@entities/guest.entity';
 import { Assignment } from '@entities/assignment.entity';
 
 import { assignmentData, primaryData } from '@libs/person';
@@ -48,6 +47,7 @@ export class AssignmentService {
 			isInBridalParty: assignmentUpdate.isInBridalParty,
 			isFamily: assignmentUpdate.isFamily,
 			pokemon: assignmentUpdate.pokemon,
+			associateLimit: assignmentUpdate.associateLimit,
 		};
 
 		if (!Object.values(assignmentUpdateData).every((el) => el == null))

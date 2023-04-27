@@ -11,6 +11,7 @@ const baseColumns: string[] = [
 	'isInGroomishParty',
 	'isFamily',
 	'table',
+	'associateLimit',
 	'isGoing',
 	'actions',
 ];
