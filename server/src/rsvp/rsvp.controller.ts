@@ -271,6 +271,9 @@ export class RsvpController {
 
 		const guestRSVP = await this.rsvpService.get(guestToGet.uuid);
 		const guestContact = await this.contactService.get(guestToGet.uuid);
+		const associateLimit: number = (
+			await this.assignmentService.get(guestToGet.uuid)
+		)?.associateLimit;
 
 		// If guest has an associated google account, make sure they are logged in
 		if (
@@ -292,9 +295,15 @@ export class RsvpController {
 				if (newAssociate) associates.push(newAssociate);
 			}
 
-			return { ...guestToGet, ...guestRSVP, ...guestContact, associates };
+			return {
+				...guestToGet,
+				...guestRSVP,
+				...guestContact,
+				associates,
+				associateLimit,
+			};
 		}
 
-		return { ...guestToGet, ...guestRSVP, ...guestContact };
+		return { ...guestToGet, ...guestRSVP, ...guestContact, associateLimit };
 	}
 }
