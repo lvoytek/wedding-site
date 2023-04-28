@@ -69,10 +69,17 @@ export class RsvpController {
 				? await this.rsvpService.createOrUpdate(guest, rsvp)
 				: undefined;
 
-		// Add or update RSVP info for each associate provided
+		// Add or update RSVP info for each associate provided up to the associate limit
 		const associates: primaryData[] = [];
 		if (rsvp.associates) {
-			for (const associateInfo of rsvp.associates) {
+			const associateLimit =
+				(await this.assignmentService.get(guest.uuid))
+					?.associateLimit || null;
+
+			for (let i = 0; i < rsvp.associates.length; i++) {
+				if (associateLimit && i >= associateLimit) break;
+
+				const associateInfo = rsvp.associates[i];
 				let associate: primaryData = null;
 
 				// The associate already has a uuid, use the existing guest associated with it and update name if needed
