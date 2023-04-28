@@ -39,7 +39,7 @@
 	<div formArrayName="guests" *ngIf="attending">
 		<hr>
 		<div class="add-guest">
-			<button mat-fab color="accent" type="button" (click)="addGuest()">
+			<button mat-fab color="accent" type="button" [disabled]="associatesAtCapacity" (click)="addGuest()">
 			  <mat-icon>add</mat-icon>
 			</button>
 		</div>

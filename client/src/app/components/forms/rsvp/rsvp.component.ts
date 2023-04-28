@@ -37,6 +37,7 @@ export class RsvpFormComponent implements OnChanges {
 	});
 
 	associateToInputMap: { [uuid: string]: FormGroup } = {};
+	associatesAtCapacity: boolean = false;
 
 	constructor(private fb: NonNullableFormBuilder) {}
 
@@ -57,9 +58,9 @@ export class RsvpFormComponent implements OnChanges {
 
 	get formIsValid() {
 		//If they are attending, we need all guests to be valid in order to submit
-		if(this.attending){
-			for(const guest of this.guests){
-				if(!guest.valid) {
+		if (this.attending) {
+			for (const guest of this.guests) {
+				if (!guest.valid) {
 					return false;
 				}
 			}
@@ -68,16 +69,19 @@ export class RsvpFormComponent implements OnChanges {
 	}
 
 	addGuest() {
-		const newGuest = this.fb.group({
-			firstName: ['', Validators.required],
-			lastName: ['', Validators.required],
-			email: ['', [Validators.email]],
-			dietaryRestrictions: ['', Validators.required],
-		});
+		if (!this.associatesAtCapacity) {
+			const newGuest = this.fb.group({
+				firstName: ['', Validators.required],
+				lastName: ['', Validators.required],
+				email: ['', [Validators.email]],
+				dietaryRestrictions: ['', Validators.required],
+			});
 
-		newGuest.get('firstName')?.value;
+			newGuest.get('firstName')?.value;
 
-		this.guests.push(newGuest);
+			this.guests.push(newGuest);
+			this.updateAssociatesAtCapacity();
+		}
 	}
 
 	/**
@@ -85,7 +89,8 @@ export class RsvpFormComponent implements OnChanges {
 	 * @param i
 	 */
 	removeGuest(i: number) {
-		this.rsvpForm.get('guests')?.setValue(this.guests.splice(i, 1));
+		(this.rsvpForm.get('guests') as FormArray).removeAt(i);
+		this.updateAssociatesAtCapacity();
 	}
 
 	/**
@@ -93,10 +98,12 @@ export class RsvpFormComponent implements OnChanges {
 	 * @param guest the form group with associated info for the guest
 	 * @param i The "number" guest they are. 0 indexed, so we'll want to add 1
 	 */
-	getGuestName(guest: FormGroup, i : number): string {
-		if(guest.get('firstName')?.value || guest.get('lastName')?.value) {
+	getGuestName(guest: FormGroup, i: number): string {
+		if (guest.get('firstName')?.value || guest.get('lastName')?.value) {
 			//Trim means we don't have to worry about properly building up a string
-			return `${guest.get('firstName')?.value || ''} ${guest.get('lastName')?.value || ''}`.trim();
+			return `${guest.get('firstName')?.value || ''} ${
+				guest.get('lastName')?.value || ''
+			}`.trim();
 		}
 		return `Guest ${i + 1}`;
 	}
@@ -208,5 +215,14 @@ export class RsvpFormComponent implements OnChanges {
 			guestFormGroup.controls['email'].setValue(email);
 			guestFormGroup.controls['dietaryRestrictions'].setValue(diet);
 		}
+	}
+
+	/**
+	 * Check if the max amount of associates have been added and update accordingly
+	 */
+	private updateAssociatesAtCapacity() {
+		if (!!this.existingRsvpData.associateLimit)
+			this.associatesAtCapacity =
+				this.guests.length >= this.existingRsvpData.associateLimit;
 	}
 }
