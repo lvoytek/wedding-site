@@ -74,7 +74,7 @@ export class RsvpFormComponent implements OnChanges {
 				firstName: ['', Validators.required],
 				lastName: ['', Validators.required],
 				email: ['', [Validators.email]],
-				dietaryRestrictions: ['', Validators.required],
+				dietaryRestrictions: [''],
 			});
 
 			newGuest.get('firstName')?.value;
