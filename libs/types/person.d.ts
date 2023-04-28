@@ -26,6 +26,7 @@ type assignmentData = {
 	isInBridalParty: boolean;
 	isFamily: boolean;
 	pokemon: string;
+	associateLimit: number;
 };
 
 /**

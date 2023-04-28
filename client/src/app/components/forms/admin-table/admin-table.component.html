@@ -50,8 +50,15 @@
 
 	  <ng-container matColumnDef="table">
 		<th mat-header-cell *matHeaderCellDef>Table</th>
-		<<td mat-cell *matCellDef="let element">
+		<td mat-cell *matCellDef="let element">
 		  <input matInput [(ngModel)]="element.table" type="number" />
+		</td>
+	  </ng-container>
+
+	  <ng-container matColumnDef="associateLimit">
+		<th mat-header-cell *matHeaderCellDef>Guest Limit</th>
+		<td mat-cell *matCellDef="let element">
+		  <input matInput [(ngModel)]="element.associateLimit" type="number" />
 		</td>
 	  </ng-container>
 

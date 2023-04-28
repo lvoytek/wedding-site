@@ -27,6 +27,9 @@ export class Assignment {
 	@Column({ unique: true })
 	pokemon: string;
 
+	@Column({default: 1})
+	associateLimit: number;
+
 	@OneToOne(() => Guest, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	guest: Guest;
