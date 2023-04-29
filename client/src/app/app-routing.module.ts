@@ -4,7 +4,6 @@ import { AdminComponent } from './components/admin/admin.component';
 import { HomeComponent } from './components/home/home.component';
 import { InfoComponent } from './components/info/info.component';
 import { RsvpComponent } from './components/rsvp/rsvp.component';
-import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
 	{ path: 'info', component: InfoComponent, data: { title: 'Info' } },
@@ -15,7 +14,7 @@ const routes: Routes = [
 
 @NgModule({
 	imports: [
-		RouterModule.forRoot(routes, { useHash: environment.production }),
+		RouterModule.forRoot(routes),
 	],
 	exports: [RouterModule],
 })
