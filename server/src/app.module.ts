@@ -13,6 +13,7 @@ import { Contact } from '@entities/contact.entity';
 import { Assignment } from '@entities/assignment.entity';
 import { Associate } from '@entities/associate.entity';
 import { Admin } from '@entities/admin.entity';
+import { Faq } from '@entities/faq.entity';
 
 import { RsvpController } from './rsvp/rsvp.controller';
 import { GuestService } from './guest/guest.service';
@@ -27,6 +28,8 @@ import { JwtStrategy } from '@auth/jwt.strategy';
 import { JwtAdminStrategy } from '@auth/jwtadmin.strategy';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
+import { FaqService } from './faq/faq.service';
+import { FaqController } from './faq/faq.controller';
 
 @Module({
 	imports: [
@@ -52,6 +55,7 @@ import { AuthController } from './auth/auth.controller';
 			Assignment,
 			Associate,
 			Admin,
+			Faq,
 		]),
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
@@ -66,7 +70,13 @@ import { AuthController } from './auth/auth.controller';
 			inject: [ConfigService],
 		}),
 	],
-	controllers: [AppController, RsvpController, GuestController, AuthController],
+	controllers: [
+		AppController,
+		RsvpController,
+		GuestController,
+		AuthController,
+		FaqController,
+	],
 	providers: [
 		AppService,
 		GuestService,
@@ -77,7 +87,8 @@ import { AuthController } from './auth/auth.controller';
 		AdminService,
 		JwtStrategy,
 		JwtAdminStrategy,
-		AuthService
+		AuthService,
+		FaqService,
 	],
 })
 export class AppModule {}
