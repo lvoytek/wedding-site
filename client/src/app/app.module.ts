@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RsvpService } from './services/rsvp.service';
 import { GuestService } from './services/guest.service';
+import { InfoService } from './services/info.service';
 import { ApiService } from './services/api.service';
 import { RsvpFormComponent } from './components/forms/rsvp/rsvp.component';
 import { CodeInputFormComponent } from './components/forms/code-input-form/code-input-form.component';
@@ -54,6 +55,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 	providers: [
 		RsvpService,
 		GuestService,
+		InfoService,
 		ApiService,
 		AuthService,
 		{
