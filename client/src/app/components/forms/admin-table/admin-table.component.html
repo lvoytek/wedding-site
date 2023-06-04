@@ -76,6 +76,13 @@
 		</td>
 	  </ng-container>
 
+	  <ng-container matColumnDef="usingGoogle">
+		<th mat-header-cell *matHeaderCellDef>Oauth</th>
+		<td mat-cell *matCellDef="let element">
+		  {{!!element.googleAuthId ? "Yes" : "No"}}
+		</td>
+	  </ng-container>
+
 	  <ng-container matColumnDef="associates">
 		<th mat-header-cell *matHeaderCellDef>Associates</th>
 		<td mat-cell *matCellDef="let element">
