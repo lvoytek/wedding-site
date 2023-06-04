@@ -8,6 +8,6 @@ export class Faq {
 	@Column()
 	question: string;
 
-	@Column()
+	@Column({length: 2000})
 	answer: string;
 }
