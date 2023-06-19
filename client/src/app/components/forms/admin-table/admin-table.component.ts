@@ -16,7 +16,12 @@ const baseColumns: string[] = [
 	'actions',
 ];
 
-const additionalColumns: string[] = ['email', 'usingGoogle', 'associates'];
+const additionalColumns: string[] = [
+	'rsvpDone',
+	'email',
+	'usingGoogle',
+	'associates',
+];
 
 @Component({
 	selector: 'app-admin-table',
