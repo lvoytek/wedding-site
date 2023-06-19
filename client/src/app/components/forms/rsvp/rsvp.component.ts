@@ -158,6 +158,7 @@ export class RsvpFormComponent implements OnChanges {
 		//We don't need to do all that much processing if the person says no
 		else {
 			rsvpData = {
+				uuid: this.existingRsvpData.uuid,
 				firstName: formData.firstName,
 				lastName: formData.lastName,
 				isGoing: formData.attending,
