@@ -17,7 +17,6 @@ const baseColumns: string[] = [
 ];
 
 const additionalColumns: string[] = [
-	'rsvpDone',
 	'email',
 	'usingGoogle',
 	'associates',

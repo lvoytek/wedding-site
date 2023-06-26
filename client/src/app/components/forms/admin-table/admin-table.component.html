@@ -65,14 +65,7 @@
 	  <ng-container matColumnDef="isGoing">
 		<th mat-header-cell *matHeaderCellDef>Going</th>
 		<td mat-cell *matCellDef="let element">
-		  <mat-checkbox [(ngModel)]="element.isGoing" />
-		</td>
-	  </ng-container>
-
-	  <ng-container matColumnDef="rsvpDone">
-		<th mat-header-cell *matHeaderCellDef>RSVPed</th>
-		<td mat-cell *matCellDef="let element">
-		  {{element.isGoing !== undefined ? "Yes" : "No"}}
+		  <mat-checkbox [(ngModel)]="element.isGoing" [indeterminate]="element.isGoing === undefined" />
 		</td>
 	  </ng-container>
 
