@@ -30,6 +30,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { FaqService } from './faq/faq.service';
 import { FaqController } from './faq/faq.controller';
+import { ConfigController } from './config/config.controller';
 
 @Module({
 	imports: [
@@ -76,6 +77,7 @@ import { FaqController } from './faq/faq.controller';
 		GuestController,
 		AuthController,
 		FaqController,
+		ConfigController,
 	],
 	providers: [
 		AppService,

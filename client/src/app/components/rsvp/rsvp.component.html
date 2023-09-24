@@ -3,6 +3,7 @@
 <ng-template #rsvpBlock>
 	<app-rsvp-form
 		[pokemon]="pokemon"
+		[readOnly]="readOnly"
 		[existingRsvpData]="existingRsvpData"
 		[isLoggedIn]="isLoggedIn"
 		(submit)="sendForm($event)"

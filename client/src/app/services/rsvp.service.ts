@@ -18,4 +18,8 @@ export class RsvpService {
 		}
 		return this.api.get(url);
 	}
+
+	getRSVPReadOnly() {
+		return this.api.get(`config/rsvpreadonly`);
+	}
 }

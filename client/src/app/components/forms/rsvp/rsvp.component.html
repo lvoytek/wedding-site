@@ -1,98 +1,191 @@
 <div class="page-title">RSVP</div>
-<form class="form" [formGroup]="rsvpForm" (ngSubmit)="onSubmit()">
-	<div class="form-section">
-		<mat-radio-group class="attending" color="primary" formControlName="attending" aria-label="Select an option">
-			<mat-radio-button [value]="true">Accept</mat-radio-button>
-			<mat-radio-button [value]="false">Decline</mat-radio-button>
-		</mat-radio-group>
 
-		<div class="row">
-			<mat-form-field>
-				<mat-label>First name</mat-label>
-				<input matInput type="text" formControlName="firstName">
-			</mat-form-field>
+<div *ngIf="readOnly; then readOnlyBlock else rsvpBlock"></div>
 
-			<mat-form-field>
-				<mat-label>Last name</mat-label>
-				<input matInput type="text" formControlName="lastName">
-			</mat-form-field>
-		</div>
-
-		<div *ngIf="attending">
-			<div class="row">
-				<mat-form-field>
-					<mat-label>Email</mat-label>
-					<input matInput type="email" formControlName="email">
-				</mat-form-field>
-			</div>
+<ng-template #rsvpBlock>
+	<form class="form" [formGroup]="rsvpForm" (ngSubmit)="onSubmit()">
+		<div class="form-section">
+			<mat-radio-group class="attending" color="primary" formControlName="attending" aria-label="Select an option">
+				<mat-radio-button [value]="true">Accept</mat-radio-button>
+				<mat-radio-button [value]="false">Decline</mat-radio-button>
+			</mat-radio-group>
 
 			<div class="row">
 				<mat-form-field>
-					<mat-label>Dietary Restrictions</mat-label>
-					<textarea matInput formControlName="dietaryRestrictions"></textarea>
+					<mat-label>First name</mat-label>
+					<input matInput type="text" formControlName="firstName">
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Last name</mat-label>
+					<input matInput type="text" formControlName="lastName">
 				</mat-form-field>
 			</div>
 
-		</div>
-	</div>
-
-	<div formArrayName="guests" *ngIf="attending">
-		<hr>
-		<div class="add-guest">
-			<button mat-fab color="accent" type="button" [disabled]="associatesAtCapacity" (click)="addGuest()">
-			  <mat-icon>add</mat-icon>
-			</button>
-		</div>
-
-		<div class="guest-list">
-			<mat-accordion>
-				<div *ngFor="let guest of guests; let i = index">
-					<mat-expansion-panel togglePosition="before">
-						<mat-expansion-panel-header class="guest-info">
-						  <mat-panel-title class="guest-name">
-							{{getGuestName(guest, i)}}
-						  </mat-panel-title>
-						  <mat-panel-description class="guest-actions">
-							<mat-icon class="remove-guest" (click)="removeGuest(i)">delete</mat-icon>
-						  </mat-panel-description>
-						</mat-expansion-panel-header>
-						<form [formGroup]="guest">
-							<div class="form-section">
-								<div class="row">
-									<mat-form-field>
-										<mat-label>First name</mat-label>
-										<input matInput type="text" formControlName="firstName">
-									</mat-form-field>
-
-									<mat-form-field>
-										<mat-label>Last name</mat-label>
-										<input matInput type="text" formControlName="lastName">
-									</mat-form-field>
-								</div>
-
-								<div class="row">
-									<mat-form-field>
-										<mat-label>Email</mat-label>
-										<input matInput type="email" formControlName="email">
-									</mat-form-field>
-								</div>
-
-								<div class="row">
-									<mat-form-field>
-										<mat-label>Dietary Restrictions</mat-label>
-										<textarea matInput formControlName="dietaryRestrictions"></textarea>
-									</mat-form-field>
-								</div>
-							</div>
-						</form>
-					</mat-expansion-panel>
+			<div *ngIf="attending">
+				<div class="row">
+					<mat-form-field>
+						<mat-label>Email</mat-label>
+						<input matInput type="email" formControlName="email">
+					</mat-form-field>
 				</div>
-			</mat-accordion>
-		</div>
-	</div>
-</form>
 
-<div class="submit-container">
-	<asl-google-signin-button *ngIf="!isLoggedIn" class="google-signin" type="standard" color="filled_black" width="300" shape="circle" text="signup_with"></asl-google-signin-button>
-	<button class="submit-button" (click)="onSubmit()" mat-flat-button color="accent" [disabled]="!formIsValid">Submit</button>
-</div>
+				<div class="row">
+					<mat-form-field>
+						<mat-label>Dietary Restrictions</mat-label>
+						<textarea matInput formControlName="dietaryRestrictions"></textarea>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+
+		<div formArrayName="guests" *ngIf="attending">
+			<hr>
+			<div class="add-guest">
+				<button mat-fab color="accent" type="button" [disabled]="associatesAtCapacity" (click)="addGuest()">
+				  <mat-icon>add</mat-icon>
+				</button>
+			</div>
+
+			<div class="guest-list">
+				<mat-accordion>
+					<div *ngFor="let guest of guests; let i = index">
+						<mat-expansion-panel togglePosition="before">
+							<mat-expansion-panel-header class="guest-info">
+							  <mat-panel-title class="guest-name">
+								{{getGuestName(guest, i)}}
+							  </mat-panel-title>
+							  <mat-panel-description class="guest-actions">
+								<mat-icon class="remove-guest" (click)="removeGuest(i)">delete</mat-icon>
+							  </mat-panel-description>
+							</mat-expansion-panel-header>
+							<form [formGroup]="guest">
+								<div class="form-section">
+									<div class="row">
+										<mat-form-field>
+											<mat-label>First name</mat-label>
+											<input matInput type="text" formControlName="firstName">
+										</mat-form-field>
+
+										<mat-form-field>
+											<mat-label>Last name</mat-label>
+											<input matInput type="text" formControlName="lastName">
+										</mat-form-field>
+									</div>
+
+									<div class="row">
+										<mat-form-field>
+											<mat-label>Email</mat-label>
+											<input matInput type="email" formControlName="email">
+										</mat-form-field>
+									</div>
+
+									<div class="row">
+										<mat-form-field>
+											<mat-label>Dietary Restrictions</mat-label>
+											<textarea matInput formControlName="dietaryRestrictions"></textarea>
+										</mat-form-field>
+									</div>
+								</div>
+							</form>
+						</mat-expansion-panel>
+					</div>
+				</mat-accordion>
+			</div>
+		</div>
+	</form>
+
+	<div class="submit-container">
+		<asl-google-signin-button *ngIf="!isLoggedIn" class="google-signin" type="standard" color="filled_black" width="300" shape="circle" text="signup_with"></asl-google-signin-button>
+		<button class="submit-button" (click)="onSubmit()" mat-flat-button color="accent" [disabled]="!formIsValid">Submit</button>
+	</div>
+</ng-template>
+
+<ng-template #readOnlyBlock>
+	<form class="form" [formGroup]="rsvpForm">
+		<div class="form-section">
+			<mat-radio-group class="attending" color="primary" formControlName="attending" aria-label="Select an option">
+				<mat-radio-button [value]="true" [disabled]="true">Accept</mat-radio-button>
+				<mat-radio-button [value]="false" [disabled]="true">Decline</mat-radio-button>
+			</mat-radio-group>
+
+			<div class="row">
+				<mat-form-field>
+					<mat-label>First name</mat-label>
+					<input matInput type="text" formControlName="firstName" readonly>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Last name</mat-label>
+					<input matInput type="text" formControlName="lastName" readonly>
+				</mat-form-field>
+			</div>
+
+			<div *ngIf="attending">
+				<div class="row">
+					<mat-form-field>
+						<mat-label>Email</mat-label>
+						<input matInput type="email" formControlName="email" readonly>
+					</mat-form-field>
+				</div>
+
+				<div class="row">
+					<mat-form-field>
+						<mat-label>Dietary Restrictions</mat-label>
+						<textarea matInput formControlName="dietaryRestrictions" readonly></textarea>
+					</mat-form-field>
+				</div>
+
+			</div>
+		</div>
+
+		<div formArrayName="guests" *ngIf="attending">
+			<hr>
+
+			<div class="guest-list">
+				<mat-accordion>
+					<div *ngFor="let guest of guests; let i = index">
+						<mat-expansion-panel togglePosition="before">
+							<mat-expansion-panel-header class="guest-info">
+							  <mat-panel-title class="guest-name">
+								{{getGuestName(guest, i)}}
+							  </mat-panel-title>
+							  <mat-panel-description class="guest-actions">
+							  </mat-panel-description>
+							</mat-expansion-panel-header>
+							<form [formGroup]="guest">
+								<div class="form-section">
+									<div class="row">
+										<mat-form-field>
+											<mat-label>First name</mat-label>
+											<input matInput type="text" formControlName="firstName" readonly>
+										</mat-form-field>
+
+										<mat-form-field>
+											<mat-label>Last name</mat-label>
+											<input matInput type="text" formControlName="lastName" readonly>
+										</mat-form-field>
+									</div>
+
+									<div class="row">
+										<mat-form-field>
+											<mat-label>Email</mat-label>
+											<input matInput type="email" formControlName="email" readonly>
+										</mat-form-field>
+									</div>
+
+									<div class="row">
+										<mat-form-field>
+											<mat-label>Dietary Restrictions</mat-label>
+											<textarea matInput formControlName="dietaryRestrictions" readonly></textarea>
+										</mat-form-field>
+									</div>
+								</div>
+							</form>
+						</mat-expansion-panel>
+					</div>
+				</mat-accordion>
+			</div>
+		</div>
+	</form>
+</ng-template>

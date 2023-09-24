@@ -6,6 +6,8 @@ import {
 	Headers,
 	Body,
 	UseGuards,
+	HttpException,
+	HttpStatus,
 } from '@nestjs/common';
 
 import { RsvpService } from './rsvp.service';
@@ -14,6 +16,7 @@ import { ContactService } from 'src/contact/contact.service';
 import { AssignmentService } from 'src/assignment/assignment.service';
 import { AssociateService } from 'src/associate/associate.service';
 import { AuthService } from '@auth/auth.service';
+import { ConfigService } from '@nestjs/config';
 
 import { JwtAuthGuard } from '@auth/jwt.guard';
 
@@ -36,6 +39,7 @@ export class RsvpController {
 		private assignmentService: AssignmentService,
 		private associateService: AssociateService,
 		private authService: AuthService,
+		private configService: ConfigService,
 	) {}
 
 	/**
@@ -49,6 +53,14 @@ export class RsvpController {
 		@Headers('Authorization') authHeader: string,
 		@Body() rsvp: submissionData,
 	): Promise<any> {
+		// Ignore any RSVP creation when in read only mode
+		if (this.configService.get<boolean>('rsvpReadOnly')) {
+			throw new HttpException(
+				'No longer accepting RSVPs',
+				HttpStatus.FORBIDDEN,
+			);
+		}
+
 		const guest: primaryData = await this.guestService.create(rsvp);
 		if (!guest) return null;
 
