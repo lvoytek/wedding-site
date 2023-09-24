@@ -26,6 +26,7 @@ export class RsvpFormComponent implements OnChanges {
 	@Input() existingRsvpData: RecursivePartial<guestData> = {};
 	@Input() pokemon: string = '';
 	@Input() isLoggedIn: boolean = false;
+	@Input() readOnly: boolean = false;
 
 	rsvpForm = this.fb.group({
 		firstName: ['', Validators.required],

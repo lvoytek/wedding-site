@@ -15,6 +15,7 @@ export class RsvpComponent implements OnInit {
 	pokemonValidated: boolean = false;
 	existingRsvpData: RecursivePartial<guestData> = {};
 	isLoggedIn = false;
+	readOnly: boolean = false;
 
 	constructor(
 		private api: RsvpService,
@@ -45,6 +46,11 @@ export class RsvpComponent implements OnInit {
 				this.pokemonValidated = true;
 				this.pokemon = data.pokemon;
 				this.existingRsvpData = data;
+
+				this.api.getRSVPReadOnly().subscribe((readOnlyData: any) => {
+					if (readOnlyData !== undefined)
+						this.readOnly = readOnlyData;
+				});
 			}
 		});
 	}
