@@ -56,7 +56,7 @@ export class RsvpController {
 		// Ignore any RSVP creation when in read only mode
 		if (this.configService.get<boolean>('rsvpReadOnly')) {
 			throw new HttpException(
-				'Not accepting new RSVP submissions',
+				'No longer accepting RSVPs',
 				HttpStatus.FORBIDDEN,
 			);
 		}
