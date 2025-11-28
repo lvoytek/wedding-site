@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import config from './config';
+import type { StringValue } from 'ms';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Guest } from '@entities/guest.entity';
@@ -60,14 +61,17 @@ import { ConfigController } from './config/config.controller';
 		]),
 		JwtModule.registerAsync({
 			imports: [ConfigModule],
-			useFactory: (configService: ConfigService) => ({
-				secret: configService.get<string>('auth.jwt_secret'),
-				signOptions: {
-					expiresIn: configService.get<string>(
-						'auth.jwt_expire_time',
-					),
-				},
-			}),
+			useFactory: (configService: ConfigService) => {
+				const expiresIn = (configService.get<string>(
+					'auth.jwt_expire_time',
+				) || '30m') as StringValue;
+				return {
+					secret: configService.get<string>('auth.jwt_secret'),
+					signOptions: {
+						expiresIn,
+					},
+				};
+			},
 			inject: [ConfigService],
 		}),
 	],
