@@ -4,9 +4,10 @@ import { primaryData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 @Component({
-  selector: 'app-add-guest',
-  templateUrl: './add-guest.component.html',
-  styleUrls: ['../form.component.scss']
+	standalone: false,
+	selector: 'app-add-guest',
+	templateUrl: './add-guest.component.html',
+	styleUrls: ['../form.component.scss']
 })
 export class AddGuestComponent {
 	@Output() createGuest = new EventEmitter<RecursivePartial<primaryData>>()

@@ -1,5 +1,5 @@
-@import '../../../styles.scss';
-@import url('../../../assets/fonts.css');
+@use '../../../styles' as styles;
+@import '../../../assets/fonts.css';
 
 .home-container {
 	width: 100%;
@@ -47,7 +47,7 @@
 		align-items: center;
 		font-size: min(2em, 6vw);
 		height: fit-content;
-		color: $ll-black;
+		color: styles.$ll-black;
 		font-family: 'DarlingModern', 'Cecily', 'Serif';
 	}
 
@@ -74,8 +74,8 @@
 	}
 
 	.date-with-lines {
-		border-top: 1px solid #00171f;
-		border-bottom: 1px solid #00171f;
+		border-top: 1px solid styles.$ll-black;
+		border-bottom: 1px solid styles.$ll-black;
 		min-width: min(5em, 20vw);
 		padding: .25em 0;
 	}

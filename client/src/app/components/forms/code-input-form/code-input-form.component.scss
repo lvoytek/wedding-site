@@ -1,4 +1,4 @@
-@import '../../../../styles.scss';
+@use '../../../../styles' as styles;
 @import '../../../../assets/fonts.css';
 
 .container > {
@@ -26,7 +26,7 @@
 	text-align: center;
 	padding-bottom: 5px;
 	font-family: 'Spectral', 'Serif';
-	color: $ll-black;
+	color: styles.$ll-black;
 }
 
 .form-section {
@@ -34,7 +34,7 @@
 		margin-bottom: -8px;
 		width: 15em;
 		.mat-mdc-text-field-wrapper {
-			background-color: rgba($ll-creme, 0.8);
+			background-color: rgba(styles.$ll-creme, 0.8);
 		}
 	 }
 }

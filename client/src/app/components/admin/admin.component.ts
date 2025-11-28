@@ -6,6 +6,7 @@ import { GuestService } from 'src/app/services/guest.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
+	standalone: false,
 	selector: 'app-admin',
 	templateUrl: './admin.component.html',
 	styleUrls: ['./admin.component.scss'],

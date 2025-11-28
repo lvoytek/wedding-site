@@ -1,10 +1,10 @@
-@import '../../../styles.scss';
-@import url('../../../assets/fonts.css');
+@use '../../../styles' as styles;
+@import '../../../assets/fonts.css';
 
 .page-title {
 	padding-top: 4vh;
 	font-size: min(3em, 13vw);
-	color: $ll-black;
+	color: styles.$ll-black;
 	text-align: center;
 	font-family: 'DancingScript', 'Serif';
 }

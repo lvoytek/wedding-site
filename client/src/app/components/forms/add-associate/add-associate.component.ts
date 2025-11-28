@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 
 @Component({
+	standalone: false,
 	selector: 'app-add-associate',
 	templateUrl: './add-associate.component.html',
 	styleUrls: ['../form.component.scss'],

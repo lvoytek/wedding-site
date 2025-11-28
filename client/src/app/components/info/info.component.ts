@@ -3,6 +3,7 @@ import { InfoService } from '../../services/info.service';
 import { faqData } from '@libs/info';
 
 @Component({
+	standalone: false,
 	selector: 'app-info',
 	templateUrl: './info.component.html',
 	styleUrls: ['./info.component.scss'],

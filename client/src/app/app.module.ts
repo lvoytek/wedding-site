@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { MaterialModule } from './material.module';
@@ -31,7 +30,6 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
 	declarations: [
-		AppComponent,
 		HomeComponent,
 		RsvpComponent,
 		InfoComponent,
@@ -40,7 +38,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 		AdminTableComponent,
 		CodeInputFormComponent,
 		AddGuestComponent,
-  AddAssociateComponent,
+		AddAssociateComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -81,6 +79,5 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 			multi: true,
 		}
 	],
-	bootstrap: [AppComponent],
 })
 export class AppModule {}
