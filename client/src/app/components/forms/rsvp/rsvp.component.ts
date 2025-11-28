@@ -16,6 +16,7 @@ import { guestData, submissionData } from '@libs/person';
 import { RecursivePartial } from '@libs/utils';
 
 @Component({
+	standalone: false,
 	selector: 'app-rsvp-form',
 	templateUrl: './rsvp.component.html',
 	styleUrls: ['../form.component.scss', './rsvp.component.scss'],

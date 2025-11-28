@@ -6,6 +6,7 @@ import { RsvpService } from '../../services/rsvp.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
+	standalone: false,
 	selector: 'app-rsvp',
 	templateUrl: './rsvp.component.html',
 	styleUrls: ['./rsvp.component.scss'],

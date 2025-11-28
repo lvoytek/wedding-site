@@ -3,6 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { debounceTime, pipe } from 'rxjs';
 
 @Component({
+	standalone: false,
 	selector: 'app-code-input-form',
 	templateUrl: './code-input-form.component.html',
 	styleUrls: ['../login-form.component.scss', './code-input-form.component.scss'],
