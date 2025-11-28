@@ -1,4 +1,4 @@
-@import '../../../../styles.scss';
+@use '../../../../styles' as styles;
 
 hr {
 	//TODO: Figure out how to pull in ll-green 800 :/
@@ -16,7 +16,7 @@ hr {
 }
 
 ::ng-deep .guest-info > .mat-expansion-indicator:after {
-	color: $ll-burgundy;
+	color: styles.$ll-burgundy;
 }
 
 
@@ -35,7 +35,7 @@ hr {
 	will-change: opacity;
 	transition: opacity 150ms ease-in-out;
 	opacity: 0.6;
-	color: $ll-burgundy;
+	color: styles.$ll-burgundy;
 
 	&:hover {
 		opacity: 1.0;
